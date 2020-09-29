@@ -7,11 +7,35 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.temalaborsimplenewsreader.R
 import hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.model.Article
+import hu.bme.aut.android.temalaborsimplenewsreader.network.HttpUrlConnectionNetworkManager
+import hu.bme.aut.android.temalaborsimplenewsreader.network.INetworkManager
 import kotlinx.android.synthetic.main.element_news_feed.view.*
+import org.json.JSONObject
+import java.io.IOException
+import java.net.SocketTimeoutException
 
 class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
 
     private val articles = mutableListOf<Article>()
+
+    companion object{
+        private const val REST_DATA_URL = ""  //TODO
+    }
+
+    init{
+        val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
+        try {
+            val jsonData = networkManager.httpGet(REST_DATA_URL)
+            val jsonRootObject = JSONObject(jsonData)
+            TODO("This code will depend on the backend's concrete implementation")
+        }
+        catch(e: IOException){
+            TODO()
+        }
+        catch(e: SocketTimeoutException){
+            TODO()
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsFeedViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_news_feed, null)

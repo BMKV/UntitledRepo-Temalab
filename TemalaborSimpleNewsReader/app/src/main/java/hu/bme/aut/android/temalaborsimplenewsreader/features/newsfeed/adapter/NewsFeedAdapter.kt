@@ -25,6 +25,7 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>
     init{
         val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
         try {
+            //TODO This must be done in a separate thread!
             val jsonData = networkManager.httpGet(REST_DATA_URL)
             val jsonRootObject = JSONObject(jsonData)
             TODO("This code will depend on the backend's concrete implementation")

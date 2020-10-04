@@ -16,6 +16,7 @@ import hu.bme.aut.android.temalaborsimplenewsreader.R
 import hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.model.Article
 import hu.bme.aut.android.temalaborsimplenewsreader.network.HttpUrlConnectionNetworkManager
 import hu.bme.aut.android.temalaborsimplenewsreader.network.INetworkManager
+import hu.bme.aut.android.temalaborsimplenewsreader.temporary.LoremJsonProcessor
 import kotlinx.android.synthetic.main.element_news_feed.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -37,14 +38,19 @@ class NewsFeedAdapter(private val activityContext: Context) :
      * This variable stores the reference of Article instances, that contain the data of the
      * articles.
      */
-    private val articles = mutableListOf<Article>() //TODO this needs to be set
+    private val articles = mutableListOf<Article>()
 
     companion object {
 
         /**
          * This member stores the URL, which can be used to reach the REST API.
          */
+        @Suppress("unused") //TODO in the final version, this member will be used
         private const val REST_DATA_URL = ""  //TODO backend is still not complete...
+
+        //TODO: this should be removed, this member is sole purpose to give the ability to use the
+        //  the application until the backend becomes available
+        private const val TEST_REST_DATA_URL = "http://asdfast.beobit.net/api/"
     }
 
     /**
@@ -54,9 +60,19 @@ class NewsFeedAdapter(private val activityContext: Context) :
         GlobalScope.launch(Dispatchers.Main) {
             val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
             try {
+                //TODO this commented code below will parse and set the data from backend's data
+                /**
                 val jsonString = networkManager.getHttpAnswer(REST_DATA_URL)
                 setArticles(processJsonDataIntoArticles(jsonString))
-                TODO("Here the List containing the Articles will be set")
+                */
+                //TODO: this temporary solution should be removed later, its sole purpose to test
+                //  the application until the backend becomes available
+                val longLorem = LoremJsonProcessor.processLoremJsonString(
+                    networkManager.getHttpAnswer(TEST_REST_DATA_URL))
+                val shortLorem = "Lorem ipsum dolor sit amet"
+                setArticles(listOf(Article(
+                    shortLorem, listOf("lorem", "ipsum"), shortLorem, shortLorem, longLorem
+                )))
             } catch (e: IOException) {
                 Log.w("NewsFeedAdapter", "Problem occurred with reading the response!")
                 Toast.makeText(
@@ -77,6 +93,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
     /**
      * This function processes the given JSON String, and converts it into a List of Article instances.
      */
+    @Suppress("unused") //TODO in the final version this function will be used
     private suspend fun processJsonDataIntoArticles(jsonString: String) =
         withContext(Dispatchers.Default) {
             val jsonRootObject = JSONObject(jsonString)

@@ -48,8 +48,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
         /**
          * This member stores the URL, which can be used to reach the REST API.
          */
-        @Suppress("unused") //TODO in the final version, this member will be used
-        private const val REST_DATA_URL = ""  //TODO backend is still not complete...
+        private const val REST_DATA_URL = "https://news-cucc-backend.herokuapp.com/api/add-news"
 
         //TODO: this should be removed, this member is sole purpose to give the ability to use the
         //  the application until the backend becomes available
@@ -64,18 +63,18 @@ class NewsFeedAdapter(private val activityContext: Context) :
             val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
             try {
                 //TODO this commented code below will parse and set the data from backend's data
-                /**
                 val jsonString = networkManager.getHttpAnswer(REST_DATA_URL)
                 setArticles(processJsonDataIntoArticles(jsonString))
-                */
                 //TODO: this temporary solution should be removed later, its sole purpose to test
                 //  the application until the backend becomes available
+                /**
                 val longLorem = LoremJsonProcessor.processLoremJsonString(
                     networkManager.getHttpAnswer(TEST_REST_DATA_URL))
                 val shortLorem = "Lorem ipsum dolor sit amet"
                 setArticles(listOf(Article(
                     shortLorem, listOf("lorem", "ipsum"), shortLorem, shortLorem, longLorem
                 )))
+                 */
             } catch (e: IOException) {
                 Log.w("NewsFeedAdapter",
                     e.message ?: "Problem occurred with reading the response!")
@@ -102,6 +101,17 @@ class NewsFeedAdapter(private val activityContext: Context) :
         withContext(Dispatchers.Default) {
             val jsonRootObject = JSONObject(jsonString)
             val listOfArticles = mutableListOf<Article>()
+            //TODO this temporary solution only adds the acquired article
+            listOfArticles.add(
+                Article(
+                    //TODO the name of the attributes could be different from this
+                    jsonRootObject.getString("title"),
+                    jsonRootObject.getString("tags").split("#"),
+                    jsonRootObject.getString("date"),
+                    jsonRootObject.getString("author"),
+                    jsonRootObject.getString("data")
+                ))
+            /**
             //TODO articles could be not right below
             val jsonArticles = jsonRootObject.getJSONArray("articles")
             for (i in 0 until jsonArticles.length()) {
@@ -117,6 +127,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
                     )
                 )
             }
+            */
             return@withContext Collections.unmodifiableList(listOfArticles)
         }
 

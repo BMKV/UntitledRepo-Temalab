@@ -2,6 +2,7 @@ package hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.codesgood.views.JustifiedTextView
 import hu.bme.aut.android.temalaborsimplenewsreader.R
@@ -50,7 +53,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
 
         //TODO: this should be removed, this member is sole purpose to give the ability to use the
         //  the application until the backend becomes available
-        private const val TEST_REST_DATA_URL = "http://asdfast.beobit.net/api/"
+        private const val TEST_REST_DATA_URL = "https://asdfast.beobit.net/api/"
     }
 
     /**
@@ -74,7 +77,8 @@ class NewsFeedAdapter(private val activityContext: Context) :
                     shortLorem, listOf("lorem", "ipsum"), shortLorem, shortLorem, longLorem
                 )))
             } catch (e: IOException) {
-                Log.w("NewsFeedAdapter", "Problem occurred with reading the response!")
+                Log.w("NewsFeedAdapter",
+                    e.message ?: "Problem occurred with reading the response!")
                 Toast.makeText(
                     activityContext, "Unexpected problem occurred!",
                     Toast.LENGTH_SHORT
@@ -127,8 +131,20 @@ class NewsFeedAdapter(private val activityContext: Context) :
         val article = articles[position]
         for (concreteTag in article.tags) {
             holder.llTags.addView(
+                //There is bug, which prevents the layout_margin attribute's value from the custom
+                // style to be applied according to the bug report below
+                //https://github.com/google/flexbox-layout/issues/417
                 TextView(ContextThemeWrapper(holder.llTags.context, R.style.TagTextView)).apply {
                     text = concreteTag
+                    //because of the bug explained above, this code is needed to fix it
+                    val tvTagLayoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    tvTagLayoutParams.marginEnd = 10
+                    tvTagLayoutParams.rightMargin = 10
+                    layoutParams = tvTagLayoutParams
                 }
             )
         }

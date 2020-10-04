@@ -24,13 +24,14 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.IOException
 import java.net.SocketTimeoutException
+import java.util.*
 
 /**
  * This class's responsibility is to implement the NewsFeedActivity's RecyclerView's behaviour, and
  * obviously make it able to this class's instances to be that RecyclerView's adapter.
  */
-class NewsFeedAdapter(private val activityContext: Context)
-    : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
+class NewsFeedAdapter(private val activityContext: Context) :
+    RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
 
     /**
      * This variable stores the reference of Article instances, that contain the data of the
@@ -54,29 +55,49 @@ class NewsFeedAdapter(private val activityContext: Context)
             val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
             try {
                 val jsonString = networkManager.getHttpAnswer(REST_DATA_URL)
-                processJsonDataIntoArticles(jsonString)
+                setArticles(processJsonDataIntoArticles(jsonString))
                 TODO("Here the List containing the Articles will be set")
             } catch (e: IOException) {
                 Log.w("NewsFeedAdapter", "Problem occurred with reading the response!")
-                Toast.makeText(activityContext, "Unexpected problem occurred!",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activityContext, "Unexpected problem occurred!",
+                    Toast.LENGTH_SHORT
+                ).show()
             } catch (e: SocketTimeoutException) {
                 Log.i("NewsFeedAdapter", e.message ?: "Connection timed out!")
-                Toast.makeText(activityContext, "Check your connection!",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activityContext, "Check your connection!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
+    //TODO this function is incomplete because there has been no usable backend available yet
     /**
      * This function processes the given JSON String, and converts it into a List of Article instances.
      */
-    private suspend fun processJsonDataIntoArticles(jsonString: String)
-            = withContext(Dispatchers.Default){
-        val jsonRootObject = JSONObject(jsonString)
-        return@withContext String()
-        TODO("This code will depend on the backend's concrete implementation")
-    }
+    private suspend fun processJsonDataIntoArticles(jsonString: String) =
+        withContext(Dispatchers.Default) {
+            val jsonRootObject = JSONObject(jsonString)
+            val listOfArticles = mutableListOf<Article>()
+            //TODO articles could be not right below
+            val jsonArticles = jsonRootObject.getJSONArray("articles")
+            for (i in 0 until jsonArticles.length()) {
+                val jsonArticle = jsonArticles.getJSONObject(i)
+                listOfArticles.add(
+                    Article(
+                        //TODO the name of the attributes could be different from this
+                        jsonArticle.getString("title"),
+                        jsonArticle.getString("tags").split("#"),
+                        jsonArticle.getString("date"),
+                        jsonArticle.getString("author"),
+                        jsonArticle.getString("data")
+                    )
+                )
+            }
+            return@withContext Collections.unmodifiableList(listOfArticles)
+        }
 
     //parent attribute is not used, so setting it null should cause no problems
     @SuppressLint("InflateParams")
@@ -89,12 +110,12 @@ class NewsFeedAdapter(private val activityContext: Context)
         val article = articles[position]
         for (concreteTag in article.tags) {
             holder.llTags.addView(
-                TextView(ContextThemeWrapper(holder.llTags.context, R.style.TagTextView)).apply{
+                TextView(ContextThemeWrapper(holder.llTags.context, R.style.TagTextView)).apply {
                     text = concreteTag
                 }
             )
         }
-        holder.apply{
+        holder.apply {
             tvTitle.text = article.title
             tvAuthorName.text = article.author
             tvPublishDate.text = article.date
@@ -106,9 +127,15 @@ class NewsFeedAdapter(private val activityContext: Context)
         return articles.size
     }
 
-    fun setArticles(contacts: List<Article>) {
+    /**
+     * This function clears the stored data of Article instances, and replaces it with the given
+     * parameter's Article instances.
+     * @param newArticles a List of Article instances, of which data will be set to be adapter's
+     * new contained data.
+     */
+    private fun setArticles(newArticles: List<Article>) {
         articles.clear()
-        articles += contacts
+        articles += newArticles
         notifyDataSetChanged()
     }
 

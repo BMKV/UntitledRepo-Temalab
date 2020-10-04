@@ -1,5 +1,7 @@
 package hu.bme.aut.android.temalaborsimplenewsreader.network
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -11,10 +13,12 @@ object HttpUrlConnectionNetworkManager : INetworkManager {
     private const val connectTimeoutValue = 3000
     private const val readTimeoutValue = 3000
 
-    override fun httpGet(urlAddress: String): String {
-        var reader : BufferedReader? = null
+    //Using Dispatchers.IO should solve this problem
+    @Suppress("BlockingMethodInNonBlockingContext")
+    override suspend fun getHttpAnswer(urlAddress: String) = withContext(Dispatchers.IO) {
+        var reader: BufferedReader? = null
         val wholeMessageBuilder = StringBuilder()
-        try{
+        try {
             val url = URL(urlAddress)
             val connection = url.openConnection() as HttpURLConnection
             //in case of any of the timeout scenarios happen SocketTimeoutException will be thrown
@@ -22,23 +26,20 @@ object HttpUrlConnectionNetworkManager : INetworkManager {
             connection.readTimeout = readTimeoutValue
             reader = BufferedReader(InputStreamReader(connection.inputStream))
             var line: String?
-            do{
+            do {
                 line = reader.readLine()
                 wholeMessageBuilder.appendLine(line)
-            } while(line != null)
-        }
-        catch(e: IOException){
+            } while (line != null)
+        } catch (e: IOException) {
             throw e
-        }
-        finally{
-            if(reader != null)
-                try{
+        } finally {
+            if (reader != null)
+                try {
                     reader.close()
-                }
-                catch (e: IOException){
+                } catch (e: IOException) {
                     throw e
                 }
         }
-        return wholeMessageBuilder.toString()
+        return@withContext wholeMessageBuilder.toString()
     }
 }

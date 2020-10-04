@@ -1,5 +1,7 @@
 package hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.adapter
 
+import android.annotation.SuppressLint
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,34 +12,45 @@ import hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.model.Arti
 import hu.bme.aut.android.temalaborsimplenewsreader.network.HttpUrlConnectionNetworkManager
 import hu.bme.aut.android.temalaborsimplenewsreader.network.INetworkManager
 import kotlinx.android.synthetic.main.element_news_feed.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.IOException
 import java.net.SocketTimeoutException
 
 class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
 
-    private val articles = mutableListOf<Article>()
+    private val articles = mutableListOf<Article>() //TODO this needs to be set
 
-    companion object{
-        private const val REST_DATA_URL = ""  //TODO
+    companion object {
+        private const val REST_DATA_URL = ""  //TODO backend is still not complete...
     }
 
-    init{
-        val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
-        try {
-            //TODO This must be done in a separate thread!
-            val jsonData = networkManager.httpGet(REST_DATA_URL)
-            val jsonRootObject = JSONObject(jsonData)
-            TODO("This code will depend on the backend's concrete implementation")
-        }
-        catch(e: IOException){
-            TODO()
-        }
-        catch(e: SocketTimeoutException){
-            TODO()
+    init {
+        GlobalScope.launch(Dispatchers.Main) {
+            val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
+            try {
+                val jsonString = networkManager.getHttpAnswer(REST_DATA_URL)
+                processJsonData(jsonString)
+
+            } catch (e: IOException) {
+                TODO()
+            } catch (e: SocketTimeoutException) {
+                TODO()
+            }
         }
     }
 
+    private suspend fun processJsonData(jsonString: String) = withContext(Dispatchers.Default){
+        val jsonRootObject = JSONObject(jsonString)
+        return@withContext String()
+        TODO("This code will depend on the backend's concrete implementation")
+    }
+
+    //parent attribute is not used, so setting it null should cause no problems
+    @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsFeedViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_news_feed, null)
         return NewsFeedViewHolder(view)
@@ -45,14 +58,19 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>
 
     override fun onBindViewHolder(holder: NewsFeedViewHolder, position: Int) {
         val article = articles[position]
-        holder.tvTitle.text = article.title
-        for(concreteTag in article.tags){
-            (LayoutInflater.from(holder.llTags.context).inflate(R.layout.element_tag_news_feed,
-                holder.llTags, true) as? TextView).apply{ this?.text = concreteTag }
+        for (concreteTag in article.tags) {
+            holder.llTags.addView(
+                TextView(ContextThemeWrapper(holder.llTags.context, R.style.TagTextView)).apply{
+                    text = concreteTag
+                }
+            )
         }
-        holder.tvAuthorName.text = article.author
-        holder.tvPublishDate.text = article.date
-        holder.jtvArticleContent.text = article.data
+        holder.apply{
+            tvTitle.text = article.title
+            tvAuthorName.text = article.author
+            tvPublishDate.text = article.date
+            jtvArticleContent.text = article.data
+        }
     }
 
     override fun getItemCount(): Int {
@@ -65,7 +83,7 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>
         notifyDataSetChanged()
     }
 
-    class NewsFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class NewsFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle = itemView.tvTitle
         val llTags = itemView.llTags
         val tvAuthorName = itemView.tvAuthorName

@@ -1,12 +1,17 @@
 package hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.codesgood.views.JustifiedTextView
 import hu.bme.aut.android.temalaborsimplenewsreader.R
 import hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.model.Article
 import hu.bme.aut.android.temalaborsimplenewsreader.network.HttpUrlConnectionNetworkManager
@@ -20,30 +25,54 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
+/**
+ * This class's responsibility is to implement the NewsFeedActivity's RecyclerView's behaviour, and
+ * obviously make it able to this class's instances to be that RecyclerView's adapter.
+ */
+class NewsFeedAdapter(private val activityContext: Context)
+    : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>() {
 
+    /**
+     * This variable stores the reference of Article instances, that contain the data of the
+     * articles.
+     */
     private val articles = mutableListOf<Article>() //TODO this needs to be set
 
     companion object {
+
+        /**
+         * This member stores the URL, which can be used to reach the REST API.
+         */
         private const val REST_DATA_URL = ""  //TODO backend is still not complete...
     }
 
+    /**
+     * In this init block, the adapter's data is being set.
+     */
     init {
         GlobalScope.launch(Dispatchers.Main) {
             val networkManager: INetworkManager = HttpUrlConnectionNetworkManager
             try {
                 val jsonString = networkManager.getHttpAnswer(REST_DATA_URL)
-                processJsonData(jsonString)
-
+                processJsonDataIntoArticles(jsonString)
+                TODO("Here the List containing the Articles will be set")
             } catch (e: IOException) {
-                TODO()
+                Log.w("NewsFeedAdapter", "Problem occurred with reading the response!")
+                Toast.makeText(activityContext, "Unexpected problem occurred!",
+                    Toast.LENGTH_SHORT).show()
             } catch (e: SocketTimeoutException) {
-                TODO()
+                Log.i("NewsFeedAdapter", e.message ?: "Connection timed out!")
+                Toast.makeText(activityContext, "Check your connection!",
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private suspend fun processJsonData(jsonString: String) = withContext(Dispatchers.Default){
+    /**
+     * This function processes the given JSON String, and converts it into a List of Article instances.
+     */
+    private suspend fun processJsonDataIntoArticles(jsonString: String)
+            = withContext(Dispatchers.Default){
         val jsonRootObject = JSONObject(jsonString)
         return@withContext String()
         TODO("This code will depend on the backend's concrete implementation")
@@ -84,11 +113,11 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewHolder>
     }
 
     class NewsFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTitle = itemView.tvTitle
-        val llTags = itemView.llTags
-        val tvAuthorName = itemView.tvAuthorName
-        val tvPublishDate = itemView.tvPublishDate
-        val jtvArticleContent = itemView.jtvArticleContent
+        val tvTitle: TextView = itemView.tvTitle
+        val llTags: LinearLayout = itemView.llTags
+        val tvAuthorName: TextView = itemView.tvAuthorName
+        val tvPublishDate: TextView = itemView.tvPublishDate
+        val jtvArticleContent: JustifiedTextView = itemView.jtvArticleContent
     }
 
 }

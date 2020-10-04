@@ -80,7 +80,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
                 Log.w("NewsFeedAdapter",
                     e.message ?: "Problem occurred with reading the response!")
                 Toast.makeText(
-                    activityContext, "Unexpected problem occurred!",
+                    activityContext, "Check your internet connection!",
                     Toast.LENGTH_SHORT
                 ).show()
             } catch (e: SocketTimeoutException) {

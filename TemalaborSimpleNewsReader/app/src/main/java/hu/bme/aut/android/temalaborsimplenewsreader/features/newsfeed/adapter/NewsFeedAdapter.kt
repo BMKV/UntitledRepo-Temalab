@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.codesgood.views.JustifiedTextView
 import hu.bme.aut.android.temalaborsimplenewsreader.R
@@ -109,13 +110,21 @@ class NewsFeedAdapter(private val activityContext: Context) :
 
     override fun onBindViewHolder(holder: NewsFeedViewHolder, position: Int) {
         val article = articles[position]
+        holder.flTags.removeAllViews()
         for (concreteTag in article.tags) {
-            holder.llTags.addView(
+            holder.flTags.addView(
                 //There is bug, which prevents the layout_margin attribute's value from the custom
                 // style to be applied according to the bug report below
                 //https://github.com/google/flexbox-layout/issues/417
-                TextView(ContextThemeWrapper(holder.llTags.context, R.style.TagTextView)).apply {
-                    text = concreteTag
+                TextView(ContextThemeWrapper(holder.flTags.context, R.style.TagTextView)).apply {
+                    @SuppressLint("SetTextI18n")    //using string resources here is not convenient
+                    text = if(article.tags.indexOf(concreteTag) == article.tags.size - 1)
+                        concreteTag
+                    else
+                        "$concreteTag, "
+                    //TODO: using this custom view (FlowLayout) the set child margins get lost.
+                    //  Currently the code below has no effect, so it's commented out for now.
+                    /**
                     //because of the bug explained above, this code is needed to fix it
                     val tvTagLayoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -129,6 +138,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
                     tvTagLayoutParams.marginEnd = (marginInDp * density).toInt()
                     tvTagLayoutParams.rightMargin = (marginInDp * density).toInt()
                     layoutParams = tvTagLayoutParams
+                    */
                 }
             )
         }
@@ -158,7 +168,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
 
     class NewsFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.tvTitle
-        val llTags: LinearLayout = itemView.llTags
+        val flTags: org.apmem.tools.layouts.FlowLayout = itemView.flTags
         val tvAuthorName: TextView = itemView.tvAuthorName
         val tvPublishDate: TextView = itemView.tvPublishDate
         val jtvArticleContent: JustifiedTextView = itemView.jtvArticleContent

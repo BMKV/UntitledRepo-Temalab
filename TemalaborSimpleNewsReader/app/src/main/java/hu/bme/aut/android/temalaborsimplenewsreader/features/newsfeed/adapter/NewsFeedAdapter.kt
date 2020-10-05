@@ -2,17 +2,13 @@ package hu.bme.aut.android.temalaborsimplenewsreader.features.newsfeed.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.codesgood.views.JustifiedTextView
 import hu.bme.aut.android.temalaborsimplenewsreader.R
@@ -122,7 +118,7 @@ class NewsFeedAdapter(private val activityContext: Context) :
                         concreteTag
                     else
                         "$concreteTag, "
-                    //TODO: using this custom view (FlowLayout) the set child margins get lost.
+                    //TODO: by using this custom view (FlowLayout) the set child margins get lost.
                     //  Currently the code below has no effect, so it's commented out for now.
                     /**
                     //because of the bug explained above, this code is needed to fix it

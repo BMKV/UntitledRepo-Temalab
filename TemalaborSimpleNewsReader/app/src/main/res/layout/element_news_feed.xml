@@ -48,14 +48,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/author"
-                android:textColor="#000"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvAuthorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
                 android:textSize="18sp"
                 tools:text="Gipsz Jakab" />
 
@@ -72,14 +70,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/publish_date"
-                android:textColor="#000"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvPublishDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
                 android:textSize="18sp"
                 tools:text="2020.09.29" />
 
@@ -91,7 +87,8 @@
         android:id="@+id/jtvArticleContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="18sp"
+        android:textColor="#000"
         tools:text="
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempor venenatis lectus at mollis. Nulla ut iaculis arcu. Suspendisse potenti. Nunc fringilla est et elit imperdiet iaculis et nec sapien. Morbi venenatis nibh id vestibulum vulputate. Nullam pellentesque ultricies pulvinar. Mauris ullamcorper, purus eu malesuada dignissim, velit odio tincidunt augue, et eleifend lacus enim vel dui. Morbi elit justo, condimentum sit amet ex sit amet, ultrices dignissim nunc. Donec aliquet dolor at lectus ornare venenatis. Suspendisse malesuada aliquet dolor non lobortis. Proin sit amet eleifend ex. Vestibulum sed sodales metus, in pellentesque arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum dolor justo, placerat id lacus non, sagittis faucibus lacus. Nulla vel elit sagittis ante elementum interdum. Nunc at pharetra ligula.

@@ -121,9 +121,13 @@ class NewsFeedAdapter(private val activityContext: Context) :
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
+                    // the dp value should be converted into pixels
+                    // this will make pixel independent appearance
+                    val density = context.resources.displayMetrics.density
+                    val marginInDp = 10
                     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-                    tvTagLayoutParams.marginEnd = 10
-                    tvTagLayoutParams.rightMargin = 10
+                    tvTagLayoutParams.marginEnd = (marginInDp * density).toInt()
+                    tvTagLayoutParams.rightMargin = (marginInDp * density).toInt()
                     layoutParams = tvTagLayoutParams
                 }
             )

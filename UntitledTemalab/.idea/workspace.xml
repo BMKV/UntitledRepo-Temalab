@@ -30,6 +30,7 @@
       <list>
         <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -127,5 +128,15 @@
       <updated>1602783065124</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="349" y="187" key="AndroidCreateResourceFileDialog" timestamp="1602791289178">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="349" y="187" key="AndroidCreateResourceFileDialog/0.0.1536.864@0.0.1536.864" timestamp="1602791289178" />
+    <state x="627" y="245" key="AndroidCreateXmlResourceDialog" timestamp="1602791603700">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="627" y="245" key="AndroidCreateXmlResourceDialog/0.0.1536.864@0.0.1536.864" timestamp="1602791603700" />
   </component>
 </project>

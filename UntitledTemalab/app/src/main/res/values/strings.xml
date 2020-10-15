@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">UntitledTemalab</string>
+    <string name="job_board_title">Job Board</string>
+    <string name="accepted_jobs_title">Accepted Jobs</string>
+    <string name="my_profile_title">My Profile</string>
+    <string name="history_title">History</string>
+    <string name="post_new_job_title">Post New Job</string>
+    <string name="show_best_route_title">Show Best Route</string>
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="name_title">Name:</string>
+    <string name="statistics_title">Statistics</string>
+    <string name="accept_title">Accept</string>
+    <string name="cancel_title">Cancel</string>
+    <string name="pick_up_title">Pick Up</string>
+    <string name="complete_title">Complete</string>
 </resources>

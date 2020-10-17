@@ -13,4 +13,5 @@
     <string name="cancel_title">Cancel</string>
     <string name="pick_up_title">Pick Up</string>
     <string name="complete_title">Complete</string>
+    <string name="package_size_description">The package\'s size: %s</string>
 </resources>

@@ -17,15 +17,14 @@ class HistoryPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
-            0 -> {
-                HistorySentPackagesFragment()
+        return HistoryFragment.newInstance(
+            when(position){
+                0 -> HistoryFragment.HistoryType.SentHistory
+                1 -> HistoryFragment.HistoryType.TransportedHistory
+                else ->
+                    throw IllegalStateException("There is no fragment with this position: $position")
             }
-            1 -> {
-                HistoryTransportedPackagesFragment()
-            }
-            else -> throw IllegalStateException("There is no fragment with this position: $position")
-        }
+        )
     }
 
 }

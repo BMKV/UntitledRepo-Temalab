@@ -16,4 +16,13 @@
     <string name="package_size_description">The package\'s size: %s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="job_details_title">Job Details</string>
+    <string name="destination_title">Destination:</string>
+    <string name="pick_up_point_title">Pick Up Point:</string>
+    <string name="package_size_title">Package Size:</string>
+    <string name="payment_title">Payment:</string>
+    <string name="add_job_title_here">Add job title here!</string>
+    <string name="add_pick_up_point_address_here">Add Pick Up Point address here!</string>
+    <string name="add_destination_address_here">Add Destination Address here!</string>
+    <string name="specify_payment_here">Specify payment here!</string>
 </resources>

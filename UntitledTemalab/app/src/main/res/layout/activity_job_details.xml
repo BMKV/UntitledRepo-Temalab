@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Job Details"
+                android:text="@string/job_details_title"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/imviewProfilePic"
                 app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Destination:"
+                android:text="@string/destination_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPickUpPointTitle" />
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Pick Up Point:"
+                android:text="@string/pick_up_point_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="PackageSize:"
+                android:text="@string/package_size_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDestinationTitle" />
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Payment:"
+                android:text="@string/payment_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPacakageSizeTitle" />
 
@@ -174,10 +174,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatus" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/tvIsItAcceptedStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -185,8 +185,28 @@
                 android:layout_marginEnd="16dp"
                 android:text="Not Yet Accepted v. Accepted on Dátum"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeliveryDateTitle" />
+
+            <TextView
+                android:id="@+id/tvDeliveryDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Delivery Deadline:"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentTitle" />
+
+            <TextView
+                android:id="@+id/tvDeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Deadline here"
+                app:layout_constraintStart_toEndOf="@+id/tvDeliveryDateTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvDeliveryDateTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

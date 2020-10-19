@@ -196,7 +196,7 @@
                 android:id="@+id/tvDeliveryDeadlineTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:text="Delivery Deadline:"
                 app:layout_constraintBottom_toBottomOf="@+id/edtDeadline"
                 app:layout_constraintStart_toStartOf="parent"

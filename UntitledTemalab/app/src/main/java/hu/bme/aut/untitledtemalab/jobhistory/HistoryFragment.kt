@@ -33,7 +33,7 @@ class HistoryFragment: Fragment() {
         rvHistory.adapter = HistoryAdapter()
 
         historyViewModel = ViewModelProvider(this, HistoryViewModelFactory(
-            activity!!.application, arguments!!.getString(HISTORY_TYPE_KEY)!!))
+            requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!))
             .get(HistoryViewModel::class.java)
         historyViewModel.historyElements.observe(viewLifecycleOwner){ histories ->
             histories.let{ historyAdapter.setHistories(it) }

@@ -84,4 +84,22 @@
         app:layout_constraintStart_toStartOf="@+id/imviewProfilePic"
         app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
 
+    <TextView
+        android:id="@+id/tvEmailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/email_title"
+        app:layout_constraintStart_toStartOf="@+id/tvNameTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameTitle" />
+
+    <TextView
+        android:id="@+id/tvRatingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/user_rating_title"
+        app:layout_constraintStart_toStartOf="@+id/tvEmailTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvEmailTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

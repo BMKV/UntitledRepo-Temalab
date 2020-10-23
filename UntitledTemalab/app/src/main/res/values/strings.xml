@@ -25,4 +25,6 @@
     <string name="add_pick_up_point_address_here">Add Pick Up Point address here!</string>
     <string name="add_destination_address_here">Add Destination Address here!</string>
     <string name="specify_payment_here">Specify payment here!</string>
+    <string name="email_title">Email:</string>
+    <string name="user_rating_title">User Rating:</string>
 </resources>

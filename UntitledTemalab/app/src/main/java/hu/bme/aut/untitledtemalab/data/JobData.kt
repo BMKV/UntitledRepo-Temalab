@@ -1,5 +1,6 @@
 package hu.bme.aut.untitledtemalab.data
 
+//Mark as "data class"?
 class JobData (val jobId: Int,
                val packageSize: PackageSize,
                val payment: Int,

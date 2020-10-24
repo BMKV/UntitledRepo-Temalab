@@ -9,17 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".jobhistory.HistoryActivity"></activity>
-        <activity android:name=".jobdetails.JobDetailsActivity" />
-        <activity android:name=".jobdetails.PostJobActivity" />
-        <activity android:name=".ProfileScreen" />
-        <activity android:name=".MainMenu">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryActivity" />
+        <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsActivity" />
+        <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.PostJobActivity" />
+        <activity android:name=".ProfileScreen" />
+        <activity android:name=".MainMenu"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.jobhistory
+package hu.bme.aut.untitledtemalab.features.jobhistory
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

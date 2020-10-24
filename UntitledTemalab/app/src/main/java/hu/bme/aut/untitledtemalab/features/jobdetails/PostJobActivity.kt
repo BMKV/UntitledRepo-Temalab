@@ -1,12 +1,12 @@
-package hu.bme.aut.untitledtemalab.jobdetails
+package hu.bme.aut.untitledtemalab.features.jobdetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import hu.bme.aut.untitledtemalab.R
 
-class JobDetailsActivity : AppCompatActivity() {
+class PostJobActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_job_details)
+        setContentView(R.layout.activity_post_job)
     }
 }

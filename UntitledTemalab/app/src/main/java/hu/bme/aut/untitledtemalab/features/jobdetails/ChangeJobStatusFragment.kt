@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.jobdetails
+package hu.bme.aut.untitledtemalab.features.jobdetails
 
 import android.content.Context
 import android.os.Bundle

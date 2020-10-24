@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.jobhistory
+package hu.bme.aut.untitledtemalab.features.jobhistory
 
 import android.view.LayoutInflater
 import android.view.View

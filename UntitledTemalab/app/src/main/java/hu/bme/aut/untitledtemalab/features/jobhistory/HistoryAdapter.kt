@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
@@ -36,7 +37,9 @@ class HistoryAdapter:
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
         holder.tvHistoryDetail.text = history.jobName
         holder.cardView.setOnClickListener{view ->
-
+            HistoryContainerFragmentDirections.actionHistoryContainerFragmentToJobDetailsFragment()
+                .let{action -> view!!.findNavController().navigate(action)
+            }
         }
     }
 
@@ -53,7 +56,8 @@ class HistoryAdapter:
     /**
      * This function sets the list of data, which is represented by the adapter instance's
      * RecyclerView.
-     * @param histories
+     * @param histories contains JobData instances in a List, and this List will be the new basis
+     * of the represented data by the RecyclerView.
      */
     fun setHistories(histories: List<JobData>){
         this.historyList = histories

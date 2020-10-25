@@ -10,7 +10,7 @@ import hu.bme.aut.untitledtemalab.R
 import kotlinx.android.synthetic.main.fragment_history.*
 
 /**
- * A simple [Fragment] subclass.
+ * This [Fragment] subclass's responsibility is to show the user a list of
  * Use the [HistoryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */

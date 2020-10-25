@@ -3,13 +3,14 @@ package hu.bme.aut.untitledtemalab.features.jobhistory
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import hu.bme.aut.untitledtemalab.data.JobData
 
 class HistoryViewModel(application: Application, useMode: String):
     AndroidViewModel(application) {
 
-    private val repository: HistoryRepository = HistoryRepository()
+    private val repository: HistoryRepository = HistoryRepository(TODO("User ID will be passed here"))
 
-    val historyElements: LiveData<List<JobHistoryDummyModel>>
+    val historyElements: LiveData<MutableList<JobData>>
 
     init{
        historyElements = when(useMode){

@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.data.JobData
 import kotlinx.android.synthetic.main.element_job_detail.view.*
 
 class HistoryAdapter:
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
-    private var historyList = emptyList<JobHistoryDummyModel>()
+    private var historyList = emptyList<JobData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_job_detail, parent,
@@ -26,7 +27,7 @@ class HistoryAdapter:
 
         //TODO dummy data is used, setting the viewHolder's view's content will change
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
-        holder.tvHistoryDetail.text = history.exampleProperty
+        holder.tvHistoryDetail.text = history.jobName
         holder.cardView.setOnClickListener{
             TODO("Starting the proper Activity. This should be made with Navigation Drawer.")
         }
@@ -42,7 +43,7 @@ class HistoryAdapter:
         val tvHistoryDetail: TextView = historyView.tvHistoryDetail
     }
 
-    fun setHistories(histories: List<JobHistoryDummyModel>){
+    fun setHistories(histories: List<JobData>){
         this.historyList = histories
         notifyDataSetChanged()
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.jobdetails.JobDetailsActivity">
+    tools:context=".features.jobdetails.JobDetailsFragment">
 
     <TextView
         android:id="@+id/tvJobTitle"
@@ -41,7 +41,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
             <TextView
-                android:id="@+id/tvPickUpPoint"
+                android:id="@+id/tvPickUpPointText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -87,7 +87,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvPickUpPointTitle" />
 
             <TextView
-                android:id="@+id/tvDestination"
+                android:id="@+id/tvDestinationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -147,7 +147,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvPacakageSizeTitle" />
 
             <TextView
-                android:id="@+id/tvPackageSize"
+                android:id="@+id/tvPackageSizeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -156,7 +156,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvPacakageSizeTitle" />
 
             <TextView
-                android:id="@+id/tvPayment"
+                android:id="@+id/tvPaymentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -174,10 +174,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatus" />
+                app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText" />
 
             <TextView
-                android:id="@+id/tvIsItAcceptedStatus"
+                android:id="@+id/tvIsItAcceptedStatusText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -200,7 +200,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentTitle" />
 
             <TextView
-                android:id="@+id/tvDeadline"
+                android:id="@+id/tvDeadlineText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -209,7 +209,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvDeliveryDateTitle" />
 
             <TextView
-                android:id="@+id/tvEmailTitleOnJob"
+                android:id="@+id/tvEmailTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -218,13 +218,40 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvNameTitle" />
 
             <TextView
-                android:id="@+id/tvRatingTitleOnJob"
+                android:id="@+id/tvRatingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/user_rating_title"
-                app:layout_constraintStart_toStartOf="@+id/tvEmailTitleOnJob"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmailTitleOnJob" />
+                app:layout_constraintStart_toStartOf="@+id/tvEmailTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailTitle" />
+
+            <TextView
+                android:id="@+id/tvNameTextOnJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="User Name Goes Here"
+                app:layout_constraintStart_toEndOf="@+id/tvNameTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvNameTitle" />
+
+            <TextView
+                android:id="@+id/tvEmailTextOnJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="User Email Goes Here"
+                app:layout_constraintStart_toEndOf="@+id/tvEmailTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvEmailTitle" />
+
+            <TextView
+                android:id="@+id/tvUserRatingTextOnJob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="User Rating Goes Here"
+                app:layout_constraintStart_toEndOf="@+id/tvRatingTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvRatingTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

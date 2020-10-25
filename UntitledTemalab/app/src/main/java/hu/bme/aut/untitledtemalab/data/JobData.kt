@@ -2,6 +2,7 @@ package hu.bme.aut.untitledtemalab.data
 
 //Mark as "data class"?
 class JobData (val jobId: Int,
+               val jobName: String,
                val packageSize: PackageSize,
                val payment: Int,
                val jobIssuedDate: String,
@@ -11,6 +12,7 @@ class JobData (val jobId: Int,
     var senderRating: Int? = null
     var deliveryDate: String? = null
     var deliveryRoute: RouteData? = null
+    //TODO: tárolni valahogy, hogy melyik Useré
 
     //Tagfüggvények
 }

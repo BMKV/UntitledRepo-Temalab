@@ -25,13 +25,15 @@ class MainMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnMyProfile.setOnClickListener{
-            val action = MainMenuFragmentDirections.actionMainMenuFragmentToProfileScreenFragment()
-            it!!.findNavController().navigate(action)
+        btnMyProfile.setOnClickListener{ btnMyProfile ->
+            MainMenuFragmentDirections.actionMainMenuFragmentToProfileScreenFragment().let{
+                    action -> btnMyProfile!!.findNavController().navigate(action)
+            }
         }
-        btnHistory.setOnClickListener{
-            val action = MainMenuFragmentDirections.actionMainMenuFragmentToHistoryContainerFragment()
-            it!!.findNavController().navigate(action)
+        btnHistory.setOnClickListener{ btnHistory ->
+            MainMenuFragmentDirections.actionMainMenuFragmentToHistoryContainerFragment().let{
+                action -> btnHistory!!.findNavController().navigate(action)
+            }
         }
     }
 }

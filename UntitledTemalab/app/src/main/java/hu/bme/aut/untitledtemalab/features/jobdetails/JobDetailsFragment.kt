@@ -24,7 +24,7 @@ class JobDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //get the content from somewhere to be set
+        //TODO: get the content from somewhere to be set
         //most: placeholder JobData, UserData
         val placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.large, 8500, "3308. 10. 28.", "3308. 10. 31.")
         val placehoolderUserData = UserData(100000001, "Teszt Elek", "teszt@fejleszto.com", 5.9)

@@ -24,14 +24,19 @@
     <fragment
         android:id="@+id/historyContainerFragment"
         android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryContainerFragment"
-        android:label="HistoryContainerFragment" >
-        <action
-            android:id="@+id/action_historyContainerFragment_to_jobDetailsFragment"
-            app:destination="@id/jobDetailsFragment" />
-    </fragment>
+        android:label="HistoryContainerFragment" />
     <fragment
         android:id="@+id/jobDetailsFragment"
         android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsFragment"
         android:label="fragment_job_details"
         tools:layout="@layout/fragment_job_details" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_jobDetailsFragment"
+            app:destination="@id/jobDetailsFragment" />
+    </fragment>
 </navigation>

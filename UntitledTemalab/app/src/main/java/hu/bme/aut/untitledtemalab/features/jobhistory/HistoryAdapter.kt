@@ -11,9 +11,17 @@ import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import kotlinx.android.synthetic.main.element_job_detail.view.*
 
+/**
+ * [RecyclerView.Adapter] implementation.
+ * TODO: next week I'll start working on the other JobData lists, probably this adapter will be
+ *  changed/replaced with a common JobData RecyclerView adapter.
+ */
 class HistoryAdapter:
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
+    /**
+     * This property stores the JobData instances, that are the basis of the represented data.
+     */
     private var historyList = emptyList<JobData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,11 +33,10 @@ class HistoryAdapter:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val history = historyList[position]
 
-        //TODO dummy data is used, setting the viewHolder's view's content will change
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
         holder.tvHistoryDetail.text = history.jobName
-        holder.cardView.setOnClickListener{
-            TODO("Starting the proper Activity. This should be made with Navigation Drawer.")
+        holder.cardView.setOnClickListener{view ->
+
         }
     }
 
@@ -43,6 +50,11 @@ class HistoryAdapter:
         val tvHistoryDetail: TextView = historyView.tvHistoryDetail
     }
 
+    /**
+     * This function sets the list of data, which is represented by the adapter instance's
+     * RecyclerView.
+     * @param histories
+     */
     fun setHistories(histories: List<JobData>){
         this.historyList = histories
         notifyDataSetChanged()

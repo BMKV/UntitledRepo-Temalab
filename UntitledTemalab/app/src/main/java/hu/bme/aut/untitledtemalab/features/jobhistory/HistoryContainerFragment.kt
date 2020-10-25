@@ -11,11 +11,13 @@ import kotlinx.android.synthetic.main.fragment_history_container.*
 import java.lang.IllegalStateException
 
 /**
- * A simple [Fragment] subclass.
- * Todo documentation
+ * This [Fragment] subclass's responsibility to implement the History feature of the application.
+ * In the history, the user can check his/her sent packages; and the packages, that were delivered
+ * by the user (if the user is able to deliver packages). The fragment contains a ViewPager, which
+ * makes convenient to navigate between the two packages histories.
  * // TODO: If the history is viewed by a simple, non-transporter user, the transported tab shouldn't
-//  appear (No tab should appear to be precise). The implementation of this feature could depend on
-//  the backend, so it hasn't been implemented yet.
+ *      appear (No tab should appear to be precise). The implementation of this feature could depend on
+ *      the backend, so it hasn't been implemented yet.
  */
 class HistoryContainerFragment : Fragment() {
 
@@ -23,7 +25,6 @@ class HistoryContainerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history_container, container, false)
     }
 

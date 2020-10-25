@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp">
 
-    <!-- TODO In the future, this design should be validated/checked -->
+    <!-- TODO In the future, this "design" should be updated -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/imageView"
+            card_view:layout_constraintStart_toEndOf="@+id/ivSize"
             card_view:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem" />
 

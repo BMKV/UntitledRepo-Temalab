@@ -5,10 +5,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
+/**
+ * This [FragmentStateAdapter] subclass's responsibility to define the ViewPager2 widget's behavior,
+ * that contains the user's package history.
+ */
 class HistoryPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle)
     : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     companion object{
+        /**
+         * This variable contains how many tabs are contained by the ViewPager2 instance.
+         */
         private const val HISTORY_PAGER_TAB_COUNT = 2
     }
 

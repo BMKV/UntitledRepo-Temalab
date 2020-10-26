@@ -1,0 +1,1144 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Freelancer Backend API"
+  description: "**Untitled-repo**\n\nThis is the OpenAPI documentation of our backend\
+    \ API.\n"
+  version: "1.0.0"
+servers:
+  - url: "https://untitled-repo-backend.herokuapp.com/api/v1"
+    description: "The URL of the server"
+  - url: "https://virtserver.swaggerhub.com/untitled-repo/FreelancerBackendAPI/1.0.0"
+    description: "SwaggerHub API Auto Mocking"
+tags:
+  - name: "user"
+    description: "Operations about Users"
+  - name: "jobs"
+    description: "Operations about Jobs"
+paths:
+  /user/register:
+    post:
+      tags:
+        - "user"
+      summary: "Register a new User"
+      description: "This can be done by anyone"
+      operationId: "createUser"
+      requestBody:
+        $ref: "#/components/requestBodies/NewUser"
+      responses:
+        "405":
+          description: "Invalid input"
+        "200":
+          description: "Successful registration"
+        "409":
+          description: "Email already in use"
+        "422":
+          description: "Email format is not correct"
+  /user/login:
+    get:
+      tags:
+        - "user"
+      summary: "Log's User into the system"
+      operationId: "loginUser"
+      parameters:
+        - name: "email"
+          in: "query"
+          description: "The User's email for login"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          description: "The password for login in clear text"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful login"
+          headers:
+            X-Rate-Limit:
+              description: "Calls per hour allowed by the User"
+              style: "simple"
+              explode: false
+              schema:
+                type: "integer"
+                format: "int32"
+            X-Expires-After:
+              description: "Date in UTC when token expires"
+              style: "simple"
+              explode: false
+              schema:
+                type: "string"
+                format: "date-time"
+          content:
+            application/json:
+              schema:
+                type: "string"
+                description: "The bearer token"
+            application/xml:
+              schema:
+                type: "string"
+                description: "The bearer token"
+        "400":
+          description: "Invalid format"
+        "409":
+          description: "Invalid email/password supplied"
+  /user/logout:
+    get:
+      tags:
+        - "user"
+      summary: "Log's out the User with the bearer token"
+      operationId: "logoutUser"
+      responses:
+        default:
+          description: "successful logout"
+      security:
+        - bearerAuth: []
+  /user/profile:
+    get:
+      tags:
+        - "user"
+      summary: "Return the logged-in User's profile"
+      operationId: "profileUser"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "The matching user's cargo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - "user"
+      summary: "Update User"
+      description: "This can only be done by the logged in User."
+      operationId: "updateUser"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: "#/components/schemas/UserUpdateEmail"
+                - $ref: "#/components/schemas/UserUpdatePassword"
+                - $ref: "#/components/schemas/UserUpdateCanDeliver"
+            examples:
+              can-deliver-example:
+                value:
+                  user-id: 0
+                  password: "VerySafePass1"
+                  can-deliver: true
+              password-change-example:
+                value:
+                  user-id: 0
+                  current-password: "VerySafePass1"
+                  new-password: "VerySafePass2"
+              email-change-example:
+                value:
+                  user-id: 0
+                  password: "VerySafePass1"
+                  new-email: "VerySafePass2"
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - "user"
+      summary: "Delete User"
+      description: "This can only be done by the logged in User."
+      operationId: "deleteUser"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+  /user/{user-id}:
+    get:
+      tags:
+        - "user"
+      summary: "Get User by User ID"
+      operationId: "getUserById"
+      parameters:
+        - name: "user-id"
+          in: "path"
+          description: "The user's ID"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Minimal information on the queried User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Invalid User ID supplied"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "User not found"
+      security:
+        - bearerAuth: []
+  /user/{user-id}/jobs:
+    get:
+      tags:
+        - "user"
+      summary: "Get all Jobs the User sent and delivered"
+      operationId: "getUserAllJobs"
+      parameters:
+        - name: "user-id"
+          in: "path"
+          description: "the User's ID"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          description: "The filter on the status of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "pending"
+              - "accepted"
+              - "pickedUp"
+              - "delivered"
+        - name: "size"
+          in: "query"
+          description: "The filter on the size of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "small"
+              - "medium"
+              - "large"
+      responses:
+        "200":
+          description: "The matching job array"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+            application/xml:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: "invalid format"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Jobs not found"
+      security:
+        - bearerAuth: []
+  /user/{user-id}/jobs/sent:
+    get:
+      tags:
+        - "user"
+      summary: "Get the Jobs the User sent"
+      operationId: "getUserSentJobs"
+      parameters:
+        - name: "user-id"
+          in: "path"
+          description: "the User s ID"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          description: "The filter on the status of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "pending"
+              - "accepted"
+              - "pickedUp"
+              - "delivered"
+        - name: "size"
+          in: "query"
+          description: "The filter on the size of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "small"
+              - "medium"
+              - "large"
+      responses:
+        "200":
+          description: "The matching job array"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+            application/xml:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: "Invalid format"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Jobs not found"
+      security:
+        - bearerAuth: []
+  /user/{user-id}/jobs/delivered:
+    get:
+      tags:
+        - "user"
+      summary: "Get the Jobs the User delivered"
+      operationId: "getUserDeliveredJobs"
+      parameters:
+        - name: "user-id"
+          in: "path"
+          description: "the User's ID"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          description: "The filter on the status of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "pending"
+              - "accepted"
+              - "pickedUp"
+              - "delivered"
+        - name: "size"
+          in: "query"
+          description: "The filter on the size of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "small"
+              - "medium"
+              - "large"
+      responses:
+        "200":
+          description: "The matching job array"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+            application/xml:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: "Invalid format"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Jobs not found"
+      security:
+        - bearerAuth: []
+  /user/{user-id}/cargo:
+    get:
+      tags:
+        - "user"
+      summary: "Get all information on the User's cargo"
+      operationId: "getUserCargo"
+      parameters:
+        - name: "user-id"
+          in: "path"
+          description: "the User's ID"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "The matching user's cargo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserCargo"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/UserCargo"
+        "400":
+          description: "Invalid format"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "User data not found"
+      security:
+        - bearerAuth: []
+  /jobs:
+    get:
+      tags:
+        - "jobs"
+      summary: "Lists available Jobs"
+      description: "Lists the available jobs"
+      operationId: "getAllAvailableJobs"
+      parameters:
+        - name: "size"
+          in: "query"
+          description: "The filter on the size of the packages"
+          required: false
+          style: "form"
+          explode: true
+          schema:
+            type: "string"
+            enum:
+              - "small"
+              - "medium"
+              - "large"
+      responses:
+        "200":
+          description: "The matching job array"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+            application/xml:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: "Invalid format"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "No Jobs available"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - "jobs"
+      summary: "Posts a Job"
+      operationId: "postJob"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "ID of the User that post's the Job"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        $ref: "#/components/requestBodies/NewJob"
+      responses:
+        "201":
+          description: "Created"
+          headers:
+            Location:
+              style: "simple"
+              explode: false
+              schema:
+                type: "string"
+                format: "uri"
+                example: "jobs/post/2574120"
+        "405":
+          description: "Invalid input"
+      security:
+        - bearerAuth: []
+  /jobs/post/{job-id}:
+    get:
+      tags:
+        - "jobs"
+      summary: "Get Job from Job ID"
+      description: "Returns a single Job"
+      operationId: "getJobById"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "ID of the Job"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "Information on the queried Job"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "400":
+          description: "Invalid ID supplied"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - "jobs"
+      summary: "Update a Job"
+      description: "Only the User who posted the Job can update it"
+      operationId: "updateJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "ID of the Job that needs to be updated"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        $ref: "#/components/requestBodies/NewJob"
+      responses:
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Job not found"
+        "405":
+          description: "Invalid input"
+        "409":
+          description: "You couldn't modify the Job"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - "jobs"
+      summary: "Deletes a Job"
+      description: "Only the User who posted the Job can delete it"
+      operationId: "deleteJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job ID to delete"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Job not found"
+        "409":
+          description: "You couldn't delete the Job"
+      security:
+        - bearerAuth: []
+  /jobs/accept/{job-id}:
+    post:
+      tags:
+        - "jobs"
+      summary: "Accept a Job"
+      description: "The User who posted it can't accept their own Jobs."
+      operationId: "acceptJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job ID to delete"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "The deliverer user's id"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - "jobs"
+      summary: "Abandon a Job"
+      description: "The User who currently accepted the Job can abandon it."
+      operationId: "abandonJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job ID to delete"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "The deliverer user's id"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "401":
+          description: "Access token is missing or invalid"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    ApiResponse:
+      required:
+        - "code"
+        - "type"
+      type: "object"
+      properties:
+        code:
+          type: "integer"
+          format: "int32"
+        type:
+          type: "string"
+        message:
+          type: "string"
+      description: "Response of the backend"
+      xml:
+        name: "ApiResponse"
+    User:
+      required:
+        - "email"
+        - "user-id"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        email:
+          type: "string"
+          description: "The email address of the User"
+          format: "email"
+          nullable: false
+        rating:
+          maximum: 5
+          minimum: 1
+          type: "number"
+          description: "The rating of the User"
+          format: "float"
+          nullable: true
+      description: "A minimal information on a User"
+      xml:
+        name: "User"
+    UserCargo:
+      required:
+        - "cargoFreeSize"
+        - "cargoMaxSize"
+      type: "object"
+      properties:
+        cargoFreeSize:
+          type: "integer"
+          description: "The actual size of the cargo"
+          nullable: true
+        cargoMaxSize:
+          type: "integer"
+          description: "The maximal size of the cargo"
+          nullable: true
+      description: "Information on the User's cargo"
+      xml:
+        name: "UserCargo"
+    UserProfile:
+      required:
+        - "canDeliver"
+        - "email"
+        - "user-id"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        email:
+          type: "string"
+          description: "The email address of the User"
+          format: "email"
+          nullable: false
+        rating:
+          maximum: 5
+          minimum: 1
+          type: "number"
+          description: "The rating of the User"
+          format: "float"
+          nullable: true
+        canDeliver:
+          type: "boolean"
+          description: "The boolean value which says if the User can deliver or not"
+          nullable: false
+        cargoFreeSize:
+          type: "integer"
+          description: "The actual size of the cargo"
+          nullable: true
+        cargoMaxSize:
+          type: "integer"
+          description: "The maximal size of the cargo"
+          nullable: true
+      description: "Detailed information on a User"
+      xml:
+        name: "UserProfile"
+    UserUpdatePassword:
+      required:
+        - "current-password"
+        - "new-password"
+        - "user-id"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        current-password:
+          type: "string"
+          description: "The current password of the User"
+          format: "password"
+          nullable: false
+        new-password:
+          type: "string"
+          description: "The new password of the User"
+          format: "password"
+          nullable: false
+      description: "Data for password change"
+      xml:
+        name: "UserUpdatePassword"
+    UserUpdateCanDeliver:
+      required:
+        - "can-deliver"
+        - "password"
+        - "user-id"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        password:
+          type: "string"
+          description: "The password of the User"
+          format: "password"
+          nullable: false
+        can-deliver:
+          type: "boolean"
+          description: "The new value for the canDeliver variable"
+          nullable: false
+      description: "Data for changing deliverer status"
+      xml:
+        name: "UserUpdateCanDeliver"
+    UserUpdateEmail:
+      required:
+        - "new-email"
+        - "password"
+        - "user-id"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        password:
+          type: "string"
+          description: "The password of the User"
+          format: "password"
+          nullable: false
+        new-email:
+          type: "string"
+          description: "The new email address of the User"
+          format: "email"
+          nullable: false
+      description: "Data for email change"
+      xml:
+        name: "UserUpdateEmail"
+    UserRegistration:
+      required:
+        - "email"
+        - "password"
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          description: "The email address of the new User"
+          format: "email"
+          nullable: false
+        password:
+          type: "string"
+          description: "The password of the new User"
+          format: "password"
+          nullable: false
+        canDeliver:
+          type: "boolean"
+          description: "The value determines if the new User can accept      Jobs"
+          nullable: true
+      description: "Data on the new User"
+    Job:
+      required:
+        - "deadline"
+        - "deliveryRoute"
+        - "job-id"
+        - "jobIssuedDate"
+        - "payment"
+        - "size"
+        - "status"
+      type: "object"
+      properties:
+        job-id:
+          type: "integer"
+          description: "The ID of the Job"
+          format: "int64"
+          nullable: false
+        status:
+          type: "string"
+          description: "The current status of the Job"
+          nullable: false
+          enum:
+            - "pending"
+            - "accepted"
+            - "pickedUp"
+            - "delivered"
+        senderRating:
+          maximum: 5
+          minimum: 1
+          type: "integer"
+          description: "The sender rating of the delivery"
+          nullable: true
+        size:
+          type: "string"
+          description: "The size of the package"
+          nullable: false
+          enum:
+            - "small"
+            - "medium"
+            - "large"
+        payment:
+          type: "integer"
+          description: "The payment for the delivery"
+          nullable: false
+        jobIssuedDate:
+          type: "string"
+          description: "The date the sender issued the Job"
+          format: "date-time"
+          nullable: false
+        deadline:
+          type: "string"
+          description: "The deadline of the Job"
+          format: "date-time"
+          nullable: false
+        deliveryDate:
+          type: "string"
+          description: "The day the package was delivered"
+          format: "date-time"
+          nullable: true
+        deliveryRoute:
+          $ref: "#/components/schemas/Route"
+      description: "Detailed information on a Job"
+      xml:
+        name: "Job"
+    JobRegistration:
+      required:
+        - "deadline"
+        - "destination"
+        - "jobIssuedDate"
+        - "payment"
+        - "size"
+        - "startLocation"
+      type: "object"
+      properties:
+        size:
+          type: "string"
+          description: "The size of the package"
+          nullable: false
+          enum:
+            - "small"
+            - "medium"
+            - "large"
+        payment:
+          type: "integer"
+          description: "The payment for the delivery"
+          nullable: false
+        jobIssuedDate:
+          type: "string"
+          description: "The date the sender issued the Job"
+          format: "date-time"
+          nullable: false
+        deadline:
+          type: "string"
+          description: "The deadline of the Job"
+          format: "date-time"
+          nullable: false
+        startLocation:
+          type: "string"
+          description: "The start location of the Route"
+          nullable: false
+        destination:
+          type: "string"
+          description: "The destination of the Route"
+          nullable: false
+      description: "Data on the new User"
+      xml:
+        name: "JobRegistration"
+    Route:
+      required:
+        - "destination"
+        - "startLocation"
+      type: "object"
+      properties:
+        actualTime:
+          type: "integer"
+          description: "The time the Route was completed"
+          format: "int64"
+          nullable: true
+        optimalTime:
+          type: "integer"
+          description: "The optimal time for the Route"
+          format: "int64"
+          nullable: true
+        startLocation:
+          type: "string"
+          description: "The start location of the Route"
+          nullable: false
+        destination:
+          type: "string"
+          description: "The destination of the Route"
+          nullable: false
+      description: "A Route for a specific Job"
+      xml:
+        name: "Route"
+  responses:
+    ApiResponse:
+      description: "The API message"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    UnauthorizedError:
+      description: "Access token is missing or invalid"
+    User:
+      description: "Minimal information on the queried User"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/User"
+    UserCargo:
+      description: "The matching user's cargo"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserCargo"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/UserCargo"
+    UserProfile:
+      description: "The matching user's cargo"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserProfile"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/UserProfile"
+    Job:
+      description: "Information on the queried Job"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Job"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Job"
+    JobArray:
+      description: "The matching job array"
+      content:
+        application/json:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/Job"
+        application/xml:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/Job"
+  requestBodies:
+    Job:
+      description: "Job object that needs to be added to the application"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Job"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Job"
+      required: true
+    UserArray:
+      description: "List of user object"
+      content:
+        application/json:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/User"
+        application/xml:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/User"
+      required: true
+    JobArray:
+      description: "List of job object"
+      content:
+        application/json:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/Job"
+        application/xml:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/Job"
+      required: true
+    NewUser:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRegistration"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/UserRegistration"
+    NewJob:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/JobRegistration"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/JobRegistration"
+  securitySchemes:
+    bearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "JWT"

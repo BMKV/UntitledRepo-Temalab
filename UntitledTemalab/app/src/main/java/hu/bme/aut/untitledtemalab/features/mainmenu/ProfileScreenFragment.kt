@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.UserData
+import kotlinx.android.synthetic.main.fragment_job_details.*
+import kotlinx.android.synthetic.main.fragment_profile_screen.*
 
 /**
  * A simple [Fragment] subclass.
@@ -32,7 +34,9 @@ class ProfileScreenFragment : Fragment() {
     }
 
     fun setContent(receivedUserData: UserData) {
-        //TODO: függvénytörzs
+        tvNameTextOnProfile.text = receivedUserData.userName
+        tvEmailTextOnProfile.text = receivedUserData.email
+        tvUserRatingTextOnProfile.text = receivedUserData.rating as String
     }
 
 }

@@ -11,11 +11,20 @@
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
-            android:id="@+id/action_mainMenuFragment_to_profileScreenFragment"
+            android:id="@+id/action_mainMenu_OpenProfile"
             app:destination="@id/profileScreenFragment" />
         <action
-            android:id="@+id/action_mainMenuFragment_to_historyContainerFragment"
+            android:id="@+id/action_mainMenu_OpenHistory"
             app:destination="@id/historyContainerFragment" />
+        <action
+            android:id="@+id/action_mainMenu_OpenJobBoard"
+            app:destination="@id/jobBoardFragment" />
+        <action
+            android:id="@+id/action_mainMenu_OpenPostJob"
+            app:destination="@id/postJobFragment" />
+        <action
+            android:id="@+id/action_mainMenu_OpenCurrentJobs"
+            app:destination="@id/currentJobsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileScreenFragment"
@@ -26,12 +35,46 @@
         android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryContainerFragment"
         android:label="HistoryContainerFragment" >
         <action
-            android:id="@+id/action_historyContainerFragment_to_jobDetailsFragment"
+            android:id="@+id/action_historyContainer_ShowJobDetails"
             app:destination="@id/jobDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobDetailsFragment"
         android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsFragment"
         android:label="fragment_job_details"
-        tools:layout="@layout/fragment_job_details" />
+        tools:layout="@layout/fragment_job_details" >
+        <action
+            android:id="@+id/action_jobDetails_AcceptedJob"
+            app:destination="@id/currentJobsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobBoardFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.jobboard.JobBoardFragment"
+        android:label="fragment_job_board"
+        tools:layout="@layout/fragment_job_board" >
+        <action
+            android:id="@+id/action_jobBoard_ShowJobDetails"
+            app:destination="@id/jobDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postJobFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.jobdetails.PostJobFragment"
+        android:label="fragment_post_job"
+        tools:layout="@layout/fragment_post_job" >
+        <action
+            android:id="@+id/action_postJob_PostedJob"
+            app:destination="@id/currentJobsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currentJobsFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.currentjobs.CurrentJobsFragment"
+        android:label="fragment_current_jobs"
+        tools:layout="@layout/fragment_current_jobs" >
+        <action
+            android:id="@+id/action_currentJobs_OpenPostJob"
+            app:destination="@id/postJobFragment" />
+        <action
+            android:id="@+id/action_currentJobs_ShowJobDetails"
+            app:destination="@id/jobDetailsFragment" />
+    </fragment>
 </navigation>

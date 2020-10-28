@@ -18,7 +18,7 @@
         </activity>
         <activity android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryActivity" />
         <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsFragment" />
-        <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.PostJobActivity" />
+        <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.PostJobFragment" />
         <activity android:name=".ProfileScreen" />
         <activity android:name=".MainMenu"/>
     </application>

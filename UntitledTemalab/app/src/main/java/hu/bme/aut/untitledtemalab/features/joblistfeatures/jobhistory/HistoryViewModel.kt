@@ -21,7 +21,7 @@ class HistoryViewModel(application: Application, useMode: String):
     /**
      * This variable stores the list of data about the history, which is represented by the UI layer.
      */
-    val historyElements: LiveData<MutableList<JobData>>
+    val historyElements: LiveData<List<JobData>>
 
     init{
        historyElements = when(useMode){

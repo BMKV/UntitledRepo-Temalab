@@ -9,7 +9,8 @@ import hu.bme.aut.untitledtemalab.data.JobData
  * This [AndroidViewModel] subclass's responsibility to provide the business logic for the
  * components in the View layer, that are showing data about the user's package history.
  */
-class HistoryViewModel(application: Application, useMode: String):
+@Suppress("UNUSED_PARAMETER")   // useMode parameter is actually used.
+class HistoryViewModel(application: Application,  useMode: String):
     AndroidViewModel(application) {
 
     /**

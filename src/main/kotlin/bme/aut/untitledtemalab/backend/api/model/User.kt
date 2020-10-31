@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel
@@ -11,12 +11,12 @@ import javax.annotation.Generated
 
 
 /**
- * Data for email change
+ * A minimal information on a User
  */
-//@ApiModel(description = "Data for email change")
+//@ApiModel(description = "A minimal information on a User")
 @Validated
 @Generated(value = ["io.swagger.codegen.v3.generators.java.SpringCodegen"], date = "2020-10-25T11:28:44.269Z[GMT]")
-class UserUpdateEmail : UserUpdate {
+class User {
     /**
      * The ID of the User
      * @return userId
@@ -27,35 +27,38 @@ class UserUpdateEmail : UserUpdate {
     var userId: Long? = null
 
     /**
-     * The password of the User
-     * @return password
+     * The email address of the User
+     * @return email
      */
     //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The password of the User")
-    @JsonProperty("password")
-    var password: String? = null
+    //@get:ApiModelProperty(required = true, value = "The email address of the User")
+    @JsonProperty("email")
+    var email: String? = null
 
     /**
-     * The new email address of the User
-     * @return newEmail
+     * The rating of the User
+     * minimum: 1
+     * maximum: 5
+     * @return rating
      */
-    //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The new email address of the User")
-    @JsonProperty("new-email")
-    var newEmail: String? = null
+    //@get:DecimalMax("5")
+    //@get:DecimalMin("1")
+    //@get:ApiModelProperty(value = "The rating of the User")
+    @JsonProperty("rating")
+    var rating: Float? = null
 
-    fun userId(userId: Long?): UserUpdateEmail {
+    fun userId(userId: Long?): User {
         this.userId = userId
         return this
     }
 
-    fun password(password: String?): UserUpdateEmail {
-        this.password = password
+    fun email(email: String?): User {
+        this.email = email
         return this
     }
 
-    fun newEmail(newEmail: String?): UserUpdateEmail {
-        this.newEmail = newEmail
+    fun rating(rating: Float?): User {
+        this.rating = rating
         return this
     }
 
@@ -66,22 +69,22 @@ class UserUpdateEmail : UserUpdate {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val userUpdateEmail = o as UserUpdateEmail
-        return userId == userUpdateEmail.userId &&
-                password == userUpdateEmail.password &&
-                newEmail == userUpdateEmail.newEmail
+        val user = o as User
+        return userId == user.userId &&
+                email == user.email &&
+                rating == user.rating
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(userId, password, newEmail)
+        return Objects.hash(userId, email, rating)
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("class UserUpdateEmail {\n")
+        sb.append("class User {\n")
         sb.append("    userId: ").append(toIndentedString(userId)).append("\n")
-        sb.append("    password: ").append(toIndentedString(password)).append("\n")
-        sb.append("    newEmail: ").append(toIndentedString(newEmail)).append("\n")
+        sb.append("    email: ").append(toIndentedString(email)).append("\n")
+        sb.append("    rating: ").append(toIndentedString(rating)).append("\n")
         sb.append("}")
         return sb.toString()
     }

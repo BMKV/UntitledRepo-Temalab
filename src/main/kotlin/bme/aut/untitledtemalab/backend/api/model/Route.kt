@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel
@@ -56,22 +56,22 @@ class Route {
     @JsonProperty("destination")
     var destination: String? = null
 
-    fun actualTime(actualTime: Long?): bme.aut.untitledtemalab.backend.model.Route {
+    fun actualTime(actualTime: Long?): bme.aut.untitledtemalab.backend.api.model.Route {
         this.actualTime = actualTime
         return this
     }
 
-    fun optimalTime(optimalTime: Long?): bme.aut.untitledtemalab.backend.model.Route {
+    fun optimalTime(optimalTime: Long?): bme.aut.untitledtemalab.backend.api.model.Route {
         this.optimalTime = optimalTime
         return this
     }
 
-    fun startLocation(startLocation: String?): bme.aut.untitledtemalab.backend.model.Route {
+    fun startLocation(startLocation: String?): bme.aut.untitledtemalab.backend.api.model.Route {
         this.startLocation = startLocation
         return this
     }
 
-    fun destination(destination: String?): bme.aut.untitledtemalab.backend.model.Route {
+    fun destination(destination: String?): bme.aut.untitledtemalab.backend.api.model.Route {
         this.destination = destination
         return this
     }
@@ -83,7 +83,7 @@ class Route {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val route: bme.aut.untitledtemalab.backend.model.Route = o as bme.aut.untitledtemalab.backend.model.Route
+        val route: bme.aut.untitledtemalab.backend.api.model.Route = o as bme.aut.untitledtemalab.backend.api.model.Route
         return actualTime == route.actualTime &&
                 optimalTime == route.optimalTime &&
                 startLocation == route.startLocation &&

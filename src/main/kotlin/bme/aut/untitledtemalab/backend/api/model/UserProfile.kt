@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel
@@ -11,12 +11,12 @@ import javax.annotation.Generated
 
 
 /**
- * A minimal information on a User
+ * Detailed information on a User
  */
-//@ApiModel(description = "A minimal information on a User")
+//@ApiModel(description = "Detailed information on a User")
 @Validated
 @Generated(value = ["io.swagger.codegen.v3.generators.java.SpringCodegen"], date = "2020-10-25T11:28:44.269Z[GMT]")
-class User {
+class UserProfile {
     /**
      * The ID of the User
      * @return userId
@@ -47,18 +47,58 @@ class User {
     @JsonProperty("rating")
     var rating: Float? = null
 
-    fun userId(userId: Long?): User {
+    /**
+     * The boolean value which says if the User can deliver or not
+     * @return canDeliver
+     */
+    //@get:NotNull
+    //@get:ApiModelProperty(required = true, value = "The boolean value which says if the User can deliver or not")
+    @JsonProperty("canDeliver")
+    var isCanDeliver: Boolean? = null
+
+    /**
+     * The actual size of the cargo
+     * @return cargoFreeSize
+     */
+    //@get:ApiModelProperty(value = "The actual size of the cargo")
+    @JsonProperty("cargoFreeSize")
+    var cargoFreeSize: Int? = null
+
+    /**
+     * The maximal size of the cargo
+     * @return cargoMaxSize
+     */
+    //@get:ApiModelProperty(value = "The maximal size of the cargo")
+    @JsonProperty("cargoMaxSize")
+    var cargoMaxSize: Int? = null
+
+    fun userId(userId: Long?): UserProfile {
         this.userId = userId
         return this
     }
 
-    fun email(email: String?): User {
+    fun email(email: String?): UserProfile {
         this.email = email
         return this
     }
 
-    fun rating(rating: Float?): User {
+    fun rating(rating: Float?): UserProfile {
         this.rating = rating
+        return this
+    }
+
+    fun canDeliver(canDeliver: Boolean?): UserProfile {
+        isCanDeliver = canDeliver
+        return this
+    }
+
+    fun cargoFreeSize(cargoFreeSize: Int?): UserProfile {
+        this.cargoFreeSize = cargoFreeSize
+        return this
+    }
+
+    fun cargoMaxSize(cargoMaxSize: Int?): UserProfile {
+        this.cargoMaxSize = cargoMaxSize
         return this
     }
 
@@ -69,22 +109,28 @@ class User {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val user = o as User
-        return userId == user.userId &&
-                email == user.email &&
-                rating == user.rating
+        val userProfile = o as UserProfile
+        return userId == userProfile.userId &&
+                email == userProfile.email &&
+                rating == userProfile.rating &&
+                isCanDeliver == userProfile.isCanDeliver &&
+                cargoFreeSize == userProfile.cargoFreeSize &&
+                cargoMaxSize == userProfile.cargoMaxSize
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(userId, email, rating)
+        return Objects.hash(userId, email, rating, isCanDeliver, cargoFreeSize, cargoMaxSize)
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("class User {\n")
+        sb.append("class UserProfile {\n")
         sb.append("    userId: ").append(toIndentedString(userId)).append("\n")
         sb.append("    email: ").append(toIndentedString(email)).append("\n")
         sb.append("    rating: ").append(toIndentedString(rating)).append("\n")
+        sb.append("    canDeliver: ").append(toIndentedString(isCanDeliver)).append("\n")
+        sb.append("    cargoFreeSize: ").append(toIndentedString(cargoFreeSize)).append("\n")
+        sb.append("    cargoMaxSize: ").append(toIndentedString(cargoMaxSize)).append("\n")
         sb.append("}")
         return sb.toString()
     }

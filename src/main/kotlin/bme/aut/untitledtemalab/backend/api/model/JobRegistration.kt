@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -40,8 +40,8 @@ class JobRegistration {
 
         companion object {
             @JsonCreator
-            fun fromValue(text: String): bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum? {
-                for (b in bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum.values()) {
+            fun fromValue(text: String): bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum? {
+                for (b in bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum.values()) {
                     if (b.value.toString() == text) {
                         return b
                     }
@@ -52,7 +52,7 @@ class JobRegistration {
     }
 
     @JsonProperty("size")
-    private var size: bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum? = null
+    private var size: bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum? = null
 
     /**
      * The payment for the delivery
@@ -87,7 +87,7 @@ class JobRegistration {
     @JsonProperty("destination")
     var destination: String? = null
 
-    fun size(size: bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun size(size: bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.size = size
         return this
     }
@@ -98,20 +98,20 @@ class JobRegistration {
      */
     //@ApiModelProperty(required = true, value = "The size of the package")
     //@NotNull
-    fun getSize(): bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum? {
+    fun getSize(): bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum? {
         return size
     }
 
-    fun setSize(size: bme.aut.untitledtemalab.backend.model.JobRegistration.SizeEnum?) {
+    fun setSize(size: bme.aut.untitledtemalab.backend.api.model.JobRegistration.SizeEnum?) {
         this.size = size
     }
 
-    fun payment(payment: Int?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun payment(payment: Int?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.payment = payment
         return this
     }
 
-    fun jobIssuedDate(jobIssuedDate: OffsetDateTime?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun jobIssuedDate(jobIssuedDate: OffsetDateTime?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.jobIssuedDate = jobIssuedDate
         return this
     }
@@ -131,7 +131,7 @@ class JobRegistration {
         this.jobIssuedDate = jobIssuedDate
     }
 
-    fun deadline(deadline: OffsetDateTime?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun deadline(deadline: OffsetDateTime?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.deadline = deadline
         return this
     }
@@ -151,12 +151,12 @@ class JobRegistration {
         this.deadline = deadline
     }
 
-    fun startLocation(startLocation: String?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun startLocation(startLocation: String?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.startLocation = startLocation
         return this
     }
 
-    fun destination(destination: String?): bme.aut.untitledtemalab.backend.model.JobRegistration {
+    fun destination(destination: String?): bme.aut.untitledtemalab.backend.api.model.JobRegistration {
         this.destination = destination
         return this
     }
@@ -168,7 +168,7 @@ class JobRegistration {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val jobRegistration: bme.aut.untitledtemalab.backend.model.JobRegistration = o as bme.aut.untitledtemalab.backend.model.JobRegistration
+        val jobRegistration: bme.aut.untitledtemalab.backend.api.model.JobRegistration = o as bme.aut.untitledtemalab.backend.api.model.JobRegistration
         return size == jobRegistration.size &&
                 payment == jobRegistration.payment &&
                 jobIssuedDate == jobRegistration.jobIssuedDate &&

@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel

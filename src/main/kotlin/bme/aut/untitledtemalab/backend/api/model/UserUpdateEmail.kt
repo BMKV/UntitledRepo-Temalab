@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel
@@ -11,12 +11,12 @@ import javax.annotation.Generated
 
 
 /**
- * Data for password change
+ * Data for email change
  */
-//@ApiModel(description = "Data for password change")
+//@ApiModel(description = "Data for email change")
 @Validated
 @Generated(value = ["io.swagger.codegen.v3.generators.java.SpringCodegen"], date = "2020-10-25T11:28:44.269Z[GMT]")
-class UserUpdatePassword : UserUpdate {
+class UserUpdateEmail : UserUpdate {
     /**
      * The ID of the User
      * @return userId
@@ -27,35 +27,35 @@ class UserUpdatePassword : UserUpdate {
     var userId: Long? = null
 
     /**
-     * The current password of the User
-     * @return currentPassword
+     * The password of the User
+     * @return password
      */
     //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The current password of the User")
-    @JsonProperty("current-password")
-    var currentPassword: String? = null
+    //@get:ApiModelProperty(required = true, value = "The password of the User")
+    @JsonProperty("password")
+    var password: String? = null
 
     /**
-     * The new password of the User
-     * @return newPassword
+     * The new email address of the User
+     * @return newEmail
      */
     //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The new password of the User")
-    @JsonProperty("new-password")
-    var newPassword: String? = null
+    //@get:ApiModelProperty(required = true, value = "The new email address of the User")
+    @JsonProperty("new-email")
+    var newEmail: String? = null
 
-    fun userId(userId: Long?): UserUpdatePassword {
+    fun userId(userId: Long?): UserUpdateEmail {
         this.userId = userId
         return this
     }
 
-    fun currentPassword(currentPassword: String?): UserUpdatePassword {
-        this.currentPassword = currentPassword
+    fun password(password: String?): UserUpdateEmail {
+        this.password = password
         return this
     }
 
-    fun newPassword(newPassword: String?): UserUpdatePassword {
-        this.newPassword = newPassword
+    fun newEmail(newEmail: String?): UserUpdateEmail {
+        this.newEmail = newEmail
         return this
     }
 
@@ -66,22 +66,22 @@ class UserUpdatePassword : UserUpdate {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val userUpdatePassword = o as UserUpdatePassword
-        return userId == userUpdatePassword.userId &&
-                currentPassword == userUpdatePassword.currentPassword &&
-                newPassword == userUpdatePassword.newPassword
+        val userUpdateEmail = o as UserUpdateEmail
+        return userId == userUpdateEmail.userId &&
+                password == userUpdateEmail.password &&
+                newEmail == userUpdateEmail.newEmail
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(userId, currentPassword, newPassword)
+        return Objects.hash(userId, password, newEmail)
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("class UserUpdatePassword {\n")
+        sb.append("class UserUpdateEmail {\n")
         sb.append("    userId: ").append(toIndentedString(userId)).append("\n")
-        sb.append("    currentPassword: ").append(toIndentedString(currentPassword)).append("\n")
-        sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n")
+        sb.append("    password: ").append(toIndentedString(password)).append("\n")
+        sb.append("    newEmail: ").append(toIndentedString(newEmail)).append("\n")
         sb.append("}")
         return sb.toString()
     }

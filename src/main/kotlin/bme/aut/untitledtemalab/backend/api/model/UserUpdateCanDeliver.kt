@@ -1,4 +1,4 @@
-package bme.aut.untitledtemalab.backend.model
+package bme.aut.untitledtemalab.backend.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 //import io.swagger.annotations.ApiModel
@@ -11,49 +11,50 @@ import javax.annotation.Generated
 
 
 /**
- * Data on the new User
+ * Data for changing deliverer status
  */
-//@ApiModel(description = "Data on the new User")
+//@ApiModel(description = "Data for changing deliverer status")
 @Validated
 @Generated(value = ["io.swagger.codegen.v3.generators.java.SpringCodegen"], date = "2020-10-25T11:28:44.269Z[GMT]")
-class UserRegistration {
+class UserUpdateCanDeliver : UserUpdate {
     /**
-     * The email address of the new User
-     * @return email
+     * The ID of the User
+     * @return userId
      */
     //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The email address of the new User")
-    @JsonProperty("email")
-    var email: String? = null
+    //@get:ApiModelProperty(required = true, value = "The ID of the User")
+    @JsonProperty("user-id")
+    var userId: Long? = null
 
     /**
-     * The password of the new User
+     * The password of the User
      * @return password
      */
     //@get:NotNull
-    //@get:ApiModelProperty(required = true, value = "The password of the new User")
+    //@get:ApiModelProperty(required = true, value = "The password of the User")
     @JsonProperty("password")
     var password: String? = null
 
     /**
-     * The value determines if the new User can accept      Jobs
+     * The new value for the canDelivervariable
      * @return canDeliver
      */
-    //@get:ApiModelProperty(value = "The value determines if the new User can accept      Jobs")
-    @JsonProperty("canDeliver")
+    //@get:NotNull
+    //@get:ApiModelProperty(required = true, value = "The new value for the canDelivervariable")
+    @JsonProperty("can-deliver")
     var isCanDeliver: Boolean? = null
 
-    fun email(email: String?): UserRegistration {
-        this.email = email
+    fun userId(userId: Long?): bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver {
+        this.userId = userId
         return this
     }
 
-    fun password(password: String?): UserRegistration {
+    fun password(password: String?): bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver {
         this.password = password
         return this
     }
 
-    fun canDeliver(canDeliver: Boolean?): UserRegistration {
+    fun canDeliver(canDeliver: Boolean?): bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver {
         isCanDeliver = canDeliver
         return this
     }
@@ -65,20 +66,20 @@ class UserRegistration {
         if (o == null || javaClass != o.javaClass) {
             return false
         }
-        val userRegistration = o as UserRegistration
-        return email == userRegistration.email &&
-                password == userRegistration.password &&
-                isCanDeliver == userRegistration.isCanDeliver
+        val userUpdateCanDeliver: bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver = o as bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver
+        return userId == userUpdateCanDeliver.userId &&
+                password == userUpdateCanDeliver.password &&
+                isCanDeliver == userUpdateCanDeliver.isCanDeliver
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(email, password, isCanDeliver)
+        return Objects.hash(userId, password, isCanDeliver)
     }
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("class UserRegistration {\n")
-        sb.append("    email: ").append(toIndentedString(email)).append("\n")
+        sb.append("class UserUpdateCanDeliver {\n")
+        sb.append("    userId: ").append(toIndentedString(userId)).append("\n")
         sb.append("    password: ").append(toIndentedString(password)).append("\n")
         sb.append("    canDeliver: ").append(toIndentedString(isCanDeliver)).append("\n")
         sb.append("}")

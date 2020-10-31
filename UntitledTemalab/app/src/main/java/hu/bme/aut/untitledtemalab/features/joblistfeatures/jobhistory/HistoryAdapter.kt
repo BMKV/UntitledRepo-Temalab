@@ -37,7 +37,7 @@ class HistoryAdapter:
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
         holder.tvHistoryDetail.text = history.jobName
         holder.cardView.setOnClickListener{view ->
-            HistoryContainerFragmentDirections.actionHistoryContainerFragmentToJobDetailsFragment()
+            HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails()
                 .let{action -> view!!.findNavController().navigate(action)
             }
         }

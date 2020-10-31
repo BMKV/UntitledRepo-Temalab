@@ -3,53 +3,31 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import hu.bme.aut.untitledtemalab.data.JobData
-import hu.bme.aut.untitledtemalab.network.RetrofitService
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Callback
+import hu.bme.aut.untitledtemalab.network.NetworkManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * TODO documentation
  */
 class HistoryRepository(private val userId: Int) {
 
-    private val freelancerAPI = RetrofitService.freelancerAPI
-
-    @Suppress("UNREACHABLE_CODE")   //It will be eventually fixed
-    val sentHistory: LiveData<MutableList<JobData>>
+    val sentHistory: LiveData<List<JobData>>
     get(){
-        val queriedData = MutableLiveData<MutableList<JobData>>()
-        freelancerAPI.getUsersSentJobs(userId).enqueue(object : Callback<MutableList<JobData>>{
-            override fun onResponse(call: Call<MutableList<JobData>>, response: Response<MutableList<JobData>>) {
-                if(response.isSuccessful)
-                    queriedData.value = response.body()
-                //TODO if the response is not successful it should be handled properly
+        return MutableLiveData<List<JobData>>().apply{
+            GlobalScope.launch {
+                postValue(NetworkManager.getSentHistory(userId))
             }
-
-            override fun onFailure(call: Call<MutableList<JobData>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-        return queriedData
+        }
     }
 
-    val transportedHistory: LiveData<MutableList<JobData>>
+    val deliveredHistory: LiveData<List<JobData>>
     get(){
-        val queriedData = MutableLiveData<MutableList<JobData>>()
-        freelancerAPI.getUsersDeliveredJobs(userId).enqueue(object: Callback<MutableList<JobData>>{
-            override fun onResponse(call: Call<MutableList<JobData>>, response: Response<MutableList<JobData>>) {
-                if(response.isSuccessful)
-                    queriedData.value = response.body()
-                //TODO if the response is not successful it should be handled properly
+        return MutableLiveData<List<JobData>>().apply{
+            GlobalScope.launch {
+                postValue(NetworkManager.getDeliveredHistory(userId))
             }
-
-            override fun onFailure(call: Call<MutableList<JobData>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-        return queriedData
+        }
     }
 
 }

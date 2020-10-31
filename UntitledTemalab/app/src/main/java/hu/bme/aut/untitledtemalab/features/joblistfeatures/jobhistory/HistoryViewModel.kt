@@ -26,7 +26,7 @@ class HistoryViewModel(application: Application, useMode: String):
     init{
        historyElements = when(useMode){
            HistoryFragment.HistoryType.SentHistory.name -> repository.sentHistory
-           HistoryFragment.HistoryType.TransportedHistory.name -> repository.transportedHistory
+           HistoryFragment.HistoryType.TransportedHistory.name -> repository.deliveredHistory
            else ->
                throw IllegalStateException("There is no such use mode for this viewModel: $useMode")
         }

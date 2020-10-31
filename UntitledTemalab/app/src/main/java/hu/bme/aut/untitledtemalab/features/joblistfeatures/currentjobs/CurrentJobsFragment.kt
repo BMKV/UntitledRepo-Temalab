@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.currentjobs
+package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.jobhistory
+package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

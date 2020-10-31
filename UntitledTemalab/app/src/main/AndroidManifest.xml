@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="hu.bme.aut.untitledtemalab.features.jobhistory.HistoryActivity" />
+        <activity android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryActivity" />
         <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsFragment" />
         <activity android:name="hu.bme.aut.untitledtemalab.features.jobdetails.PostJobFragment" />
         <activity android:name=".ProfileScreen" />

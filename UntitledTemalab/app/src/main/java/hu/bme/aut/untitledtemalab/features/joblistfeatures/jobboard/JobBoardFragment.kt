@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.jobboard
+package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

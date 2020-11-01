@@ -1,13 +1,17 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.data.JobData
 import kotlinx.android.synthetic.main.fragment_history.*
+import java.lang.IllegalStateException
 
 /**
  * This [Fragment] subclass's responsibility is to show the user a list of job details about the
@@ -45,9 +49,22 @@ class HistoryFragment: Fragment() {
         historyViewModel = ViewModelProvider(this, HistoryViewModelFactory(
             requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!))
             .get(HistoryViewModel::class.java)
-        historyViewModel.historyElements.observe(viewLifecycleOwner){ histories ->
-            histories.let{ historyAdapter.setHistories(it) }
+        historyViewModel.historyDataResponse.observe(viewLifecycleOwner){ historyResponse ->
+            when {
+                historyResponse.error is Throwable -> handleError(historyResponse.error)
+                historyResponse.jobData !is List<JobData> -> handleError(IllegalStateException("Received data is null!"))
+                else -> historyAdapter.setHistories(historyResponse.jobData)
+            }
         }
+    }
+
+    /**
+     * TODO documentation
+     */
+    private fun handleError(throwable: Throwable){
+        Log.i("Freelancer", throwable.localizedMessage ?: "Unexpected error happened!")
+        Snackbar.make(this.requireView(), throwable.localizedMessage ?: "Unexpected error happened!",
+            Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

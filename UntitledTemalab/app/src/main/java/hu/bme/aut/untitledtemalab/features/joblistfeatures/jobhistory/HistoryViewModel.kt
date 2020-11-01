@@ -3,7 +3,7 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
 
 /**
  * This [AndroidViewModel] subclass's responsibility to provide the business logic for the
@@ -22,10 +22,10 @@ class HistoryViewModel(application: Application,  useMode: String):
     /**
      * This variable stores the list of data about the history, which is represented by the UI layer.
      */
-    val historyElements: LiveData<List<JobData>>
+    val historyDataResponse: LiveData<JobDataResponse>
 
     init{
-       historyElements = when(useMode){
+       historyDataResponse = when(useMode){
            HistoryFragment.HistoryType.SentHistory.name -> repository.sentHistory
            HistoryFragment.HistoryType.TransportedHistory.name -> repository.deliveredHistory
            else ->

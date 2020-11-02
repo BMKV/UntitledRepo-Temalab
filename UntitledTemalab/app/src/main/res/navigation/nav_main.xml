@@ -33,7 +33,11 @@
     <fragment
         android:id="@+id/historyContainerFragment"
         android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryContainerFragment"
-        android:label="HistoryContainerFragment" />
+        android:label="HistoryContainerFragment" >
+        <action
+            android:id="@+id/action_historyContainer_ShowJobDetails"
+            app:destination="@id/jobDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/jobDetailsFragment"
         android:name="hu.bme.aut.untitledtemalab.features.jobdetails.JobDetailsFragment"
@@ -71,15 +75,6 @@
             app:destination="@id/postJobFragment" />
         <action
             android:id="@+id/action_currentJobs_ShowJobDetails"
-            app:destination="@id/jobDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryFragment"
-        android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
-        <action
-            android:id="@+id/action_historyFragment_to_jobDetailsFragment"
             app:destination="@id/jobDetailsFragment" />
     </fragment>
 </navigation>

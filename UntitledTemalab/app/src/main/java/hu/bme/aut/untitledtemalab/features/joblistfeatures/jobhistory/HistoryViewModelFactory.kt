@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProvider
  * the user's sent package history or about the user's delivery history.
  *
  */
-class HistoryViewModelFactory(private val application: Application, private val useMode: String) :
+class HistoryViewModelFactory(private val application: Application, private val useMode: String,
+                              val userId: Int) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST") //this casting should cause no problems
-        return HistoryViewModel(application, useMode) as T
+        return HistoryViewModel(application, useMode, userId) as T
     }
 }

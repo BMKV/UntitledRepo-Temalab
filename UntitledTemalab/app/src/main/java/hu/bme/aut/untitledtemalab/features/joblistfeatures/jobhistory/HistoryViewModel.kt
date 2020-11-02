@@ -9,15 +9,14 @@ import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataRespons
  * This [AndroidViewModel] subclass's responsibility to provide the business logic for the
  * components in the View layer, that are showing data about the user's package history.
  */
-@Suppress("UNUSED_PARAMETER")   // useMode parameter is actually used.
-class HistoryViewModel(application: Application,  useMode: String):
+class HistoryViewModel(application: Application,  useMode: String, val userId: Int):
     AndroidViewModel(application) {
 
     /**
      * This variable stores reference to the repository class, that can be used to reach the data
      * layer.
      */
-    private val repository: HistoryRepository = HistoryRepository(TODO("User ID will be passed here"))
+    private val repository: HistoryRepository = HistoryRepository(userId)
 
     /**
      * This variable stores the list of data about the history, which is represented by the UI layer.

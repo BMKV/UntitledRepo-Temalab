@@ -44,19 +44,22 @@ class HistoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        historyAdapter = HistoryAdapter(requireArguments().getInt(USER_ID_KEY))
-        rvHistory.adapter = historyAdapter
-
         historyViewModel = ViewModelProvider(this, HistoryViewModelFactory(
-            requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!))
+            requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!,
+            requireArguments().getInt(USER_ID_KEY)))
             .get(HistoryViewModel::class.java)
         historyViewModel.historyDataResponse.observe(viewLifecycleOwner){ historyResponse ->
             when {
                 historyResponse.error is Throwable -> handleError(historyResponse.error)
-                historyResponse.jobData !is List<JobData> -> handleError(IllegalStateException("Received data is null!"))
+                historyResponse.jobData !is List<JobData> -> handleError(
+                    IllegalStateException("Received data is null!"))
                 else -> historyAdapter.setHistories(historyResponse.jobData)
             }
         }
+
+        historyAdapter = HistoryAdapter(historyViewModel.userId)
+        rvHistory.adapter = historyAdapter
+
     }
 
     /**

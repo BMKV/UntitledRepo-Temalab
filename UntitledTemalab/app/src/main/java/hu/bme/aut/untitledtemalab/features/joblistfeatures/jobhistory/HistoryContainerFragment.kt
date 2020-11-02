@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import hu.bme.aut.untitledtemalab.R
 import kotlinx.android.synthetic.main.fragment_history_container.*
 import java.lang.IllegalStateException
+import kotlin.properties.Delegates
 
 /**
  * This [Fragment] subclass's responsibility to implement the History feature of the application.
@@ -21,6 +23,15 @@ import java.lang.IllegalStateException
  */
 class HistoryContainerFragment : Fragment() {
 
+    private var userId by Delegates.notNull<Int>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val navArgs: HistoryContainerFragmentArgs by navArgs()
+        userId = navArgs.userId
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +41,7 @@ class HistoryContainerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vp2ViewPager.adapter = HistoryPagerAdapter(childFragmentManager, lifecycle)
+        vp2ViewPager.adapter = HistoryPagerAdapter(childFragmentManager, lifecycle, userId)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when(position) {
                 0 -> "Sent packages"

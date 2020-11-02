@@ -44,7 +44,8 @@ class HistoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvHistory.adapter = HistoryAdapter()
+        historyAdapter = HistoryAdapter(requireArguments().getInt(USER_ID_KEY))
+        rvHistory.adapter = historyAdapter
 
         historyViewModel = ViewModelProvider(this, HistoryViewModelFactory(
             requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!))
@@ -74,6 +75,8 @@ class HistoryFragment: Fragment() {
          */
         private const val HISTORY_TYPE_KEY = "HISTORY_TYPE_KEY"
 
+        private const val USER_ID_KEY = "USER_ID_KEY"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -82,7 +85,7 @@ class HistoryFragment: Fragment() {
          * @return A new instance of fragment HistoryFragment.
          */
         @JvmStatic
-        fun newInstance(historyType: HistoryType) =
+        fun newInstance(historyType: HistoryType, userId: Int) =
             HistoryFragment().apply {
                 arguments = Bundle().apply {
                     putString(HISTORY_TYPE_KEY,
@@ -91,6 +94,7 @@ class HistoryFragment: Fragment() {
                             HistoryType.TransportedHistory -> HistoryType.TransportedHistory.name
                         }
                     )
+                    putInt(USER_ID_KEY, userId)
                 }
             }
     }

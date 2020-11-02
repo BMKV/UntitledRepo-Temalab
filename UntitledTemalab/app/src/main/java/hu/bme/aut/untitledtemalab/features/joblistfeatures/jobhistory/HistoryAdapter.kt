@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.element_job_detail.view.*
  * TODO: next week I'll start working on the other JobData lists, probably this adapter will be
  *  changed/replaced with a common JobData RecyclerView adapter.
  */
-class HistoryAdapter:
+class HistoryAdapter(val userId: Int):
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     /**
@@ -37,7 +37,9 @@ class HistoryAdapter:
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
         holder.tvHistoryDetail.text = history.jobName
         holder.cardView.setOnClickListener{view ->
-            HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails()
+            HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
+                jobId = historyList[position].jobId, userId = userId
+            )
                 .let{action -> view!!.findNavController().navigate(action)
             }
         }

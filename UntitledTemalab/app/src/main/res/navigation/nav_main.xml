@@ -37,6 +37,10 @@
         <action
             android:id="@+id/action_historyContainer_ShowJobDetails"
             app:destination="@id/jobDetailsFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/jobDetailsFragment"
@@ -46,6 +50,14 @@
         <action
             android:id="@+id/action_jobDetails_AcceptedJob"
             app:destination="@id/currentJobsFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="jobId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/jobBoardFragment"

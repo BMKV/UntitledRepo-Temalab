@@ -43,9 +43,10 @@
         app:layout_constraintTop_toBottomOf="@+id/divider3"
         app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layoutDescription="@xml/fragment_job_details_scene">
 
             <TextView
                 android:id="@+id/tvJobBasicsTitle"
@@ -195,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Delivery Deadline:"
+                android:text="@string/delivery_deadline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentTitle" />
 
@@ -272,7 +273,7 @@
                 app:layout_constraintStart_toEndOf="@+id/tvOfferExpiresTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvOfferExpiresTitle" />
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerOnDetails"
                 android:name="hu.bme.aut.untitledtemalab.features.jobdetails.ChangeJobStatusFragment"
                 android:layout_width="0dp"
@@ -282,7 +283,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/mapView"
                 tools:layout="@layout/fragment_change_job_status" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

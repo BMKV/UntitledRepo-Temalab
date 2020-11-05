@@ -26,7 +26,7 @@ class ProfileScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO: TheStorage-ből kikérni az éppen belogolt User adatait
+        //TODO: kikérni az éppen belogolt User adatait
         //Most: placeholder UserData
         val placehoolderUserData = UserData(100000001, "Teszt Elek", "teszt@fejleszto.com", 5.9)
         //-----------------------

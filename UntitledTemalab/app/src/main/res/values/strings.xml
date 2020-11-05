@@ -27,4 +27,5 @@
     <string name="specify_payment_here">Specify payment here!</string>
     <string name="email_title">Email:</string>
     <string name="user_rating_title">User Rating:</string>
+    <string name="listing_expires_on">Listing Expires On:</string>
 </resources>

@@ -1,5 +1,5 @@
 package hu.bme.aut.untitledtemalab.data
 
 enum class JobStatus {
-    pending, accepted, pickedUp, delivered
+    pending, accepted, pickedUp, delivered, expired
 }

@@ -172,7 +172,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText" />
 
@@ -185,9 +185,9 @@
                 android:layout_marginEnd="16dp"
                 android:text="Not Yet Accepted v. Accepted on Dátum"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDeliveryDateTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvOfferExpiresTitle" />
 
             <TextView
                 android:id="@+id/tvDeliveryDateTitle"
@@ -252,6 +252,35 @@
                 android:text="User Rating Goes Here"
                 app:layout_constraintStart_toEndOf="@+id/tvRatingTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvRatingTitle" />
+
+            <TextView
+                android:id="@+id/tvOfferExpiresTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_expires_on"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeliveryDateTitle" />
+
+            <TextView
+                android:id="@+id/tvExpirationDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="ExpirationDateHere"
+                app:layout_constraintStart_toEndOf="@+id/tvOfferExpiresTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvOfferExpiresTitle" />
+
+            <fragment
+                android:id="@+id/fragmentContainerOnDetails"
+                android:name="hu.bme.aut.untitledtemalab.features.jobdetails.ChangeJobStatusFragment"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapView"
+                tools:layout="@layout/fragment_change_job_status" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

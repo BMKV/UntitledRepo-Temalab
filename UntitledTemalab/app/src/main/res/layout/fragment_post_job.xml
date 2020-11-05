@@ -133,12 +133,12 @@
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtDeadline" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -173,6 +173,55 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvDeliveryDeadlineTitle"
                 app:layout_constraintTop_toBottomOf="@+id/edtPayment" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvExpiratinDeadlineTitle"
+                app:layout_constraintTop_toBottomOf="@+id/edtDeadline" />
+
+            <TextView
+                android:id="@+id/tvExpiratinDeadlineTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/listing_expires_on"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editTextDate" />
+
+            <Button
+                android:id="@+id/btnCancelNewJob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnPostJob"
+                app:layout_constraintTop_toBottomOf="@+id/mapView" />
+
+            <Button
+                android:id="@+id/btnPostJob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:text="Post"
+                app:layout_constraintEnd_toStartOf="@+id/btnCancelNewJob"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -12,6 +12,7 @@ class JobData (val jobId: Int,
     var senderRating: Int? = null
     var deliveryDate: String? = null
     var deliveryRoute: RouteData? = null
+    var listingExpirationDate: String? = null
     //TODO: tárolni valahogy, hogy melyik Useré
 
     //Tagfüggvények

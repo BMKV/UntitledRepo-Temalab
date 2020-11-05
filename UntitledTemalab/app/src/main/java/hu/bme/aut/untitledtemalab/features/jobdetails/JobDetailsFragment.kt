@@ -26,7 +26,7 @@ class JobDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //TODO: get the content from somewhere to be set
         //most: placeholder JobData, UserData
-        val placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.large, 8500, "3308. 10. 28.", "3308. 10. 31.")
+        val placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.large, 8500, "3308. 10. 28.", "3308. 10. 31.", 100000001)
         val placehoolderUserData = UserData(100000001, "Teszt Elek", "teszt@fejleszto.com", 5.9)
         //--------------------------
         setContent(placeholderJobData, placehoolderUserData)

@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
 import hu.bme.aut.untitledtemalab.R
+import kotlinx.android.synthetic.main.merge_viewpager2_with_tablayout.*
+import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 class CurrentJobsContainerFragment : Fragment() {
@@ -31,6 +34,13 @@ class CurrentJobsContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO setting the adapter
+        vp2ViewPager.adapter = CurrentJobsPagerAdapter(childFragmentManager, lifecycle, userId)
+        TabLayoutMediator(tlTabs, vp2ViewPager){ tab, position ->
+            tab.text = when(position){
+                0 -> "Announced packages"
+                1 -> "Accepted deliveries"
+                else -> throw IllegalStateException("Such position doesn't exist: $position")
+            }
+        }.attach()
     }
 }

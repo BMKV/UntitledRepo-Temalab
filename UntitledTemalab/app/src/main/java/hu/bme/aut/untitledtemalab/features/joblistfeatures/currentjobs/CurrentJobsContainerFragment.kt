@@ -11,12 +11,12 @@ import kotlin.properties.Delegates
 
 class CurrentJobsContainerFragment : Fragment() {
 
-    private var userId: Int by Delegates.notNull()
+    private var userId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val navArgs: CurrentJobsContainerFragment by navArgs()
+        val navArgs: CurrentJobsContainerFragmentArgs by navArgs()
         userId = navArgs.userId
     }
 

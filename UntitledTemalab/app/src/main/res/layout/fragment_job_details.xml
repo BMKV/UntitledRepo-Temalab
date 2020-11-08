@@ -52,11 +52,11 @@
                 android:id="@+id/tvJobBasicsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="50dp"
                 android:text="@string/job_details_title"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/imviewProfilePic"
-                app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRatingTitle" />
 
             <TextView
                 android:id="@+id/tvDestinationTitle"
@@ -275,13 +275,13 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerOnDetails"
-                android:name="hu.bme.aut.untitledtemalab.features.jobdetails.ChangeJobStatusFragment"
+                android:name="hu.bme.aut.untitledtemalab.features.jobdetails.AcceptJobFragment"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mapView"
-                tools:layout="@layout/fragment_change_job_status" />
+                tools:layout="@layout/fragment_accept_job" />
 
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </ScrollView>

@@ -36,14 +36,14 @@ class JobDetailsFragment : Fragment() {
         //set User data cuccok
         tvNameTextOnJob.text = receivedUserData.userName
         tvEmailTextOnJob.text = receivedUserData.email
-        tvUserRatingTextOnJob.text = receivedUserData.rating as String
+        tvUserRatingTextOnJob.text = receivedUserData.rating.toString()
 
         //set Job Data cuccok
         tvJobTitle.text = receivedJobData.jobName
         //tvDestinationText.text =
         //tvPickUpPointText.text =
         tvPackageSizeText.text = receivedJobData.packageSize.name
-        tvPaymentText.text = receivedJobData.payment as String
+        tvPaymentText.text = receivedJobData.payment.toString()
         tvDeadlineText.text = receivedJobData.deliveryDate
         tvIsItAcceptedStatusText.text = receivedJobData.status.name
     }

@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import hu.bme.aut.untitledtemalab.R
-import hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard.JobBoardFragmentDirections
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 
 /**
@@ -26,7 +26,9 @@ class MainMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //My Profile button
+        //TODO userId will be passed in the action
         btnMyProfile.setOnClickListener{ btnMyProfile ->
             MainMenuFragmentDirections.actionMainMenuOpenProfile().let{
                     action -> btnMyProfile!!.findNavController().navigate(action)
@@ -34,10 +36,20 @@ class MainMenuFragment : Fragment() {
         }
 
         //History Button
+        //TODO userId will be passed in the action
         btnHistory.setOnClickListener{ btnHistory ->
             MainMenuFragmentDirections.actionMainMenuOpenHistory().let{
                 action -> btnHistory!!.findNavController().navigate(action)
             }
+        }
+
+        //Accepted Jobs Button
+        //TODO userId will be passed in the action
+        btnCurrentJobs.setOnClickListener{
+            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs().let{
+                action -> findNavController().navigate(action)
+            }
+
         }
 
         //Post New Job Button

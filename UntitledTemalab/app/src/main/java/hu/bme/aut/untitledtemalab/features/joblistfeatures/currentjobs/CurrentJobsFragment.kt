@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryFragment.HistoryType
 
 /**
  * A simple [Fragment] subclass.
@@ -29,16 +30,29 @@ class CurrentJobsFragment : Fragment() {
     }
 
     companion object {
+
+        private const val JOB_TYPE_KEY = "HISTORY_TYPE_KEY"
+
+        private const val USER_ID_KEY = "USER_ID_KEY"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          * @return A new instance of fragment CurrentJobsFragment.
          */
         @JvmStatic
-        fun newInstance() = CurrentJobsFragment().apply {
+        fun newInstance(jobType: RepresentedJobType, userId: Int) = CurrentJobsFragment().apply {
             arguments = Bundle().apply {
-
+                putString(JOB_TYPE_KEY, when(jobType){
+                    RepresentedJobType.AcceptedJob -> RepresentedJobType.AcceptedJob.name
+                    RepresentedJobType.AnnouncedJob -> RepresentedJobType.AnnouncedJob.name
+                })
+                putInt(USER_ID_KEY, userId)
             }
         }
+    }
+
+    enum class RepresentedJobType {
+        AnnouncedJob, AcceptedJob
     }
 }

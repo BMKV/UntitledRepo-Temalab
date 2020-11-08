@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import java.lang.IllegalStateException
 
 class CurrentJobsPagerAdapter(
     fragmentManager: FragmentManager,
@@ -23,7 +24,13 @@ class CurrentJobsPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        //TODO as CurrentJobsFragment changes, so this will be changed
-        return CurrentJobsFragment.newInstance()
+        return CurrentJobsFragment.newInstance(
+            when(position){
+                0 -> CurrentJobsFragment.RepresentedJobType.AnnouncedJob
+                1 -> CurrentJobsFragment.RepresentedJobType.AcceptedJob
+                else -> throw IllegalStateException("Such position doesn't exist: $position")
+            },
+            userId
+        )
     }
 }

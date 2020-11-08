@@ -1,17 +1,12 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataViewHolder
-import kotlinx.android.synthetic.main.element_job_detail.view.*
 
 /**
  * [RecyclerView.Adapter] implementation.

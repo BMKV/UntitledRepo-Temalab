@@ -10,28 +10,27 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataViewHolder
 import kotlinx.android.synthetic.main.element_job_detail.view.*
 
 /**
  * [RecyclerView.Adapter] implementation.
- * TODO: next week I'll start working on the other JobData lists, probably this adapter will be
- *  changed/replaced with a common JobData RecyclerView adapter.
  */
 class HistoryAdapter(val userId: Int):
-    RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CommonJobDataViewHolder>() {
 
     /**
      * This property stores the JobData instances, that are the basis of the represented data.
      */
     private var historyList = emptyList<JobData>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonJobDataViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_job_detail, parent,
             false)
-        return ViewHolder(view)
+        return CommonJobDataViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommonJobDataViewHolder, position: Int) {
         val history = historyList[position]
 
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
@@ -47,12 +46,6 @@ class HistoryAdapter(val userId: Int):
 
     override fun getItemCount(): Int {
         return historyList.size
-    }
-
-    inner class ViewHolder(historyView: View) : RecyclerView.ViewHolder(historyView){
-        val cardView: CardView = historyView.cardView
-        val ivSize: ImageView = historyView.ivSize
-        val tvHistoryDetail: TextView = historyView.tvHistoryDetail
     }
 
     /**

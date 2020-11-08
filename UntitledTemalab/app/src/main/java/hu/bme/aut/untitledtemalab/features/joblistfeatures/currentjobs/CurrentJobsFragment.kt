@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import hu.bme.aut.untitledtemalab.R
-import hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
@@ -38,7 +37,7 @@ class CurrentJobsFragment : Fragment() {
                     RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
                     RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
                     else -> {
-                        val errorMsg: String =
+                        val errorMsg =
                             "Invalid use-type argument was given to CurrentJobsFragment instance!"
                         Log.e("Freelancer", errorMsg)
                         throw IllegalArgumentException(errorMsg)

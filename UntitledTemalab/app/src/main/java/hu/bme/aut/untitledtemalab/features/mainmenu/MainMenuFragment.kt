@@ -25,15 +25,20 @@ class MainMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //My Profile button
         btnMyProfile.setOnClickListener{ btnMyProfile ->
             MainMenuFragmentDirections.actionMainMenuOpenProfile().let{
                     action -> btnMyProfile!!.findNavController().navigate(action)
             }
         }
+
+        //History Button
         btnHistory.setOnClickListener{ btnHistory ->
             MainMenuFragmentDirections.actionMainMenuOpenHistory().let{
                 action -> btnHistory!!.findNavController().navigate(action)
             }
         }
+
+        //
     }
 }

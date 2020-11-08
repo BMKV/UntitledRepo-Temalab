@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileScreenFragment"
-        android:name="hu.bme.aut.untitledtemalab.features.mainmenu.ProfileScreenFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.profile.ProfileScreenFragment"
         android:label="ProfileScreenFragment" />
     <fragment
         android:id="@+id/historyContainerFragment"

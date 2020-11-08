@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.mainmenu
+package hu.bme.aut.untitledtemalab.features.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

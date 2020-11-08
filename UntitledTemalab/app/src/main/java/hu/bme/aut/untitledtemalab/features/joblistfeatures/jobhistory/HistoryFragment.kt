@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataAdapter
 import kotlinx.android.synthetic.main.fragment_history.*
 import java.lang.IllegalStateException
 
@@ -20,7 +22,7 @@ import java.lang.IllegalStateException
  * Use the [HistoryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HistoryFragment: Fragment() {
+class HistoryFragment : Fragment() {
 
     /**
      * TODO this comment is not actually right.
@@ -32,7 +34,7 @@ class HistoryFragment: Fragment() {
      * The Fragment contains a RecyclerView (in which the job history's elements are represented),
      * and this property store this adapter instance's reference.
      */
-    private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var historyAdapter: CommonJobDataAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,31 +47,45 @@ class HistoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        historyViewModel = ViewModelProvider(this, HistoryViewModelFactory(
-            requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!,
-            requireArguments().getInt(USER_ID_KEY)))
-            .get(HistoryViewModel::class.java)
-        historyViewModel.historyDataResponse.observe(viewLifecycleOwner){ historyResponse ->
+        requireArguments().getInt(USER_ID_KEY).let { userId ->
+            historyAdapter = CommonJobDataAdapter{ jobId ->
+                HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
+                    jobId, userId
+                )
+                    .let{action -> findNavController().navigate(action)
+                    }
+            }
+            rvHistory.adapter = historyAdapter
+
+            historyViewModel = ViewModelProvider(
+                this, HistoryViewModelFactory(
+                    requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!,
+                    userId
+                )
+            )
+                .get(HistoryViewModel::class.java)
+        }
+
+        historyViewModel.historyDataResponse.observe(viewLifecycleOwner) { historyResponse ->
             when {
                 historyResponse.error is Throwable -> handleError(historyResponse.error)
                 historyResponse.jobData !is List<JobData> -> handleError(
-                    IllegalStateException("Received data is null!"))
-                else -> historyAdapter.setHistories(historyResponse.jobData)
+                    IllegalStateException("Received data is null!")
+                )
+                else -> historyAdapter.setJobData(historyResponse.jobData)
             }
         }
-
-        historyAdapter = HistoryAdapter(historyViewModel.userId)
-        rvHistory.adapter = historyAdapter
-
     }
 
     /**
      * TODO documentation
      */
-    private fun handleError(throwable: Throwable){
+    private fun handleError(throwable: Throwable) {
         Log.i("Freelancer", throwable.localizedMessage ?: "Unexpected error happened!")
-        Snackbar.make(this.requireView(), throwable.localizedMessage ?: "Unexpected error happened!",
-            Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            this.requireView(), throwable.localizedMessage ?: "Unexpected error happened!",
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     companion object {
@@ -92,8 +108,9 @@ class HistoryFragment: Fragment() {
         fun newInstance(historyType: HistoryType, userId: Int) =
             HistoryFragment().apply {
                 arguments = Bundle().apply {
-                    putString(HISTORY_TYPE_KEY,
-                        when(historyType){
+                    putString(
+                        HISTORY_TYPE_KEY,
+                        when (historyType) {
                             HistoryType.SentHistory -> HistoryType.SentHistory.name
                             HistoryType.TransportedHistory -> HistoryType.TransportedHistory.name
                         }
@@ -106,7 +123,7 @@ class HistoryFragment: Fragment() {
     /**
      * This enum class contains the using options of HistoryFragment class.
      */
-    enum class HistoryType{
+    enum class HistoryType {
         SentHistory, TransportedHistory
     }
 }

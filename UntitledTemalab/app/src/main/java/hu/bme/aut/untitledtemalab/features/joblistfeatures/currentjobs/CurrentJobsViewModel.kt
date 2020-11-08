@@ -21,10 +21,12 @@ class CurrentJobsViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            currentJobsDataResponse.value = when(useType){
-                CurrentJobsViewModelUseType.Accepted -> repository.getAcceptedCurrentJobs()
-                CurrentJobsViewModelUseType.Announced -> repository.getAnnouncedCurrentJobs()
-            }
+            currentJobsDataResponse.postValue(
+                when (useType) {
+                    CurrentJobsViewModelUseType.Accepted -> repository.getAcceptedCurrentJobs()
+                    CurrentJobsViewModelUseType.Announced -> repository.getAnnouncedCurrentJobs()
+                }
+            )
         }
     }
 

@@ -2,14 +2,17 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * This [AndroidViewModel] subclass's responsibility to provide the business logic for the
  * components in the View layer, that are showing data about the user's package history.
  */
-class HistoryViewModel(application: Application,  useMode: String, val userId: Int):
+class HistoryViewModel(application: Application, useMode: String, val userId: Int) :
     AndroidViewModel(application) {
 
     /**
@@ -21,14 +24,18 @@ class HistoryViewModel(application: Application,  useMode: String, val userId: I
     /**
      * This variable stores the list of data about the history, which is represented by the UI layer.
      */
-    val historyDataResponse: LiveData<JobDataResponse>
+    val historyDataResponse = MutableLiveData<JobDataResponse>()
 
-    init{
-       historyDataResponse = when(useMode){
-           HistoryFragment.HistoryType.SentHistory.name -> repository.sentHistory
-           HistoryFragment.HistoryType.TransportedHistory.name -> repository.deliveredHistory
-           else ->
-               throw IllegalStateException("There is no such use mode for this viewModel: $useMode")
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            historyDataResponse.postValue(
+                when (useMode) {
+                    HistoryFragment.HistoryType.SentHistory.name -> repository.getSentHistory()
+                    HistoryFragment.HistoryType.TransportedHistory.name -> repository.getDeliveredHistory()
+                    else ->
+                        throw IllegalStateException("There is no such use mode for this viewModel: $useMode")
+                }
+            )
         }
     }
 

@@ -2,8 +2,11 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CurrentJobsViewModel(
     application: Application,
@@ -14,7 +17,16 @@ class CurrentJobsViewModel(
 
     private val repository = CurrentJobsRepository(userId)
 
+    val currentJobsDataResponse = MutableLiveData<JobDataResponse>()
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            currentJobsDataResponse.value = when(useType){
+                CurrentJobsViewModelUseType.Accepted -> repository.getAcceptedCurrentJobs()
+                CurrentJobsViewModelUseType.Announced -> repository.getAnnouncedCurrentJobs()
+            }
+        }
+    }
 
     enum class CurrentJobsViewModelUseType {
         Announced, Accepted

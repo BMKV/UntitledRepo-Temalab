@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 
-class CommonJobDataAdapter(val onItemClick: (jobId: Int) -> Unit) :
+class CommonJobDataAdapter(private val onItemClick: (jobId: Int) -> Unit) :
     RecyclerView.Adapter<CommonJobDataViewHolder>() {
 
     private var jobDataList = emptyList<JobData>()

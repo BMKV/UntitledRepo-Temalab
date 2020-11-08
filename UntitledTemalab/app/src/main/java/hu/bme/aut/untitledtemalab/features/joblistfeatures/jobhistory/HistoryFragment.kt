@@ -47,12 +47,14 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //TODO this is not clean, it will be refactored
         requireArguments().getInt(USER_ID_KEY).let { userId ->
-            historyAdapter = CommonJobDataAdapter{ jobId ->
+            historyAdapter = CommonJobDataAdapter { jobId ->
                 HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
-                    jobId, userId
+                    jobId = jobId, userId = userId
                 )
-                    .let{action -> findNavController().navigate(action)
+                    .let { action ->
+                        findNavController().navigate(action)
                     }
             }
             rvHistory.adapter = historyAdapter
@@ -68,9 +70,9 @@ class HistoryFragment : Fragment() {
 
         historyViewModel.historyDataResponse.observe(viewLifecycleOwner) { historyResponse ->
             when {
-                historyResponse.error is Throwable -> handleError(historyResponse.error)
+                historyResponse.error is Exception -> handleError(historyResponse.error)
                 historyResponse.jobData !is List<JobData> -> handleError(
-                    IllegalStateException("Received data is null!")
+                    IllegalStateException("Both received data and error is null!")
                 )
                 else -> historyAdapter.setJobData(historyResponse.jobData)
             }
@@ -78,7 +80,7 @@ class HistoryFragment : Fragment() {
     }
 
     /**
-     * TODO documentation
+     * TODO exception handling will be rewritten
      */
     private fun handleError(throwable: Throwable) {
         Log.i("Freelancer", throwable.localizedMessage ?: "Unexpected error happened!")

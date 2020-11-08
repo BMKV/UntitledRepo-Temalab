@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataAdapter
 
 /**
  * A simple [Fragment] subclass.
@@ -18,6 +22,8 @@ import hu.bme.aut.untitledtemalab.R
 class CurrentJobsFragment : Fragment() {
 
     private lateinit var viewModel: CurrentJobsViewModel
+
+    private lateinit var adapter: CommonJobDataAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,27 +36,54 @@ class CurrentJobsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            this, CurrentJobsViewModelFactory(
-                requireActivity().application, requireArguments().getInt(USER_ID_KEY),
-                when (requireArguments().getString(JOB_TYPE_KEY)) {
-                    RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
-                    RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
-                    else -> {
-                        val errorMsg =
-                            "Invalid use-type argument was given to CurrentJobsFragment instance!"
-                        Log.e("Freelancer", errorMsg)
-                        throw IllegalArgumentException(errorMsg)
-                    }
-                },
-            )
-        ).get(CurrentJobsViewModel::class.java)
+        //TODO this is not clean, it will be refactored
+        requireArguments().getInt(USER_ID_KEY).let { userId ->
+            viewModel = ViewModelProvider(
+                this, CurrentJobsViewModelFactory(
+                    requireActivity().application, userId,
+                    when (requireArguments().getString(JOB_TYPE_KEY)) {
+                        RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
+                        RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
+                        else -> {
+                            val errorMsg =
+                                "Invalid use-type argument was given to CurrentJobsFragment instance!"
+                            Log.e("Freelancer", errorMsg)
+                            throw IllegalArgumentException(errorMsg)
+                        }
+                    },
+                )
+            ).get(CurrentJobsViewModel::class.java)
 
-        viewModel.currentJobsDataResponse.observe(viewLifecycleOwner){ currentJobsDataResponse ->
-            //TODO calling the appropriate function
+            adapter = CommonJobDataAdapter { jobId ->
+                CurrentJobsContainerFragmentDirections.actionCurrentJobsShowJobDetails(
+                    jobId = jobId,
+                    userId = userId
+                ).let { action ->
+                    findNavController().navigate(action)
+                }
+            }
         }
 
-        //TODO setting the recyclerview's adapter
+        viewModel.currentJobsDataResponse.observe(viewLifecycleOwner) { currentJobsDataResponse ->
+            when {
+                currentJobsDataResponse.error is Exception -> handleError(currentJobsDataResponse.error)
+                currentJobsDataResponse.jobData !is List<JobData> -> handleError(
+                    IllegalStateException("Both received data and error is null!")
+                )
+                else -> adapter.setJobData(currentJobsDataResponse.jobData)
+            }
+        }
+    }
+
+    /**
+     * TODO exception handling will be rewritten
+     */
+    private fun handleError(error: Exception) {
+        Log.i("Freelancer", error.localizedMessage ?: "Unexpected error happened!")
+        Snackbar.make(
+            this.requireView(), error.localizedMessage ?: "Unexpected error happened!",
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     companion object {

@@ -7,19 +7,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="History"
+        android:text="@string/history_title_feature"
         android:textAlignment="center"
         android:textSize="25sp"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tlTabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp2ViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <include
+        layout="@layout/merge_viewpager2_with_tablayout"
+        android:id="@+id/includedVp2WithTablayout"/>
 
 </LinearLayout>

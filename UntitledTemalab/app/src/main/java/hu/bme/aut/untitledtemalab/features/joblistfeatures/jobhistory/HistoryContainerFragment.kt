@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import hu.bme.aut.untitledtemalab.R
-import kotlinx.android.synthetic.main.fragment_history_container.*
+import kotlinx.android.synthetic.main.merge_viewpager2_with_tablayout.*
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 

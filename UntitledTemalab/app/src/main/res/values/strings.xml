@@ -29,4 +29,5 @@
     <string name="user_rating_title">User Rating:</string>
     <string name="listing_expires_on">Listing Expires On:</string>
     <string name="delivery_deadline">Delivery Deadline:</string>
+    <string name="history_title_feature">History</string>
 </resources>

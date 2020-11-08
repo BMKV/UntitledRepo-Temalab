@@ -77,11 +77,11 @@
         android:id="@+id/tvStatisticsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:text="@string/statistics_title"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/imviewProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRatingTitle" />
 
     <TextView
         android:id="@+id/tvEmailTitle"

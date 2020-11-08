@@ -36,7 +36,7 @@ class ProfileScreenFragment : Fragment() {
     fun setContent(receivedUserData: UserData) {
         tvNameTextOnProfile.text = receivedUserData.userName
         tvEmailTextOnProfile.text = receivedUserData.email
-        tvUserRatingTextOnProfile.text = receivedUserData.rating as String
+        tvUserRatingTextOnProfile.text = receivedUserData.rating.toString()
     }
 
 }

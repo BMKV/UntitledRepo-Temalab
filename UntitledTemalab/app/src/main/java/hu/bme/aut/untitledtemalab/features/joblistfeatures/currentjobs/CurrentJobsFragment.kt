@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
@@ -64,6 +65,9 @@ class CurrentJobsFragment : Fragment() {
                 }
             }
         }
+
+        rvCurrentJobs.adapter = adapter
+        rvCurrentJobs.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.currentJobsDataResponse.observe(viewLifecycleOwner) { currentJobsDataResponse ->
             when {

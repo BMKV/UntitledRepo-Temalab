@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
@@ -58,6 +59,7 @@ class HistoryFragment : Fragment() {
                     }
             }
             rvHistory.adapter = historyAdapter
+            rvHistory.layoutManager = LinearLayoutManager(requireContext())
 
             historyViewModel = ViewModelProvider(
                 this, HistoryViewModelFactory(

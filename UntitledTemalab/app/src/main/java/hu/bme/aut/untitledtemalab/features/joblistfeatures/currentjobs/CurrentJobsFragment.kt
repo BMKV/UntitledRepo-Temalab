@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataAdapter
+import kotlinx.android.synthetic.main.fragment_current_jobs.*
 
 /**
  * A simple [Fragment] subclass.
@@ -71,6 +72,13 @@ class CurrentJobsFragment : Fragment() {
                     IllegalStateException("Both received data and error is null!")
                 )
                 else -> adapter.setJobData(currentJobsDataResponse.jobData)
+            }
+        }
+
+        //TODO parameter of this action may change in the future
+        fab.setOnClickListener{
+            CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob().let{ action ->
+                findNavController().navigate(action)
             }
         }
     }

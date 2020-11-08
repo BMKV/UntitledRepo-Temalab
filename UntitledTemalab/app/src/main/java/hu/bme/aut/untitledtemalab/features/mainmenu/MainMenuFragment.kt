@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard.JobBoardFragmentDirections
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 
 /**
@@ -39,6 +40,12 @@ class MainMenuFragment : Fragment() {
             }
         }
 
-        //
+        //Post New Job Button
+        //TODO: ATTENTION - teszteléshez ez most a JobDetails-re visz --> REMOVE IT LATER
+        btnPostNewJob.setOnClickListener { btnPostNewJob ->
+            MainMenuFragmentDirections.actionTESTMMenuToJobDetails().let {
+                action -> btnPostNewJob!!.findNavController().navigate(action)
+            }
+        }
     }
 }

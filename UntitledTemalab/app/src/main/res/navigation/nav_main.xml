@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainMenu_OpenCurrentJobs"
             app:destination="@id/currentJobsFragment" />
+        <action
+            android:id="@+id/action_TEST_MMenuToJobDetails"
+            app:destination="@id/jobDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileScreenFragment"

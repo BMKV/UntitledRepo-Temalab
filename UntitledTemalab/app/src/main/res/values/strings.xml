@@ -30,4 +30,5 @@
     <string name="listing_expires_on">Listing Expires On:</string>
     <string name="delivery_deadline">Delivery Deadline:</string>
     <string name="history_title_feature">History</string>
+    <string name="current_jobs_title_feature">Current jobs</string>
 </resources>

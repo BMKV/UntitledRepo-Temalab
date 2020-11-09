@@ -29,7 +29,7 @@ class UserRegistration {
     var canDeliver: Boolean? = null
 
     fun isValidBody(): Boolean {
-        return !(email == null || password == null || canDeliver == null)
+        return (email != null && password != null && canDeliver != null)
     }
 
     fun isValidEmailFormat(): Boolean {

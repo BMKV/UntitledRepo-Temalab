@@ -28,7 +28,7 @@ class UserController {
 
     @PostMapping("register")
     fun createUser(@RequestBody newUser: UserRegistration) {
-        if (newUser.isValidBody())
+        if (!newUser.isValidBody())
             throw InvalidInputException("UserRegistration body is not correct")
         if (newUser.isValidEmailFormat())
             throw InvalidEmailFormatException()

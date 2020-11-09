@@ -20,7 +20,10 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -62,7 +65,15 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-testing</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -73,6 +84,29 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator-annotation-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.6</version>
         </dependency>
     </dependencies>
 
@@ -100,45 +134,46 @@
                         <option>no-arg:annotation=com.my.Annotation</option>
                         <!-- Call instance initializers in the synthetic constructor -->
                         <!-- <option>no-arg:invokeInitializers=true</option> -->
-                     </pluginOptions>
-                 </configuration>
-                 <dependencies>
-                     <dependency>
-                         <groupId>org.jetbrains.kotlin</groupId>
-                         <artifactId>kotlin-maven-noarg</artifactId>
-                         <version>${kotlin.version}</version>
-                     </dependency>
-                     <dependency>
-                         <groupId>org.jetbrains.kotlin</groupId>
-                         <artifactId>kotlin-maven-allopen</artifactId>
-                         <version>${kotlin.version}</version>
-                     </dependency>
-                 </dependencies>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-dependency-plugin</artifactId>
-                 <version>3.1.2</version>
-                 <executions>
-                     <execution>
-                         <id>copy-dependencies</id>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>copy-dependencies</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-             </plugin>
-             <plugin>
-                 <groupId>com.heroku.sdk</groupId>
-                 <artifactId>heroku-maven-plugin</artifactId>
-                 <version>3.0.3</version>
-                 <configuration>
-                     <appName>untitled-repo-backend</appName>
-                 </configuration>
-             </plugin>
+                        <option>all-open:annotation=javax.persistence.Entity</option>
+                    </pluginOptions>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-noarg</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>3.0.3</version>
+                <configuration>
+                    <appName>untitled-repo-backend</appName>
+                </configuration>
+            </plugin>
 
-         </plugins>
-     </build>
+        </plugins>
+    </build>
 
- </project>
+</project>

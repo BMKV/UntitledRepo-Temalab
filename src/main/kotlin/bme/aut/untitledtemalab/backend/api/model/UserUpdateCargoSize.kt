@@ -2,17 +2,11 @@ package bme.aut.untitledtemalab.backend.api.model
 
 import bme.aut.untitledtemalab.backend.database.model.Users
 import com.fasterxml.jackson.annotation.JsonProperty
-//import io.swagger.annotations.ApiModel
-//import io.swagger.annotations.ApiModelProperty
-import javax.annotation.Generated
-//import javax.validation.Valid
-//import javax.validation.constraints.*
-
 
 /**
- * Data for changing deliverer status
+ * Data for cargo size change
  */
-class UserUpdateCanDeliver: UserUpdate {
+class UserUpdateCargoSize: UserUpdate {
     /**
      * The ID of the User
      * @return userId
@@ -28,11 +22,11 @@ class UserUpdateCanDeliver: UserUpdate {
     var password: String? = null
 
     /**
-     * The new value for the canDeliver variable
-     * @return canDeliver
+     * The max cargo size of the User
+     * @return newCargoMaxSize
      */
-    @JsonProperty("can-deliver")
-    var isCanDeliver: Boolean? = null
+    @JsonProperty("new-cargo-size")
+    var newCargoMaxSize: Int? = null
 
     override fun validatePassword(password: String): Boolean {
         return this.password == password

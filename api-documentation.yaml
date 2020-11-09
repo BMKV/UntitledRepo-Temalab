@@ -127,58 +127,6 @@ paths:
                 $ref: "#/components/schemas/UserProfile"
       security:
         - bearerAuth: []
-    put:
-      tags:
-        - "user"
-      summary: "Update User"
-      description: "This can only be done by the logged in User."
-      operationId: "updateUser"
-      parameters:
-        - name: "user-id"
-          in: "query"
-          description: "The User's ID"
-          required: true
-          style: "form"
-          explode: true
-          schema:
-            type: "integer"
-            format: "int64"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              anyOf:
-                - $ref: "#/components/schemas/UserUpdateEmail"
-                - $ref: "#/components/schemas/UserUpdatePassword"
-                - $ref: "#/components/schemas/UserUpdateCanDeliver"
-            examples:
-              can-deliver-example:
-                value:
-                  user-id: 0
-                  password: "VerySafePass1"
-                  can-deliver: true
-              password-change-example:
-                value:
-                  user-id: 0
-                  current-password: "VerySafePass1"
-                  new-password: "VerySafePass2"
-              email-change-example:
-                value:
-                  user-id: 0
-                  password: "VerySafePass1"
-                  new-email: "VerySafePass2"
-      responses:
-        "200":
-          description: "The API message"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-      security:
-        - bearerAuth: []
     delete:
       tags:
         - "user"
@@ -207,6 +155,163 @@ paths:
                 $ref: "#/components/schemas/ApiResponse"
       security:
         - bearerAuth: []
+
+  /user/profile/update/cargo:
+    put:
+      tags:
+        - "user"
+      summary: "Update the User's max cargo size"
+      description: "This can only be done by the logged in User."
+      operationId: "updateUserCargo"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateCargoSize"
+            example:
+              user-id: 0
+              password: "VerySafePass"
+              new-cargo-size: 32
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+
+  /user/profile/update/can-deliver:
+    put:
+      tags:
+        - "user"
+      summary: "Update the User's deliverer status"
+      description: "This can only be done by the logged in User."
+      operationId: "updateUserCanDeliver"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateCanDeliver"
+            example:
+              user-id: 0
+              password: "VerySafePass1"
+              can-deliver: true
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+
+  /user/profile/update/email:
+    put:
+      tags:
+        - "user"
+      summary: "Update the User's email"
+      description: "This can only be done by the logged in User."
+      operationId: "updateUserEmail"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateEmail"
+            example:
+              user-id: 0
+              password: "VerySafePass1"
+              new-email: "VerySafePass2"
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+
+  /user/profile/update/password:
+    put:
+      tags:
+        - "user"
+      summary: "Update the User's password"
+      description: "This can only be done by the logged in User."
+      operationId: "updateUserPassword"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/UserUpdatePassword"
+            example:
+              user-id: 0
+              current-password: "VerySafePass1"
+              new-password: "VerySafePass2"
+      responses:
+        "200":
+          description: "The API message"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+      security:
+        - bearerAuth: []
+
   /user/{user-id}:
     get:
       tags:
@@ -584,9 +689,19 @@ paths:
           schema:
             type: "integer"
             format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "ID of the User who posted the Job"
+          required: true
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
       requestBody:
         $ref: "#/components/requestBodies/NewJob"
       responses:
+        "200":
+          description: "OK"
         "401":
           description: "Access token is missing or invalid"
         "404":
@@ -657,6 +772,8 @@ paths:
           description: "Access token is missing or invalid"
         "404":
           description: "Job not found"
+        "409":
+          description: "Couldn't accept Job"
       security:
         - bearerAuth: []
     delete:
@@ -867,6 +984,31 @@ components:
       description: "Data for email change"
       xml:
         name: "UserUpdateEmail"
+    UserUpdateCargoSize:
+      required:
+        - "user-id"
+        - "password"
+        - "new-cargo-size"
+      type: "object"
+      properties:
+        user-id:
+          type: "integer"
+          description: "The ID of the User"
+          format: "int64"
+          nullable: false
+        password:
+          type: "string"
+          description: "The password of the User"
+          format: "password"
+          nullable: false
+        new-cargo-size:
+          type: "integer"
+          description: "The new cargo size of the User"
+          format: "int64"
+          nullable: false
+      description: "Data for cargo size change"
+      xml:
+        name: "UserUpdateEmail"
     UserRegistration:
       required:
         - "email"
@@ -891,6 +1033,7 @@ components:
     Job:
       required:
         - "deadline"
+        - "sender-id"
         - "deliveryRoute"
         - "job-id"
         - "jobIssuedDate"
@@ -904,6 +1047,11 @@ components:
           description: "The ID of the Job"
           format: "int64"
           nullable: false
+        sender-id:
+          type: "integer"
+          description: "The ID of the sender User"
+          format: "int64"
+          nullable: false
         status:
           type: "string"
           description: "The current status of the Job"
@@ -913,6 +1061,7 @@ components:
             - "accepted"
             - "pickedUp"
             - "delivered"
+            - "expired"
         senderRating:
           maximum: 5
           minimum: 1

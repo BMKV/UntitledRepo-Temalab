@@ -165,7 +165,8 @@
                 app:layout_constraintStart_toEndOf="@+id/tvPaymentTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvPaymentTitle" />
 
-            <com.google.android.gms.maps.MapView
+            <fragment
+                class="com.google.android.gms.maps.SupportMapFragment"
                 android:id="@+id/mapView"
                 android:layout_width="0dp"
                 android:layout_height="300dp"

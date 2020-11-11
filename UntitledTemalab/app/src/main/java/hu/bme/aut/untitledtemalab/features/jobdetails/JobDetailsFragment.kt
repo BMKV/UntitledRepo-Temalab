@@ -40,7 +40,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         //--------------------------
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = mapView
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         setContent(placeholderJobData, placehoolderUserData)

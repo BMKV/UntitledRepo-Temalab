@@ -53,11 +53,15 @@ class MainMenuFragment : Fragment() {
         }
 
         //Post New Job Button
-        //TODO: ATTENTION - teszteléshez ez most a JobDetails-re visz --> REMOVE IT LATER
+        //TODO: ATTENTION - teszteléshez/Demohoz ez most a JobDetails-re visz --> REMOVE IT LATER
         btnPostNewJob.setOnClickListener { btnPostNewJob ->
             MainMenuFragmentDirections.actionTESTMMenuToJobDetails().let {
                 action -> btnPostNewJob!!.findNavController().navigate(action)
             }
         }
+
+        //Show Best Route Button
+        //TODO: ATTENTION - teszteléshez/Demohoz ez most a PostNewJob-ra visz --> REMOVE IT LATER
+
     }
 }

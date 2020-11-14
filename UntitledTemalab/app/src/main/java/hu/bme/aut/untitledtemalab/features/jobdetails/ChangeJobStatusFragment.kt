@@ -39,7 +39,7 @@ class ChangeJobStatusFragment :Fragment() {
             btnPickUp.isEnabled = false
             btnComplete.isEnabled = true
         }
-        
+
         btnComplete.setOnClickListener {
             parentJobDetails.completeJob()
         }

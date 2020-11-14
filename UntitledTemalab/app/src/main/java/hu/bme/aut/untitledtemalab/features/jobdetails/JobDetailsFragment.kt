@@ -44,7 +44,10 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         setContent(DemoData.demoJobList.last(), DemoData.demoUserList.last())
 
         //Set Button Fragment
-        if (DemoData.demoJobList.last().status == JobStatus.pending) {
+        if (DemoData.demoJobList.last().ownerID == DemoData.loggedInUser.userId) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
+        else if (DemoData.demoJobList.last().status == JobStatus.pending) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
         }
         else if (DemoData.demoJobList.last().status == JobStatus.delivered) {
@@ -102,6 +105,10 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
     fun getJobShown(): JobData {
         return DemoData.demoJobList.last()
+    }
+
+    fun getUserShown() :UserData {
+        return DemoData.demoUserList.last()
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

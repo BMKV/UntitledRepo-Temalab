@@ -35,4 +35,5 @@
     <string name="current_jobs_title_feature">Current jobs</string>
     <string name="job_expired_info">This Job Listing expired!</string>
     <string name="job_completed_info">This Job was completed!</string>
+    <string name="job_is_yours_info">You posted this job!</string>
 </resources>

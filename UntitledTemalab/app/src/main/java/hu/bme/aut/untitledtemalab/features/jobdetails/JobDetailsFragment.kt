@@ -23,6 +23,9 @@ import kotlinx.android.synthetic.main.fragment_job_details.*
 class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
     lateinit var theMap: GoogleMap
+    lateinit var shownUser: UserData
+    lateinit var shownJob: JobData
+    lateinit var loggedInUser: UserData
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,19 +44,24 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
         //TODO: Itt majd valahonnan get-elni a kapott id alapján a cuccot
         //De most: DemoData listájából
-        setContent(DemoData.demoJobList.last(), DemoData.demoUserList.last())
+        shownJob = DemoData.demoJobList.last()
+        shownUser = DemoData.demoUserList.last()
+        loggedInUser = DemoData.loggedInUser
+
+        //Setting contents
+        setContent(shownJob, shownUser)
 
         //Set Button Fragment
-        if (DemoData.demoJobList.last().ownerID == DemoData.loggedInUser.userId) {
+        if (shownJob.ownerID == loggedInUser.userId) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
-        else if (DemoData.demoJobList.last().status == JobStatus.pending) {
+        else if (shownJob.status == JobStatus.pending) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
         }
-        else if (DemoData.demoJobList.last().status == JobStatus.delivered) {
+        else if (shownJob.status == JobStatus.delivered) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
-        else if (DemoData.demoJobList.last().status == JobStatus.expired) {
+        else if (shownJob.status == JobStatus.expired) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
         else {
@@ -80,35 +88,43 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun acceptJob() {
-        DemoData.demoJobList.last().status = JobStatus.accepted
-        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        shownJob.status = JobStatus.accepted
+        tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+        syncData()
     }
 
     fun cancelJob() {
-        DemoData.demoJobList.last().status = JobStatus.pending
-        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        shownJob.status = JobStatus.pending
+        tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
-
+        syncData()
     }
 
     fun pickUpPackage() {
-        DemoData.demoJobList.last().status = JobStatus.pickedUp
-        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        shownJob.status = JobStatus.pickedUp
+        tvIsItAcceptedStatusText.text = shownJob.status.name
+        syncData()
     }
 
     fun completeJob() {
-        DemoData.demoJobList.last().status = JobStatus.delivered
-        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        shownJob.status = JobStatus.delivered
+        tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        syncData()
     }
 
     fun getJobShown(): JobData {
-        return DemoData.demoJobList.last()
+        return shownJob
     }
 
     fun getUserShown() :UserData {
-        return DemoData.demoUserList.last()
+        return shownUser
+    }
+
+    fun syncData() {
+        DemoData.demoJobList[DemoData.demoJobList.size-1] = shownJob
+        DemoData.demoUserList[DemoData.demoUserList.size-1] = shownUser
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

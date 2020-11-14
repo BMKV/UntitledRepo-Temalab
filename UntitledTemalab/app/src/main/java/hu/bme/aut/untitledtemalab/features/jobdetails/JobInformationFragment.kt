@@ -22,7 +22,7 @@ class JobInformationFragment :Fragment() {
         val tvText = tvJobNotAvailableInfo
         val parentJobDetails = parentFragment as JobDetailsFragment
 
-        if (parentJobDetails.getJobShown().ownerID == DemoData.loggedInUser.userId) {
+        if (parentJobDetails.getJobShown().ownerID == parentJobDetails.loggedInUser.userId) {
             tvText.text = getString(R.string.job_is_yours_info)
         }
         else if (parentJobDetails.getJobShown().status == JobStatus.delivered) {

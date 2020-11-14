@@ -3,9 +3,7 @@ package bme.aut.untitledtemalab.backend.api
 import bme.aut.untitledtemalab.backend.api.model.Job
 import bme.aut.untitledtemalab.backend.api.model.JobRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
-import bme.aut.untitledtemalab.backend.database.DatabaseHandler
-import bme.aut.untitledtemalab.backend.database.JobRepository
-import bme.aut.untitledtemalab.backend.database.UserRepository
+import bme.aut.untitledtemalab.backend.database.*
 import bme.aut.untitledtemalab.backend.database.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -24,6 +22,9 @@ class JobsController {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    @Autowired
+    private lateinit var routeRepository: RouteRepository
+
     @GetMapping
     fun getAllAvailableJobs(@RequestParam size: Optional<Job.SizeEnum>): List<Job> {
         return if (size.isPresent) {
@@ -38,9 +39,9 @@ class JobsController {
     fun postJob(@RequestParam(name = "user-id") userId: Long, @RequestBody jobRegistration: JobRegistration): ResponseEntity<String> {
         if (!jobRegistration.isValid())
             throw InvalidInputException()
-        val newJobId = DatabaseHandler.generateUID()
+        val newJobId = UIDGenerator.generateUID()
 
-        val route = Routes(id = DatabaseHandler.generateUID(), startLocation = jobRegistration.startLocation!!, destination = jobRegistration.destination!!)
+        val route = Routes(id = UIDGenerator.generateUID(), startLocation = jobRegistration.startLocation!!, destination = jobRegistration.destination!!)
 
         val job = Jobs(id = newJobId,
                 payment = jobRegistration.payment!!,
@@ -51,8 +52,8 @@ class JobsController {
                 size = PackageSize.fromValue(jobRegistration.size!!.toString())!!,
                 status = Status.pending)
 
-        DatabaseHandler.createRoute(route)
-        DatabaseHandler.createJob(job)
+        routeRepository.save(route)
+        jobRepository.save(job)
 
         val responseHeaders = HttpHeaders()
         responseHeaders.set("Location", newJobId.toString())
@@ -70,7 +71,7 @@ class JobsController {
     }
 
     @PutMapping("post/{job-id}")
-    fun updateJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long,  @RequestBody jobRegistration: JobRegistration) {
+    fun updateJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long, @RequestBody jobRegistration: JobRegistration) {
         //validate
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
@@ -79,11 +80,11 @@ class JobsController {
             throw ModifyJobUnauthorisedUserException()
         //logic
         if (jobRegistration.updateDbJob(dbJob.get()))
-            DatabaseHandler.updateJob(dbJob.get())
+            jobRepository.save(dbJob.get())
     }
 
     @DeleteMapping("post/{job-id}")
-    fun deleteJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long) {
+    fun deleteJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
         //validate
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
@@ -91,11 +92,11 @@ class JobsController {
         if (!isUserSender(dbJob.get(), dbUser.get()))
             throw ModifyJobUnauthorisedUserException()
         // logic
-        DatabaseHandler.removeJob(dbJob.get())
+        jobRepository.delete(dbJob.get())
     }
 
     @PostMapping("accept/{job-id}")
-    fun acceptJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long) {
+    fun acceptJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
         // validate
@@ -108,12 +109,12 @@ class JobsController {
         dbUser.get().packageDelivered.add(dbJob.get())
         dbJob.get().status = Status.accepted
 
-        DatabaseHandler.updateJob(dbJob.get())
-        DatabaseHandler.updateUser(dbUser.get())
+        jobRepository.save(dbJob.get())
+        userRepository.save(dbUser.get())
     }
 
     @DeleteMapping("accept/{job-id}")
-    fun abandonJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long) {
+    fun abandonJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
         // validate
@@ -124,11 +125,11 @@ class JobsController {
         dbUser.get().packageDelivered.remove(dbJob.get())
         dbJob.get().status = Status.pending
 
-        DatabaseHandler.updateJob(dbJob.get())
-        DatabaseHandler.updateUser(dbUser.get())
+        jobRepository.save(dbJob.get())
+        userRepository.save(dbUser.get())
     }
 
-    private fun isUserSender(dbJob: Jobs, dbUser:Users): Boolean {
+    private fun isUserSender(dbJob: Jobs, dbUser: Users): Boolean {
         return dbJob.sender == dbUser
     }
 

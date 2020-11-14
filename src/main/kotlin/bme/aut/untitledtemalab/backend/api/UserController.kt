@@ -2,9 +2,7 @@ package bme.aut.untitledtemalab.backend.api
 
 import bme.aut.untitledtemalab.backend.api.model.*
 import bme.aut.untitledtemalab.backend.api.responses.*
-import bme.aut.untitledtemalab.backend.database.DatabaseHandler
-import bme.aut.untitledtemalab.backend.database.JobRepository
-import bme.aut.untitledtemalab.backend.database.UserRepository
+import bme.aut.untitledtemalab.backend.database.*
 import bme.aut.untitledtemalab.backend.database.model.Jobs
 import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
@@ -34,9 +32,9 @@ class UserController {
             throw InvalidEmailFormatException()
         if (userRepository.findAllByEmailAddress(newUser.email.toString()).isNotEmpty())
             throw EmailAlreadyInUseException()
-        val newUserId = DatabaseHandler.generateUID()
+        val newUserId = UIDGenerator.generateUID()
 
-        DatabaseHandler.createUser(Users(id = newUserId, password = newUser.password!!, canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!))
+        userRepository.save(Users(id = newUserId, password = newUser.password!!, canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!))
     }
 
     @GetMapping("login")
@@ -51,7 +49,7 @@ class UserController {
 
     @GetMapping("profile")
     fun profileUser(@RequestParam(name = "user-id") userId: Long): ResponseEntity<UserProfile> {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         val dbUser = userRepository.findById(userId)
         return if (dbUser.isPresent && dbUser.get().canDeliver && dbUser.get().cargoFreeSize != null && dbUser.get().cargoMaxSize != null) {
@@ -63,28 +61,28 @@ class UserController {
 
     @PutMapping("profile/update/password")
     fun updateUserPassword(@RequestParam(name = "user-id") userId: Long, @RequestBody userUpdatePassword: UserUpdatePassword) {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         updateUser(userId = userId, userUpdate = userUpdatePassword)
     }
 
     @PutMapping("profile/update/cargo")
     fun updateUserCargo(@RequestParam(name = "user-id") userId: Long, @RequestBody userUpdateCargoSize: UserUpdateCargoSize) {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         updateUser(userId = userId, userUpdate = userUpdateCargoSize)
     }
 
     @PutMapping("profile/update/can-deliver")
     fun updateUserCanDeliver(@RequestParam(name = "user-id") userId: Long, @RequestBody userUpdateCanDeliver: UserUpdateCanDeliver) {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         updateUser(userId = userId, userUpdate = userUpdateCanDeliver)
     }
 
     @PutMapping("profile/update/email")
     fun updateUserEmail(@RequestParam(name = "user-id") userId: Long, @RequestBody userUpdateEmail: UserUpdateEmail) {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         updateUser(userId = userId, userUpdate = userUpdateEmail)
     }
@@ -92,7 +90,7 @@ class UserController {
     private fun updateUser(userId: Long, userUpdate: UserUpdate) {
         val dbUser = userRepository.findById(userId)
         if (dbUser.isPresent && userUpdate.validatePassword(dbUser.get().password)) {
-            DatabaseHandler.updateUser(userUpdate.updateUser(dbUser.get()))
+            userRepository.save(userUpdate.updateUser(dbUser.get()))
         } else throw UserNotFoundException("User not found")
     }
 
@@ -100,12 +98,12 @@ class UserController {
     fun deleteUser(@RequestParam(name = "user-id") userId: Long) {
         val dbUser = userRepository.findById(userId)
         if (dbUser.isPresent)
-            DatabaseHandler.removeUser(dbUser.get())
+            userRepository.delete(dbUser.get())
     }
 
     @GetMapping("{user-id}")
     fun getUserById(@PathVariable("user-id") userId: Long): ResponseEntity<User> {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         val dbUser = userRepository.findById(userId)
         return if (dbUser.isPresent) {
@@ -133,7 +131,7 @@ class UserController {
                    jobsFilterFunction: (user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>) -> List<Jobs>,
                    jobsNoFilterFunction: (user: Users) -> List<Jobs>): List<Job> {
         // validation
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         // logic
         val dbUser = userRepository.findById(userId)
@@ -193,7 +191,7 @@ class UserController {
 
     @GetMapping("{user-id}/cargo")
     fun getUserCargo(@PathVariable("user-id") userId: Long): ResponseEntity<UserCargo> {
-        if (!DatabaseHandler.validateUID(userId))
+        if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         val dbUser = userRepository.findById(userId)
         return if (dbUser.isPresent && dbUser.get().canDeliver && dbUser.get().cargoFreeSize != null && dbUser.get().cargoMaxSize != null) {

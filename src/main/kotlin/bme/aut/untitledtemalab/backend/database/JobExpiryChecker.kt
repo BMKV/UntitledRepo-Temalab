@@ -19,7 +19,7 @@ class JobExpiryChecker {
         for (j: Jobs in pendingJobs) {
             if (LocalDate.parse(j.deadline) < LocalDate.now()) {
                 j.status = Status.expired
-                DatabaseHandler.updateJob(j)
+                jobRepository.save(j)
             }
         }
     }

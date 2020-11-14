@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Data for email change
  */
-class UserUpdateEmail: UserUpdate {
+class UserUpdateEmail : UserUpdate {
     /**
      * The ID of the User
      * @return userId
@@ -33,6 +33,9 @@ class UserUpdateEmail: UserUpdate {
     }
 
     override fun updateUser(dbUser: Users): Users {
-        TODO("Not yet implemented")
+        if (newEmail != null && password == dbUser.password) {
+            dbUser.emailAddress = newEmail as String
+        }
+        return dbUser
     }
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Data for password change
  */
-class UserUpdatePassword: UserUpdate {
+class UserUpdatePassword : UserUpdate {
     /**
      * The ID of the User
      * @return userId
@@ -33,6 +33,9 @@ class UserUpdatePassword: UserUpdate {
     }
 
     override fun updateUser(dbUser: Users): Users {
-        TODO("Not yet implemented")
+        if (newPassword != null && currentPassword == dbUser.password) {
+            dbUser.password = newPassword as String
+        }
+        return dbUser
     }
 }

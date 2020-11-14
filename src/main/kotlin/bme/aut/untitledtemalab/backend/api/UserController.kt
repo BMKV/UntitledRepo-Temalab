@@ -89,8 +89,11 @@ class UserController {
 
     private fun updateUser(userId: Long, userUpdate: UserUpdate) {
         val dbUser = userRepository.findById(userId)
-        if (dbUser.isPresent && userUpdate.validatePassword(dbUser.get().password)) {
-            userRepository.save(userUpdate.updateUser(dbUser.get()))
+        if (dbUser.isPresent) {
+            if (!userUpdate.validatePassword(dbUser.get().password))
+                throw InvalidPasswordException("Password's do not match")
+            else
+                userRepository.save(userUpdate.updateUser(dbUser.get()))
         } else throw UserNotFoundException("User not found")
     }
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Data for cargo size change
  */
-class UserUpdateCargoSize: UserUpdate {
+class UserUpdateCargoSize : UserUpdate {
     /**
      * The ID of the User
      * @return userId
@@ -33,6 +33,9 @@ class UserUpdateCargoSize: UserUpdate {
     }
 
     override fun updateUser(dbUser: Users): Users {
-        TODO("Not yet implemented")
+        if (newCargoMaxSize != null && password == dbUser.password) {
+            dbUser.cargoMaxSize = newCargoMaxSize
+        }
+        return dbUser
     }
 }

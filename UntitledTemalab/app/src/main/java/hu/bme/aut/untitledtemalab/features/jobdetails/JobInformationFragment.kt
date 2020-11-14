@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobStatus
-import hu.bme.aut.untitledtemalab.demostuff.DemoData
 import kotlinx.android.synthetic.main.fragment_job_information.*
 
 class JobInformationFragment :Fragment() {
@@ -25,10 +24,10 @@ class JobInformationFragment :Fragment() {
         if (parentJobDetails.getJobShown().ownerID == parentJobDetails.loggedInUser.userId) {
             tvText.text = getString(R.string.job_is_yours_info)
         }
-        else if (parentJobDetails.getJobShown().status == JobStatus.delivered) {
+        else if (parentJobDetails.getJobShown().status == JobStatus.Delivered) {
             tvText.text = getString(R.string.job_completed_info)
         }
-        else if (parentJobDetails.getJobShown().status == JobStatus.expired) {
+        else if (parentJobDetails.getJobShown().status == JobStatus.Expired) {
             tvText.text = getString(R.string.job_expired_info)
         }
 

@@ -14,7 +14,7 @@ object DemoData {
         placeholderJobData.listingExpirationDate = "3308. 10. 30"
         var placeholderRouteData = RouteData("Mars Orbital", "Budapest, Schönherz kollégium")
         placeholderJobData.deliveryRoute = placeholderRouteData
-        placeholderJobData.status = JobStatus.pending
+        placeholderJobData.status = JobStatus.Pending
         demoJobList.add(placeholderJobData)
 
         var placehoolderUserData = UserData(2, "Demo Dénes", "denes@demo.mrs", 6.6)

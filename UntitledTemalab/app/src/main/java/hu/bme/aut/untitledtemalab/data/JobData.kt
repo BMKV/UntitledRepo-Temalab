@@ -9,7 +9,7 @@ class JobData (val jobId: Int,
                val deadline: String,
                val ownerID: Int){
     //Tagváltozók
-    var status: JobStatus = JobStatus.pending
+    var status: JobStatus = JobStatus.Pending
     // TODO: Ezt a senderRating-et miért tettem ide? ez a hozzá tartozó User-ben van
     // var senderRating: Int? = null
     var deliveryDate: String? = null

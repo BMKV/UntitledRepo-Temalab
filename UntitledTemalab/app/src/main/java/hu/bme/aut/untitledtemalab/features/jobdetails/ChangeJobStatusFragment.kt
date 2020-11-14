@@ -44,10 +44,10 @@ class ChangeJobStatusFragment :Fragment() {
             parentJobDetails.completeJob()
         }
 
-        if (parentJobDetails.getJobShown().status == JobStatus.accepted) {
+        if (parentJobDetails.getJobShown().status == JobStatus.Accepted) {
             btnComplete.isEnabled = false
         }
-        else if (parentJobDetails.getJobShown().status == JobStatus.pickedUp) {
+        else if (parentJobDetails.getJobShown().status == JobStatus.PickedUp) {
             btnCancel.isEnabled = false
             btnPickUp.isEnabled = false
         }

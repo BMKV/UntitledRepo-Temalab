@@ -54,13 +54,13 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         if (shownJob.ownerID == loggedInUser.userId) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
-        else if (shownJob.status == JobStatus.pending) {
+        else if (shownJob.status == JobStatus.Pending) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
         }
-        else if (shownJob.status == JobStatus.delivered) {
+        else if (shownJob.status == JobStatus.Delivered) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
-        else if (shownJob.status == JobStatus.expired) {
+        else if (shownJob.status == JobStatus.Expired) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
         else {
@@ -87,27 +87,27 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun acceptJob() {
-        shownJob.status = JobStatus.accepted
+        shownJob.status = JobStatus.Accepted
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
         syncData()
     }
 
     fun cancelJob() {
-        shownJob.status = JobStatus.pending
+        shownJob.status = JobStatus.Pending
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
         syncData()
     }
 
     fun pickUpPackage() {
-        shownJob.status = JobStatus.pickedUp
+        shownJob.status = JobStatus.PickedUp
         tvIsItAcceptedStatusText.text = shownJob.status.name
         syncData()
     }
 
     fun completeJob() {
-        shownJob.status = JobStatus.delivered
+        shownJob.status = JobStatus.Delivered
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         syncData()

@@ -32,7 +32,7 @@ class UserController {
             throw InvalidInputException("UserRegistration body is not correct")
         if (!newUser.isValidEmailFormat())
             throw InvalidEmailFormatException()
-        if (DatabaseHandler.existsByEmail(newUser.email))
+        if (userRepository.findAllByEmailAddress(newUser.email.toString()).isNotEmpty())
             throw EmailAlreadyInUseException()
         val newUserId = DatabaseHandler.generateUID()
 

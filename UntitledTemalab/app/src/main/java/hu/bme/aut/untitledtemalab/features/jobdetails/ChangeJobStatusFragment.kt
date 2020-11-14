@@ -10,6 +10,7 @@ import hu.bme.aut.untitledtemalab.R
 import kotlinx.android.synthetic.main.fragment_change_job_status.*
 
 class ChangeJobStatusFragment :Fragment() {
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -30,6 +31,7 @@ class ChangeJobStatusFragment :Fragment() {
         btnPickUp.setOnClickListener {
             (parentFragment as JobDetailsFragment).pickUpPackage()
             btnCancel.isEnabled = false
+            btnPickUp.isEnabled = false
         }
 
         val btnComplete = btnComplete

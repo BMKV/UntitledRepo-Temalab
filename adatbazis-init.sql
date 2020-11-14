@@ -58,8 +58,8 @@ CREATE TABLE jobs
 CREATE TABLE package_sent
 (
     id      SERIAL PRIMARY KEY,
-    user_id int NOT NULL,
-    job_id  int NOT NULL,
+    user_id bigint NOT NULL,
+    job_id  bigint NOT NULL,
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)
             REFERENCES users (user_id),
@@ -71,8 +71,8 @@ CREATE TABLE package_sent
 CREATE TABLE package_delivered
 (
     id      SERIAL PRIMARY KEY,
-    user_id int NOT NULL,
-    job_id  int NOT NULL,
+    user_id bigint NOT NULL,
+    job_id  bigint NOT NULL,
     CONSTRAINT fk_user
         FOREIGN KEY (user_id)
             REFERENCES users (user_id),

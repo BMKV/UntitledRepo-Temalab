@@ -68,7 +68,9 @@ class JobRegistration {
      * The size of the package
      */
     enum class SizeEnum(private val value: String) {
-        SMALL("small"), MEDIUM("medium"), LARGE("large");
+        small("small"),
+        medium("medium"),
+        large("large");
 
         @JsonValue
         override fun toString(): String {

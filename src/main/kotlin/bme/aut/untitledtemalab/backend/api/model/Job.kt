@@ -71,7 +71,9 @@ class Job(dbJob: Jobs?) {
      * The size of the package
      */
     enum class SizeEnum(private val value: String) {
-        SMALL("small"), MEDIUM("medium"), LARGE("large");
+        small("small"),
+        medium("medium"),
+        large("large");
 
         @JsonValue
         override fun toString(): String {
@@ -140,11 +142,11 @@ class Job(dbJob: Jobs?) {
             this.status = StatusEnum.fromValue(dbJob.status.toString())
             this.size = SizeEnum.fromValue(dbJob.size.toString())
             this.deadline = OffsetDateTime.parse(dbJob.deadline)
-            this.deliveryDate = OffsetDateTime.parse(dbJob.deliveryDate)
             this.jobIssuedDate = OffsetDateTime.parse(dbJob.jobIssuedDate)
-            this.senderRating = dbJob.senderRating
             this.payment = dbJob.payment
             this.deliveryRoute = Route(dbJob.deliveryRoute)
+            dbJob.senderRating?.let { this.senderRating = it }
+            dbJob.deliveryDate?.let { this.deliveryDate = OffsetDateTime.parse(it) }
         }
     }
 

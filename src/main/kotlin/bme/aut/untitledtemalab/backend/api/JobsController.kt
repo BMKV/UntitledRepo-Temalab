@@ -39,6 +39,10 @@ class JobsController {
     fun postJob(@RequestParam(name = "user-id") userId: Long, @RequestBody jobRegistration: JobRegistration): ResponseEntity<String> {
         if (!jobRegistration.isValid())
             throw InvalidInputException()
+        val dbUser = userRepository.findById(userId)
+        if (dbUser.isEmpty)
+            throw UserNotFoundException()
+
         val newJobId = UIDGenerator.generateUID()
 
         val route = Routes(id = UIDGenerator.generateUID(), startLocation = jobRegistration.startLocation!!, destination = jobRegistration.destination!!)
@@ -47,7 +51,7 @@ class JobsController {
                 payment = jobRegistration.payment!!,
                 jobIssuedDate = jobRegistration.jobIssuedDate!!.toString(),
                 deadline = jobRegistration.deadline.toString(),
-                sender = userRepository.findById(userId).get(),
+                sender = dbUser.get(),
                 deliveryRoute = route,
                 size = PackageSize.fromValue(jobRegistration.size!!.toString())!!,
                 status = Status.pending)
@@ -59,13 +63,13 @@ class JobsController {
         responseHeaders.set("Location", newJobId.toString())
         return ResponseEntity.created(URI("jobs/post/$newJobId"))
                 .headers(responseHeaders)
-                .body("{job-id: newJobId}")
+                .body("{job-id: $newJobId}")
     }
 
     @GetMapping("post/{job-id}")
     fun getJobById(@PathVariable("job-id") jobId: Long): Job {
         val dbJob = jobRepository.findById(jobId)
-        if (!dbJob.isPresent)
+        if (dbJob.isEmpty)
             throw JobNotFoundException()
         return Job(dbJob.get())
     }

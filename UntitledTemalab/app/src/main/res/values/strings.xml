@@ -14,8 +14,10 @@
     <string name="pick_up_title">Pick Up</string>
     <string name="complete_title">Complete</string>
     <string name="package_size_description">The package\'s size: %s</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="job_details_title">Job Details</string>
     <string name="destination_title">Destination:</string>
     <string name="pick_up_point_title">Pick Up Point:</string>
@@ -31,4 +33,6 @@
     <string name="delivery_deadline">Delivery Deadline:</string>
     <string name="history_title_feature">History</string>
     <string name="current_jobs_title_feature">Current jobs</string>
+    <string name="job_expired_info">This Job Listing expired!</string>
+    <string name="job_completed_info">This Job was completed!</string>
 </resources>

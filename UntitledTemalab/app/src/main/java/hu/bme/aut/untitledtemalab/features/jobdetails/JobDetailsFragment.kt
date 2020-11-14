@@ -47,6 +47,12 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         if (DemoData.demoJobList.last().status == JobStatus.pending) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
         }
+        else if (DemoData.demoJobList.last().status == JobStatus.delivered) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
+        else if (DemoData.demoJobList.last().status == JobStatus.expired) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
         else {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
         }
@@ -91,6 +97,10 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     fun completeJob() {
         DemoData.demoJobList.last().status = JobStatus.delivered
         tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+    }
+
+    fun getJobShown(): JobData {
+        return DemoData.demoJobList.last()
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

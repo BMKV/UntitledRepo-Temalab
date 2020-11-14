@@ -61,9 +61,9 @@ class MainMenuFragment : Fragment() {
 
         //Show Best Route Button
         //TODO: ATTENTION - teszteléshez/Demohoz ez most a JobDetails-re visz --> REMOVE IT LATER
-        btnBestRoute.setOnClickListener { btnPostNewJob ->
+        btnBestRoute.setOnClickListener { btnBestRoute ->
             MainMenuFragmentDirections.actionTESTMMenuToJobDetails().let {
-                    action -> btnPostNewJob!!.findNavController().navigate(action)
+                    action -> btnBestRoute!!.findNavController().navigate(action)
             }
         }
     }

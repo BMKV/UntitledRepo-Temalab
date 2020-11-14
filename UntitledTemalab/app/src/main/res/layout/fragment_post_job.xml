@@ -8,7 +8,7 @@
     tools:context=".features.jobdetails.PostJobFragment">
 
     <EditText
-        android:id="@+id/tvJobTitle"
+        android:id="@+id/edtJobTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvJobTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/edtJobTitle" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -103,9 +103,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/package_size_title"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner"
+                app:layout_constraintBottom_toBottomOf="@+id/spinnerPostPacakgeSize"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spinner" />
+                app:layout_constraintTop_toTopOf="@+id/spinnerPostPacakgeSize" />
 
             <TextView
                 android:id="@+id/tvPaymentTitle"
@@ -128,7 +128,7 @@
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPaymentTitle"
-                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                app:layout_constraintTop_toBottomOf="@+id/spinnerPostPacakgeSize" />
 
             <fragment
                 class="com.google.android.gms.maps.SupportMapFragment"
@@ -141,10 +141,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+                app:layout_constraintTop_toBottomOf="@+id/edtExpirationDate" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinnerPostPacakgeSize"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -178,7 +178,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/edtPayment" />
 
             <EditText
-                android:id="@+id/editTextDate"
+                android:id="@+id/edtExpirationDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -196,9 +196,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/listing_expires_on"
-                app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+                app:layout_constraintBottom_toBottomOf="@+id/edtExpirationDate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editTextDate" />
+                app:layout_constraintTop_toTopOf="@+id/edtExpirationDate" />
 
             <Button
                 android:id="@+id/btnCancelNewJob"

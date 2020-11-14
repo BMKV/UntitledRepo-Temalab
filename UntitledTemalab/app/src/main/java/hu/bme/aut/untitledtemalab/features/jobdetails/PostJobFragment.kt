@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.demostuff.DemoData
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
 

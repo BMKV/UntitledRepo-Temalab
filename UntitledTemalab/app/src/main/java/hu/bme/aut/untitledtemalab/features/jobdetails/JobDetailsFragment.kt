@@ -14,8 +14,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.PackageSize
 import hu.bme.aut.untitledtemalab.data.UserData
+import hu.bme.aut.untitledtemalab.demostuff.DemoData
 import kotlinx.android.synthetic.main.fragment_job_details.*
 
 class JobDetailsFragment : Fragment(), OnMapReadyCallback {
@@ -33,17 +35,21 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO: get the content from somewhere to be set
-        //most: placeholder JobData, UserData
-        val placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.large, 8500, "3308. 10. 28.", "3308. 10. 31.", 100000001)
-        val placehoolderUserData = UserData(100000001, "Teszt Elek", "teszt@fejleszto.com", 5.9)
-        //--------------------------
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        setContent(placeholderJobData, placehoolderUserData)
+        //TODO: Itt majd valahonnan get-elni a kapott id alapján a cuccot
+        //De most: DemoData listájából
+        setContent(DemoData.demoJobList.last(), DemoData.demoUserList.last())
+
+        //Set Button Fragment
+        if (DemoData.demoJobList.last().status == JobStatus.pending) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
+        }
+        else {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+        }
     }
 
     fun setContent(receivedJobData: JobData, receivedUserData: UserData) {
@@ -54,12 +60,37 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
         //set Job Data cuccok
         tvJobTitle.text = receivedJobData.jobName
-        //tvDestinationText.text =
-        //tvPickUpPointText.text =
+        tvDestinationText.text = receivedJobData.deliveryRoute?.destination
+        tvPickUpPointText.text = receivedJobData.deliveryRoute?.startLocation
         tvPackageSizeText.text = receivedJobData.packageSize.name
         tvPaymentText.text = receivedJobData.payment.toString()
-        tvDeadlineText.text = receivedJobData.deliveryDate
+        tvDeadlineText.text = receivedJobData.deadline
         tvIsItAcceptedStatusText.text = receivedJobData.status.name
+        tvExpirationDateText.text = receivedJobData.listingExpirationDate ?: ""
+        tvIsItAcceptedStatusText.text = receivedJobData.status.name
+    }
+
+    fun acceptJob() {
+        DemoData.demoJobList.last().status = JobStatus.accepted
+        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+    }
+
+    fun cancelJob() {
+        DemoData.demoJobList.last().status = JobStatus.pending
+        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
+
+    }
+
+    fun pickUpPackage() {
+        DemoData.demoJobList.last().status = JobStatus.pickedUp
+        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+    }
+
+    fun completeJob() {
+        DemoData.demoJobList.last().status = JobStatus.delivered
+        tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

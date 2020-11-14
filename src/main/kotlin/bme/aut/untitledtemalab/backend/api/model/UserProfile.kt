@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Detailed information on a User
  */
-class UserProfile(id: Long, email: String, rating: Float, canDeliver: Boolean, freeSize: Int, maxSize: Int) {
+class UserProfile(id: Long, email: String, rating: Float? = null, canDeliver: Boolean, freeSize: Int? = null, maxSize: Int? = null) {
     /**
      * The ID of the User
      * @return userId

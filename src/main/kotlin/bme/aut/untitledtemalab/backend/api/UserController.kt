@@ -55,7 +55,7 @@ class UserController {
         return if (dbUser.isPresent && dbUser.get().canDeliver && dbUser.get().cargoFreeSize != null && dbUser.get().cargoMaxSize != null) {
             ResponseEntity(UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating!!, canDeliver = dbUser.get().canDeliver, freeSize = dbUser.get().cargoFreeSize!!, maxSize = dbUser.get().cargoMaxSize!!), HttpStatus.OK)
         } else if (dbUser.isPresent && !dbUser.get().canDeliver) {
-            ResponseEntity(UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating!!, canDeliver = dbUser.get().canDeliver, 0, 0), HttpStatus.OK)
+            ResponseEntity(UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, 0, 0), HttpStatus.OK)
         } else throw UserNotFoundException("User not found")
     }
 

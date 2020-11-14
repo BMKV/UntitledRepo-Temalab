@@ -20,11 +20,19 @@ object NetworkManager {
         freelancerApi = retrofit.create(FreelancerAPI::class.java)
     }
 
-    suspend fun getSentHistory(userId: Int): List<JobData>{
+    suspend fun getSentHistoryByUserId(userId: Int): List<JobData>{
         return freelancerApi.getUsersSentJobs(userId).await()
     }
 
-    suspend fun getDeliveredHistory(userId: Int): List<JobData>{
+    suspend fun getDeliveredHistoryByUserId(userId: Int): List<JobData>{
         return freelancerApi.getUsersDeliveredJobs(userId).await()
+    }
+
+    suspend fun getPostedActiveJobsByUserId(userId: Int): List<JobData>{
+        return freelancerApi.getUsersAcceptedActiveJobs(userId).await()
+    }
+
+    suspend fun getAcceptedActiveJobsByUserId(userId: Int): List<JobData>{
+        return freelancerApi.getUsersAcceptedActiveJobs(userId).await()
     }
 }

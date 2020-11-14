@@ -10,7 +10,7 @@ class HistoryRepository(private val userId: Int) {
 
     suspend fun getSentHistory(): JobDataResponse{
         return try{
-            JobDataResponse(NetworkManager.getSentHistory(userId), null)
+            JobDataResponse(NetworkManager.getSentHistoryByUserId(userId), null)
         } catch (exception: Exception){
             JobDataResponse(null, exception)
         }
@@ -18,7 +18,7 @@ class HistoryRepository(private val userId: Int) {
 
     suspend fun getDeliveredHistory(): JobDataResponse{
         return try{
-            JobDataResponse(NetworkManager.getDeliveredHistory(userId), null)
+            JobDataResponse(NetworkManager.getDeliveredHistoryByUserId(userId), null)
         } catch(exception: Exception){
             JobDataResponse(null, exception)
         }

@@ -4,6 +4,7 @@ import hu.bme.aut.untitledtemalab.data.JobData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FreelancerAPI {
 
@@ -17,15 +18,15 @@ interface FreelancerAPI {
         @Path("user-id") userId: Int
     ): Call<MutableList<JobData>>
 
-    //TODO mindjárt megkérdezzük Dávidot, hogy lehet-e kombinálni:)
-
     @GET("/user/{user-id}/jobs/sent")
-    fun getUsersPostedActiveJobs(
-        @Path("user-id") userId: Int
+    fun getUsersPostedJobsByStatus(
+        @Path("user-id") userId: Int,
+        @Query("status") status: String
     ): Call<MutableList<JobData>>
 
     @GET("/user/{user-id}/jobs/delivered")
-    fun getUsersAcceptedActiveJobs(
-        @Path("user-id") userId: Int
+    fun getUsersAcceptedJobsByStatus(
+        @Path("user-id") userId: Int,
+        @Query("status") status: String
     ): Call<MutableList<JobData>>
 }

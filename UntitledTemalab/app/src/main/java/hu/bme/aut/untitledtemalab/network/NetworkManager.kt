@@ -28,11 +28,11 @@ object NetworkManager {
         return freelancerApi.getUsersDeliveredJobs(userId).await()
     }
 
-    suspend fun getPostedActiveJobsByUserId(userId: Int): List<JobData>{
-        return freelancerApi.getUsersAcceptedActiveJobs(userId).await()
+    suspend fun getUsersPostedJobsByStatus(userId: Int, status: String): List<JobData>{
+        return freelancerApi.getUsersPostedJobsByStatus(userId, status).await()
     }
 
-    suspend fun getAcceptedActiveJobsByUserId(userId: Int): List<JobData>{
-        return freelancerApi.getUsersAcceptedActiveJobs(userId).await()
+    suspend fun getUsersAcceptedJobsByStatus(userId: Int, status: String): List<JobData>{
+        return freelancerApi.getUsersAcceptedJobsByStatus(userId, status).await()
     }
 }

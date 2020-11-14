@@ -29,7 +29,7 @@ class Users(
         var userRating: Float? = null,
 
         @Column(name = "cargo_free_size")
-        var cargoFreeSize: Int? = null,
+        var cargoFreeSize: Int = 0,
 
         @Column(name = "cargo_max_size")
         var cargoMaxSize: Int? = null,

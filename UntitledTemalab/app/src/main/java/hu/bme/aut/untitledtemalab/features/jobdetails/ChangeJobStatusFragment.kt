@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.data.JobStatus
 import kotlinx.android.synthetic.main.fragment_change_job_status.*
 
 class ChangeJobStatusFragment :Fragment() {
@@ -22,21 +23,33 @@ class ChangeJobStatusFragment :Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parentJobDetails = parentFragment as JobDetailsFragment
+
         val btnCancel = btnCancel
+        val btnPickUp = btnPickUp
+        val btnComplete = btnComplete
+
         btnCancel.setOnClickListener {
-            (parentFragment as JobDetailsFragment).cancelJob()
+            parentJobDetails.cancelJob()
         }
 
-        val btnPickUp = btnPickUp
         btnPickUp.setOnClickListener {
-            (parentFragment as JobDetailsFragment).pickUpPackage()
+            parentJobDetails.pickUpPackage()
             btnCancel.isEnabled = false
             btnPickUp.isEnabled = false
+            btnComplete.isEnabled = true
+        }
+        
+        btnComplete.setOnClickListener {
+            parentJobDetails.completeJob()
         }
 
-        val btnComplete = btnComplete
-        btnComplete.setOnClickListener {
-            (parentFragment as JobDetailsFragment).completeJob()
+        if (parentJobDetails.getJobShown().status == JobStatus.accepted) {
+            btnComplete.isEnabled = false
+        }
+        else if (parentJobDetails.getJobShown().status == JobStatus.pickedUp) {
+            btnCancel.isEnabled = false
+            btnPickUp.isEnabled = false
         }
     }
 }

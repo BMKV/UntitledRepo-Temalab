@@ -97,6 +97,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     fun completeJob() {
         DemoData.demoJobList.last().status = JobStatus.delivered
         tvIsItAcceptedStatusText.text = DemoData.demoJobList.last().status.name
+        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
     }
 
     fun getJobShown(): JobData {

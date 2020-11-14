@@ -10,11 +10,11 @@ interface JobRepository : CrudRepository<Jobs, Long> {
     fun findAllByStatus(status: Status): List<Jobs>
     fun findAllByStatusAndSize(status: Status, size: PackageSize): List<Jobs>
 
-    fun findAllByStatusIsLikeAndDeliverer(status: Status, deliverer: Users): List<Jobs>
-    fun findAllBySizeIsLikeAndDeliverer(size: PackageSize, deliverer: Users): List<Jobs>
-    fun findAllBySizeIsLikeAndStatusIsLikeAndDeliverer(size: PackageSize,status: Status, deliverer: Users): List<Jobs>
+    fun findAllByStatusAndDeliverer(status: Status, deliverer: Users): List<Jobs>
+    fun findAllBySizeAndDeliverer(size: PackageSize, deliverer: Users): List<Jobs>
+    fun findAllBySizeAndStatusAndDeliverer(size: PackageSize,status: Status, deliverer: Users): List<Jobs>
 
-    fun findAllByStatusIsLikeAndSender(status: Status, deliverer: Users): List<Jobs>
-    fun findAllBySizeIsLikeAndSender(size: PackageSize, deliverer: Users): List<Jobs>
-    fun findAllBySizeIsLikeAndStatusIsLikeAndSender(size: PackageSize,status: Status, deliverer: Users): List<Jobs>
+    fun findAllByStatusAndSender(status: Status, deliverer: Users): List<Jobs>
+    fun findAllBySizeAndSender(size: PackageSize, deliverer: Users): List<Jobs>
+    fun findAllBySizeAndStatusAndSender(size: PackageSize,status: Status, deliverer: Users): List<Jobs>
 }

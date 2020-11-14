@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.JobStatus
-import hu.bme.aut.untitledtemalab.data.PackageSize
 import hu.bme.aut.untitledtemalab.data.UserData
 import hu.bme.aut.untitledtemalab.demostuff.DemoData
 import kotlinx.android.synthetic.main.fragment_job_details.*
@@ -39,7 +38,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapViewOnDetails) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         //TODO: Itt majd valahonnan get-elni a kapott id alapján a cuccot
@@ -123,6 +122,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun syncData() {
+        //TODO: Actual network-re bekötni
         DemoData.demoJobList[DemoData.demoJobList.size-1] = shownJob
         DemoData.demoUserList[DemoData.demoUserList.size-1] = shownUser
     }

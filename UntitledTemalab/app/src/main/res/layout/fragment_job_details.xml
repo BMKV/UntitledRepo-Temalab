@@ -167,7 +167,7 @@
 
             <fragment
                 class="com.google.android.gms.maps.SupportMapFragment"
-                android:id="@+id/mapView"
+                android:id="@+id/mapViewOnDetails"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="8dp"
@@ -280,7 +280,7 @@
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapView"
+                app:layout_constraintTop_toBottomOf="@+id/mapViewOnDetails"
                 tools:layout="@layout/fragment_accept_job" />
 
         </androidx.constraintlayout.motion.widget.MotionLayout>

@@ -5,7 +5,7 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/mapView"
+            android:id="@+id/mapViewOnDetails"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -28,13 +28,13 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp"
-            android:id="@+id/mapView" />
+            android:id="@+id/mapViewOnDetails" />
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:motionInterpolator="easeInOut" >
-        <OnClick motion:touchAnchorId="@id/mapView"  />
+        <OnClick motion:touchAnchorId="@id/mapViewOnDetails"  />
     </Transition>
 </MotionScene>

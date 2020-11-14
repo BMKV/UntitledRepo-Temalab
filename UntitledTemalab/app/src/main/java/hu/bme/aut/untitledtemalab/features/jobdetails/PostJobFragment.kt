@@ -12,7 +12,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import hu.bme.aut.untitledtemalab.R
-import hu.bme.aut.untitledtemalab.demostuff.DemoData
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
 
@@ -30,7 +29,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapViewOnPost) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 

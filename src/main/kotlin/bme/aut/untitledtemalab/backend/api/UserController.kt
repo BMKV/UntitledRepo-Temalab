@@ -107,7 +107,7 @@ class UserController {
             throw InvalidUserIdException("Invalid User ID supplied")
         val dbUser = userRepository.findById(userId)
         return if (dbUser.isPresent) {
-            ResponseEntity(User(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating!!), HttpStatus.OK)
+            ResponseEntity(User(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating), HttpStatus.OK)
         } else throw UserNotFoundException("User not found")
     }
 
@@ -139,27 +139,27 @@ class UserController {
             if (status.isEmpty && size.isEmpty) {
                 Job.convertDbJobListToApiJobList(jobsNoFilterFunction(dbUser.get()))
             } else Job.convertDbJobListToApiJobList(jobsFilterFunction(dbUser.get(), status, size))
-        // validation
+            // validation
         } else throw UserNotFoundException("User not found")
     }
 
-    fun getAllJobs(user: Users): List<Jobs>{
+    fun getAllJobs(user: Users): List<Jobs> {
         return user.packageDelivered + user.packageSent
     }
 
-    fun getAllSentJobs(user: Users): List<Jobs>{
+    fun getAllSentJobs(user: Users): List<Jobs> {
         return user.packageSent
     }
 
-    fun getAllDeliveredJobs(user: Users): List<Jobs>{
+    fun getAllDeliveredJobs(user: Users): List<Jobs> {
         return user.packageDelivered
     }
 
-    fun getAllJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs>{
-        return getAllSentJobsFiltered(user,status,size) + getAllDeliveredJobsFiltered(user,status,size)
+    fun getAllJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
+        return getAllSentJobsFiltered(user, status, size) + getAllDeliveredJobsFiltered(user, status, size)
     }
 
-    fun getAllSentJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs>{
+    fun getAllSentJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
         var result = listOf<Jobs>()
         val queryStatus: Status? = Status.fromValue(status.get().toString())
         val querySize: PackageSize? = PackageSize.fromValue(size.get().toString())
@@ -174,7 +174,7 @@ class UserController {
         return result
     }
 
-    fun getAllDeliveredJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs>{
+    fun getAllDeliveredJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
         var result = listOf<Jobs>()
         val queryStatus: Status? = Status.fromValue(status.get().toString())
         val querySize: PackageSize? = PackageSize.fromValue(size.get().toString())

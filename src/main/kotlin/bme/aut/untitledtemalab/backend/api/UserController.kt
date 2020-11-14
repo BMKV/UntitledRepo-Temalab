@@ -30,7 +30,7 @@ class UserController {
     fun createUser(@RequestBody newUser: UserRegistration) {
         if (!newUser.isValidBody())
             throw InvalidInputException("UserRegistration body is not correct")
-        if (newUser.isValidEmailFormat())
+        if (!newUser.isValidEmailFormat())
             throw InvalidEmailFormatException()
         if (DatabaseHandler.existsByEmail(newUser.email))
             throw EmailAlreadyInUseException()

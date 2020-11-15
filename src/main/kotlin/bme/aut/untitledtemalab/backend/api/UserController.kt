@@ -2,7 +2,9 @@ package bme.aut.untitledtemalab.backend.api
 
 import bme.aut.untitledtemalab.backend.api.model.*
 import bme.aut.untitledtemalab.backend.api.responses.*
-import bme.aut.untitledtemalab.backend.database.*
+import bme.aut.untitledtemalab.backend.database.JobRepository
+import bme.aut.untitledtemalab.backend.database.UIDGenerator
+import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.Jobs
 import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
@@ -52,7 +54,7 @@ class UserController {
         if (!UIDGenerator.validateUID(userId))
             throw InvalidUserIdException("Invalid User ID supplied")
         val dbUser = userRepository.findById(userId)
-        return if (dbUser.isPresent && dbUser.get().canDeliver && dbUser.get().cargoFreeSize != null && dbUser.get().cargoMaxSize != null) {
+        return if (dbUser.isPresent && dbUser.get().canDeliver && dbUser.get().cargoMaxSize != null) {
             ResponseEntity(UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating!!, canDeliver = dbUser.get().canDeliver, freeSize = dbUser.get().cargoFreeSize!!, maxSize = dbUser.get().cargoMaxSize!!), HttpStatus.OK)
         } else if (dbUser.isPresent && !dbUser.get().canDeliver) {
             ResponseEntity(UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, 0, 0), HttpStatus.OK)

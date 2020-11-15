@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.joblistfeatures.common
+package hu.bme.aut.untitledtemalab.network.response
 
 import hu.bme.aut.untitledtemalab.data.JobData
 

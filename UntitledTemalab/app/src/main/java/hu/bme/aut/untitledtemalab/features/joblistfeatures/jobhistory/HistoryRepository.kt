@@ -1,6 +1,6 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
-import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 
 /**
@@ -8,7 +8,7 @@ import hu.bme.aut.untitledtemalab.network.NetworkManager
  */
 class HistoryRepository(private val userId: Int) {
 
-    suspend fun getSentHistory(): JobDataResponse{
+    suspend fun getSentHistory(): JobDataResponse {
         return try{
             JobDataResponse(NetworkManager.getSentHistoryByUserId(userId), null)
         } catch (exception: Exception){
@@ -16,7 +16,7 @@ class HistoryRepository(private val userId: Int) {
         }
     }
 
-    suspend fun getDeliveredHistory(): JobDataResponse{
+    suspend fun getDeliveredHistory(): JobDataResponse {
         return try{
             JobDataResponse(NetworkManager.getDeliveredHistoryByUserId(userId), null)
         } catch(exception: Exception){

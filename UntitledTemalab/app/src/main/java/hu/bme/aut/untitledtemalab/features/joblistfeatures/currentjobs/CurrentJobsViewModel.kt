@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

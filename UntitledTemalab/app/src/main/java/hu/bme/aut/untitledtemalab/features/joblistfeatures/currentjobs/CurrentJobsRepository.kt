@@ -2,7 +2,7 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
 
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.JobStatus
-import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.JobDataResponse
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 import java.lang.Exception
 

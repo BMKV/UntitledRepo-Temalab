@@ -36,7 +36,7 @@ object NetworkManager {
     suspend fun getUsersAcceptedJobsByStatus(userId: Int, status: String): List<JobData>{
         return freelancerApi.getUsersAcceptedJobsByStatus(userId, status).await()
     }
-    
+
     suspend fun getUserProfileById(userId: Int): UserData {
         return freelancerApi.getUserProfileById(userId).await()
     }

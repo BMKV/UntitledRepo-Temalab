@@ -26,6 +26,7 @@
         android:textSize="15sp"/>
     
     <ProgressBar
+        android:id="@+id/pbCargoOccupancy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@android:style/Widget.ProgressBar.Horizontal"/>

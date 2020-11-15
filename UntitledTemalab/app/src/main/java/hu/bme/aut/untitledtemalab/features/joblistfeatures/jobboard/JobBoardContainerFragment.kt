@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import hu.bme.aut.untitledtemalab.R
+import kotlinx.android.synthetic.main.fragment_job_board_container.*
 import kotlinx.android.synthetic.main.merge_viewpager2_with_tablayout.*
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
@@ -33,6 +34,8 @@ class JobBoardContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //TODO it is not clean, it should be refactored later
+
         vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle, userId)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when (position) {
@@ -42,5 +45,6 @@ class JobBoardContainerFragment : Fragment() {
                 else -> throw IllegalStateException("Such position doesn't exist: $position")
             }
         }.attach()
+
     }
 }

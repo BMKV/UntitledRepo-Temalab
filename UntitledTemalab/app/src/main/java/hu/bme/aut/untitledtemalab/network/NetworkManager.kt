@@ -1,6 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,5 +35,9 @@ object NetworkManager {
 
     suspend fun getUsersAcceptedJobsByStatus(userId: Int, status: String): List<JobData>{
         return freelancerApi.getUsersAcceptedJobsByStatus(userId, status).await()
+    }
+    
+    suspend fun getUserProfileById(userId: Int): UserData {
+        return freelancerApi.getUserProfileById(userId).await()
     }
 }

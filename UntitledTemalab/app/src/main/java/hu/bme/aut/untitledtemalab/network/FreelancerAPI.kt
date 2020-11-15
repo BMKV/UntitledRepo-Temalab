@@ -1,6 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,4 +30,9 @@ interface FreelancerAPI {
         @Path("user-id") userId: Int,
         @Query("status") status: String
     ): Call<MutableList<JobData>>
+
+    @GET("/user/profile")
+    fun getUserProfileById(
+        @Query("user-id") userId: Int
+    ): Call<UserData>
 }

@@ -42,6 +42,7 @@ class JobBoardFragment : Fragment() {
             JobBoardFragment().apply {
                 arguments = Bundle().apply {
                     putString(JOB_TYPE_KEY, jobType.name)
+                    putInt(USER_ID_KEY, userId)
                 }
             }
     }

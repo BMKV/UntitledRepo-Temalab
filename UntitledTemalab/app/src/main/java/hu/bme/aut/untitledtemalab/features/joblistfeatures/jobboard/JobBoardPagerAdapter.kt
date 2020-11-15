@@ -4,10 +4,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import kotlinx.android.synthetic.main.fragment_post_job.*
 
 class JobBoardPagerAdapter(
     fragmentManager: FragmentManager,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
+    val userId: Int
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     companion object{
@@ -22,6 +24,11 @@ class JobBoardPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return JobBoardFragment.newInstance()
+        return when(position){
+            0 -> JobBoardFragment.newInstance(JobBoardFragment.RepresentedJobType.SmallSize, userId)
+            1 -> JobBoardFragment.newInstance(JobBoardFragment.RepresentedJobType.MediumSize, userId)
+            2 -> JobBoardFragment.newInstance(JobBoardFragment.RepresentedJobType.LargeSize, userId)
+            else -> throw IllegalStateException("Such position doesn't exist: $position")
+        }
     }
 }

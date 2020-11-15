@@ -33,7 +33,7 @@ class JobBoardContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle)
+        vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle, userId)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> "Small"

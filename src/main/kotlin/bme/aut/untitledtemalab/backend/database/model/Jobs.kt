@@ -1,5 +1,8 @@
 package bme.aut.untitledtemalab.backend.database.model
 
+import bme.aut.untitledtemalab.backend.database.PostgreSQLEnumType
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import javax.persistence.*
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -7,6 +10,7 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "jobs")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType::class)
 class Jobs(
 
         @Id
@@ -15,6 +19,7 @@ class Jobs(
 
         @Enumerated(EnumType.STRING)
         @NotNull
+        @Type(type = "pgsql_enum")
         @Column(name = "status", nullable = false)
         var status: Status,
 
@@ -26,6 +31,7 @@ class Jobs(
         @Enumerated(EnumType.STRING)
         @NotNull
         @Column(name = "size", nullable = false)
+        @Type(type = "pgsql_enum")
         var size: PackageSize,
 
         @NotNull

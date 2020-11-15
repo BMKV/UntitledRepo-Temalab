@@ -1,16 +1,16 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard
 
 import hu.bme.aut.untitledtemalab.network.NetworkManager
-import hu.bme.aut.untitledtemalab.network.response.UserDataResponse
+import hu.bme.aut.untitledtemalab.network.response.CargoDataResponse
 
 class JobBoardContainerRepository(private val userId: Long){
 
-    suspend fun getUsersCargoDetails(): UserDataResponse{
+    suspend fun getUsersCargoDetails(): CargoDataResponse {
         return try{
-            UserDataResponse(NetworkManager.getUserProfileById(userId), null)
+            CargoDataResponse(NetworkManager.getUsersCargoInformation(userId), null)
         }
         catch (e: Exception){
-            UserDataResponse(null, e)
+            CargoDataResponse(null, e)
         }
     }
 

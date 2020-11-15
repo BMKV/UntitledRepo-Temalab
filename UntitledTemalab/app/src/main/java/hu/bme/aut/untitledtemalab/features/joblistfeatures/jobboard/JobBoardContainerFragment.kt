@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import hu.bme.aut.untitledtemalab.R
-import hu.bme.aut.untitledtemalab.data.UserData
+import hu.bme.aut.untitledtemalab.data.CargoData
 import kotlinx.android.synthetic.main.fragment_job_board_container.*
 import kotlinx.android.synthetic.main.merge_viewpager2_with_tablayout.*
 import java.lang.Exception
@@ -58,14 +58,14 @@ class JobBoardContainerFragment : Fragment() {
             JobBoardContainerViewModelFactory(requireActivity().application, userId)
         ).get(JobBoardContainerViewModel::class.java)
 
-        viewModel.cargoOccupancyResponse.observe(viewLifecycleOwner) { currentUserDataResponse ->
+        viewModel.cargoOccupancyResponse.observe(viewLifecycleOwner) { currentCargoDataResponse ->
             when {
-                currentUserDataResponse.error is Exception -> handleError(currentUserDataResponse.error)
-                currentUserDataResponse.userData !is UserData -> handleError(
+                currentCargoDataResponse.error is Exception -> handleError(currentCargoDataResponse.error)
+                currentCargoDataResponse.cargoData !is CargoData -> handleError(
                     IllegalStateException("Both received data and error is null!")
                 )
                 else -> refreshCargoData(
-                    currentUserDataResponse.userData
+                    currentCargoDataResponse.cargoData
                 )
             }
         }
@@ -82,12 +82,10 @@ class JobBoardContainerFragment : Fragment() {
         ).show()
     }
 
-    private fun refreshCargoData(userData: UserData) {
+    private fun refreshCargoData(cargoData: CargoData) {
         try {
-            val cargoCapacityMaximum = userData.cargoCapacity
-                ?: throw IllegalStateException("Invalid answer from the server! - Undefined cargo max capacity!")
-            val freeCargoSpace = userData.cargoFreeSize
-                ?: throw IllegalStateException("Invalid answer from the server! - Undefined cargo free space!")
+            val cargoCapacityMaximum = cargoData.maxSize
+            val freeCargoSpace = cargoData.freeSize
             check(cargoCapacityMaximum >= freeCargoSpace) { "Invalid answer from the server! - Maximum capacity is lower than occupied!" }
             pbCargoOccupancy.max = cargoCapacityMaximum
             pbCargoOccupancy.progress = cargoCapacityMaximum - freeCargoSpace

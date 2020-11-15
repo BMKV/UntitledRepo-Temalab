@@ -1,5 +1,6 @@
 package hu.bme.aut.untitledtemalab.network
 
+import hu.bme.aut.untitledtemalab.data.CargoData
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.PackageSize
 import hu.bme.aut.untitledtemalab.data.UserData
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkManager {
 
-    private const val SERVICE_URL = "https://untitled-repo-backend.herokuapp.com/api/v1/"
+    private const val SERVICE_URL = "https://untitled-repo-backend.herokuapp.com/api/v1"
 
     private val freelancerApi : FreelancerAPI
 
@@ -44,5 +45,9 @@ object NetworkManager {
 
     suspend fun getAvailableJobsBySize(size: PackageSize): List<JobData>{
         return freelancerApi.getAvailableJobsBySize(size.getBackendValueName()).await()
+    }
+
+    suspend fun getUsersCargoInformation(userId: Long): CargoData{
+        return freelancerApi.getUsersCargoInformation(userId).await()
     }
 }

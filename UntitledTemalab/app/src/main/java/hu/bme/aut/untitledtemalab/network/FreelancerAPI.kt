@@ -1,5 +1,6 @@
 package hu.bme.aut.untitledtemalab.network
 
+import hu.bme.aut.untitledtemalab.data.CargoData
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Call
@@ -40,4 +41,9 @@ interface FreelancerAPI {
     fun getAvailableJobsBySize(
         @Query("size") backendSizeType: String
     ): Call<List<JobData>>
+
+    @GET("/user/{user-id}/cargo")
+    fun getUsersCargoInformation(
+        @Path("user-id") userId: Long,
+    ): Call<CargoData>
 }

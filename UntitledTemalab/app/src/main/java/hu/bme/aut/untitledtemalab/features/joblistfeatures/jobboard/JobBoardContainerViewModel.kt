@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import hu.bme.aut.untitledtemalab.network.response.UserDataResponse
+import hu.bme.aut.untitledtemalab.network.response.CargoDataResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -14,7 +14,7 @@ class JobBoardContainerViewModel(application: Application, userId: Long) :
     private val jobBoardContainerRepository = JobBoardContainerRepository(userId)
 
     //TODO this will be hidden behind an interface from view layer (like the other responses)
-    val cargoOccupancyResponse = MutableLiveData<UserDataResponse>()
+    val cargoOccupancyResponse = MutableLiveData<CargoDataResponse>()
 
     init{
         viewModelScope.launch(Dispatchers.IO) {

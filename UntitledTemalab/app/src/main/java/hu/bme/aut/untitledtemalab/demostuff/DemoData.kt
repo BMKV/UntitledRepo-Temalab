@@ -9,7 +9,7 @@ object DemoData {
     var loggedInUser = UserData(100000001, "Teszt Elek", "teszt@fejleszto.com", 5.9)
 
     init {
-        var placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.large,
+        var placeholderJobData = JobData(1, "Deliver 10 tons of Beer in the name of Democracy!", PackageSize.Large,
                                         8500, "3308. 10. 28.", "3308. 10. 31.", 2)
         placeholderJobData.listingExpirationDate = "3308. 10. 30"
         var placeholderRouteData = RouteData("Mars Orbital", "Budapest, Schönherz kollégium")

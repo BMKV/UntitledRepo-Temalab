@@ -15,7 +15,7 @@ object GeoApi {
 
     private const val OpenRouteApiKey: String = "5b3ce3597851110001cf6248321c9befa8e14af59658024fcdbebfa0"
 
-    private const val defaultDeliveryTimeInDays = 3
+    private const val defaultDeliveryTimeInDays: Int = 3
 
     fun getOptimalRouteTime(startLocation: String, destination: String): String {
         return optimalTimeApproximationFromDistance(distanceFromGeoCoords(geoCoordsFromAddress(startLocation), geoCoordsFromAddress(destination)))
@@ -27,8 +27,8 @@ object GeoApi {
         else (defaultDeliveryTimeInDays + additionalDeliveryDaysFromDistance(distance)).toString()
     }
 
-    private fun additionalDeliveryDaysFromDistance(distance: Double): Double {
-        return ceil((distance - 200.0) / 300)
+    private fun additionalDeliveryDaysFromDistance(distance: Double): Int {
+        return ceil((distance - 200) / 300).toInt()
     }
 
     private fun geoCoordsFromAddress(address: String): String {

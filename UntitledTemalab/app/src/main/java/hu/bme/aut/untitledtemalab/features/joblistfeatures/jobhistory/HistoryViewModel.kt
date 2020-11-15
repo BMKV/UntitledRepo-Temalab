@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
  * This [AndroidViewModel] subclass's responsibility to provide the business logic for the
  * components in the View layer, that are showing data about the user's package history.
  */
-class HistoryViewModel(application: Application, useMode: String, val userId: Int) :
+class HistoryViewModel(application: Application, useMode: String, val userId: Long) :
     AndroidViewModel(application) {
 
     /**

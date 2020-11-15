@@ -39,7 +39,7 @@ class CurrentJobsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO this is not clean, it should be refactored
-        requireArguments().getInt(USER_ID_KEY).let { userId ->
+        requireArguments().getLong(USER_ID_KEY).let { userId ->
             viewModel = ViewModelProvider(
                 this, CurrentJobsViewModelFactory(
                     requireActivity().application, userId,
@@ -110,10 +110,10 @@ class CurrentJobsFragment : Fragment() {
          * @return A new instance of fragment CurrentJobsFragment.
          */
         @JvmStatic
-        fun newInstance(jobType: RepresentedJobType, userId: Int) = CurrentJobsFragment().apply {
+        fun newInstance(jobType: RepresentedJobType, userId: Long) = CurrentJobsFragment().apply {
             arguments = Bundle().apply {
                 putString(JOB_TYPE_KEY, jobType.name)
-                putInt(USER_ID_KEY, userId)
+                putLong(USER_ID_KEY, userId)
             }
         }
     }

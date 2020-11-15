@@ -6,7 +6,7 @@ import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 import java.lang.Exception
 
-class CurrentJobsRepository(val userId: Int) {
+class CurrentJobsRepository(val userId: Long) {
 
     suspend fun getAnnouncedCurrentJobs(): JobDataResponse {
         return getActiveJobsWithCategoryRetriever { userId, categoryName ->
@@ -21,7 +21,7 @@ class CurrentJobsRepository(val userId: Int) {
     }
 
     private suspend fun getActiveJobsWithCategoryRetriever(
-        categoryRetriever: suspend (Int, String) -> List<JobData>
+        categoryRetriever: suspend (Long, String) -> List<JobData>
     ): JobDataResponse {
         val activeJobList = mutableListOf<JobData>()
         for (activeStatus in JobStatus.getActiveStatuses()) {

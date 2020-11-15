@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
  *
  */
 class HistoryViewModelFactory(private val application: Application, private val useMode: String,
-                              val userId: Int) :
+                              val userId: Long) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

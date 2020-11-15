@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class CurrentJobsViewModelFactory(
     private val application: Application,
-    private val userId: Int,
+    private val userId: Long,
     private val useType: CurrentJobsViewModel.CurrentJobsViewModelUseType
 ) :
     ViewModelProvider.Factory {

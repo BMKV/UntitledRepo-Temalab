@@ -4,12 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import kotlinx.android.synthetic.main.fragment_post_job.*
 
 class JobBoardPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    val userId: Int
+    val userId: Long
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     companion object{

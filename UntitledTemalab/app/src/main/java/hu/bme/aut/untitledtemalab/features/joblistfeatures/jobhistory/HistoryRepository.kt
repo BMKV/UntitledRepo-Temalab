@@ -6,7 +6,7 @@ import hu.bme.aut.untitledtemalab.network.NetworkManager
 /**
  * TODO documentation
  */
-class HistoryRepository(private val userId: Int) {
+class HistoryRepository(private val userId: Long) {
 
     suspend fun getSentHistory(): JobDataResponse {
         return try{

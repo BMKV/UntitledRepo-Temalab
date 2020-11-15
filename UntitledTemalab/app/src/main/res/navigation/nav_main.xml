@@ -42,8 +42,8 @@
             app:destination="@id/jobDetailsFragment" />
         <argument
             android:name="userId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/jobDetailsFragment"
@@ -55,12 +55,12 @@
             app:destination="@id/currentJobsFragment" />
         <argument
             android:name="userId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long"
+            android:defaultValue="-1L" />
         <argument
             android:name="jobId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/jobBoardFragment"
@@ -72,8 +72,8 @@
             app:destination="@id/jobDetailsFragment" />
         <argument
             android:name="userId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/postJobFragment"
@@ -97,7 +97,7 @@
             app:destination="@id/jobDetailsFragment" />
         <argument
             android:name="userId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

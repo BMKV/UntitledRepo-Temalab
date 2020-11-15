@@ -54,7 +54,7 @@ class JobBoardFragment : Fragment() {
 
         jobsAdapter = CommonJobDataAdapter { jobId ->
             JobBoardContainerFragmentDirections.actionJobBoardShowJobDetails(
-                jobId = jobId, userId = requireArguments().getInt(
+                jobId = jobId, userId = requireArguments().getLong(
                     USER_ID_KEY
                 )
             ).let { action ->
@@ -91,11 +91,11 @@ class JobBoardFragment : Fragment() {
          * @return A new instance of fragment JobBoardFragment.
          */
         @JvmStatic
-        fun newInstance(jobType: RepresentedJobType, userId: Int) =
+        fun newInstance(jobType: RepresentedJobType, userId: Long) =
             JobBoardFragment().apply {
                 arguments = Bundle().apply {
                     putString(JOB_TYPE_KEY, jobType.name)
-                    putInt(USER_ID_KEY, userId)
+                    putLong(USER_ID_KEY, userId)
                 }
             }
     }

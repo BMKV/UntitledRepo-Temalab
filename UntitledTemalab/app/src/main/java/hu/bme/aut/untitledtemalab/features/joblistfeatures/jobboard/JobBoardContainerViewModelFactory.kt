@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class JobBoardContainerViewModelFactory(
     private val application: Application,
-    private val userId: Int
+    private val userId: Long
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -8,7 +8,7 @@ import hu.bme.aut.untitledtemalab.network.response.UserDataResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class JobBoardContainerViewModel(application: Application, userId: Int) :
+class JobBoardContainerViewModel(application: Application, userId: Long) :
     AndroidViewModel(application) {
 
     private val jobBoardContainerRepository = JobBoardContainerRepository(userId)

@@ -9,7 +9,7 @@ import java.lang.IllegalStateException
 class CurrentJobsPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    val userId: Int
+    val userId: Long
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     companion object {

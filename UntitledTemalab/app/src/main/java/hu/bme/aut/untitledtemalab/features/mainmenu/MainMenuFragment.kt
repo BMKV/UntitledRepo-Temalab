@@ -38,7 +38,7 @@ class MainMenuFragment : Fragment() {
         //History Button
         //TODO userId will be passed in the action
         btnHistory.setOnClickListener{
-            MainMenuFragmentDirections.actionMainMenuOpenHistory().let{
+            MainMenuFragmentDirections.actionMainMenuOpenHistory(3547612601).let{
                 action -> findNavController().navigate(action)
             }
         }
@@ -46,7 +46,7 @@ class MainMenuFragment : Fragment() {
         //Accepted Jobs Button
         //TODO userId will be passed in the action
         btnCurrentJobs.setOnClickListener{
-            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs().let{
+            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(3547612601).let{
                 action -> findNavController().navigate(action)
             }
 
@@ -54,7 +54,7 @@ class MainMenuFragment : Fragment() {
 
         //TODO userId will be passed in the action
         btnJobBoard.setOnClickListener{
-            MainMenuFragmentDirections.actionMainMenuOpenJobBoard().let{
+            MainMenuFragmentDirections.actionMainMenuOpenJobBoard(3547612601).let{
                 action -> findNavController().navigate(action)
             }
         }

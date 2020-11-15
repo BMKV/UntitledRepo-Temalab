@@ -20,7 +20,7 @@ import kotlin.properties.Delegates
 
 class JobBoardContainerFragment : Fragment() {
 
-    private var userId by Delegates.notNull<Int>()
+    private var userId by Delegates.notNull<Long>()
 
     private lateinit var viewModel: JobBoardContainerViewModel
 

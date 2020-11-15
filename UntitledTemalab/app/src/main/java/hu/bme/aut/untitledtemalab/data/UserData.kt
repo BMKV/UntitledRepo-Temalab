@@ -1,7 +1,7 @@
 package hu.bme.aut.untitledtemalab.data
 
 //Mark as "data class"?
-class UserData(val userId: Int,
+class UserData(val userId: Long,
                var userName: String,
                var email: String,
                var rating: Double) {

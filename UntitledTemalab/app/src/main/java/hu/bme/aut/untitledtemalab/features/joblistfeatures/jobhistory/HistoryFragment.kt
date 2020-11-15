@@ -49,7 +49,7 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO this is not clean, it will be refactored
-        requireArguments().getInt(USER_ID_KEY).let { userId ->
+        requireArguments().getLong(USER_ID_KEY).let { userId ->
             historyAdapter = CommonJobDataAdapter { jobId ->
                 HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
                     jobId = jobId, userId = userId
@@ -109,11 +109,11 @@ class HistoryFragment : Fragment() {
          * @return A new instance of fragment HistoryFragment.
          */
         @JvmStatic
-        fun newInstance(historyType: HistoryType, userId: Int) =
+        fun newInstance(historyType: HistoryType, userId: Long) =
             HistoryFragment().apply {
                 arguments = Bundle().apply {
                     putString(HISTORY_TYPE_KEY, historyType.name)
-                    putInt(USER_ID_KEY, userId)
+                    putLong(USER_ID_KEY, userId)
                 }
             }
     }

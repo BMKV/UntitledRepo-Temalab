@@ -23,7 +23,7 @@ import kotlin.properties.Delegates
  */
 class HistoryContainerFragment : Fragment() {
 
-    private var userId by Delegates.notNull<Int>()
+    private var userId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

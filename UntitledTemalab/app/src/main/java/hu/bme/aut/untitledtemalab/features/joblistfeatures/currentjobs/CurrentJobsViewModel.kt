@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class CurrentJobsViewModel(
     application: Application,
-    userId: Int,
+    userId: Long,
     private val useType: CurrentJobsViewModelUseType
 ) :
     AndroidViewModel(application) {

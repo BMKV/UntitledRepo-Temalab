@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  * This [FragmentStateAdapter] subclass's responsibility to define the ViewPager2 widget's behavior,
  * that contains the user's package history.
  */
-class HistoryPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, val userId: Int)
+class HistoryPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, val userId: Long)
     : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     companion object{

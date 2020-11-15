@@ -165,7 +165,7 @@ class UserController {
     }
 
     fun getAllSentJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
-        var result = listOf<Jobs>()
+        val result = mutableListOf<Jobs>()
 
         var queryStatus: Status? = null
         if (status.isPresent)
@@ -176,17 +176,17 @@ class UserController {
             querySize = PackageSize.fromValue(size.get().toString())
 
         if (queryStatus != null && querySize == null)
-            result = jobRepository.findAllByStatusAndSender(queryStatus, user)
+            result.addAll(jobRepository.findAllByStatusAndSender(queryStatus, user))
         if (queryStatus == null && querySize != null)
-            result = jobRepository.findAllBySizeAndSender(querySize, user)
+            result.addAll(jobRepository.findAllBySizeAndSender(querySize, user))
         else if (queryStatus != null && querySize != null)
-            result = jobRepository.findAllBySizeAndStatusAndSender(querySize, queryStatus, user)
+                result.addAll(jobRepository.findAllBySizeAndStatusAndSender(querySize, queryStatus, user))
 
         return result
     }
 
     fun getAllDeliveredJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
-        var result = listOf<Jobs>()
+        val result = mutableListOf<Jobs>()
         var queryStatus: Status? = null
         if (status.isPresent)
             queryStatus = Status.fromValue(status.get().toString())
@@ -195,12 +195,14 @@ class UserController {
         if (size.isPresent)
             querySize = PackageSize.fromValue(size.get().toString())
 
+
+
         if (queryStatus != null && querySize == null)
-            result = jobRepository.findAllByStatusAndDeliverer(queryStatus, user)
+            result.addAll(jobRepository.findAllByStatusAndDeliverer(queryStatus, user))
         if (queryStatus == null && querySize != null)
-            result = jobRepository.findAllBySizeAndDeliverer(querySize, user)
+            result.addAll(jobRepository.findAllBySizeAndDeliverer(querySize, user))
         else if (queryStatus != null && querySize != null)
-            result = jobRepository.findAllBySizeAndStatusAndDeliverer(querySize, queryStatus, user)
+            result.addAll(jobRepository.findAllBySizeAndStatusAndDeliverer(querySize, queryStatus, user))
 
         return result
     }

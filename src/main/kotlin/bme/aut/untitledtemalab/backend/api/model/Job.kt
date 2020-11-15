@@ -31,7 +31,7 @@ class Job(dbJob: Jobs?) {
      * The current status of the Job
      */
     enum class StatusEnum(private val value: String) {
-        PENDING("pending"), ACCEPTED("accepted"), PICKEDUP("pickedUp"), DELIVERED("delivered");
+        pending("pending"), accepted("accepted"), pickedUp("pickedUp"), delivered("delivered");
 
         @JsonValue
         override fun toString(): String {

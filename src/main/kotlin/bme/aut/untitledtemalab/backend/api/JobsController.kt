@@ -130,6 +130,8 @@ class JobsController {
         val dbUser = userRepository.findById(userId)
         // validate
         validateJobAndUser(dbJob, dbUser)
+        if (dbJob.get().status != Status.accepted)
+            throw JobNotAcceptedException()
         if (!isUserDeliverer(dbJob.get(), dbUser.get()))
             throw ModifyJobUnauthorisedUserException()
         // logic
@@ -145,7 +147,7 @@ class JobsController {
     }
 
     private fun isUserDeliverer(dbJob: Jobs, dbUser: Users): Boolean {
-        return dbJob.deliverer!!.id == dbUser.id
+        return dbJob.deliverer!!.id  == dbUser.id
     }
 
     private fun validateJobAndUser(dbJob: Optional<Jobs>, dbUser: Optional<Users>) {

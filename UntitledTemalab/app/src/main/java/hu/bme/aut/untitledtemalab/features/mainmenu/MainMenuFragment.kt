@@ -37,9 +37,9 @@ class MainMenuFragment : Fragment() {
 
         //History Button
         //TODO userId will be passed in the action
-        btnHistory.setOnClickListener{ btnHistory ->
+        btnHistory.setOnClickListener{
             MainMenuFragmentDirections.actionMainMenuOpenHistory().let{
-                action -> btnHistory!!.findNavController().navigate(action)
+                action -> findNavController().navigate(action)
             }
         }
 
@@ -50,6 +50,13 @@ class MainMenuFragment : Fragment() {
                 action -> findNavController().navigate(action)
             }
 
+        }
+
+        //TODO userId will be passed in the action
+        btnJobBoard.setOnClickListener{
+            MainMenuFragmentDirections.actionMainMenuOpenJobBoard().let{
+                action -> findNavController().navigate(action)
+            }
         }
 
         //Post New Job Button

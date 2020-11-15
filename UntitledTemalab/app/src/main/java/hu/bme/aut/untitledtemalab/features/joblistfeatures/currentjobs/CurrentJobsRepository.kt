@@ -27,7 +27,7 @@ class CurrentJobsRepository(val userId: Long) {
         for (activeStatus in JobStatus.getActiveStatuses()) {
             try {
                 activeJobList.addAll(
-                    categoryRetriever(userId, activeStatus.name)
+                    categoryRetriever(userId, activeStatus.getBackendValueName())
                 )
             } catch (error: Exception) {
                 return JobDataResponse(null, error)

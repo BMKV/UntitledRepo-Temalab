@@ -1,7 +1,29 @@
 package hu.bme.aut.untitledtemalab.data
 
 enum class JobStatus {
-    Pending, Accepted, PickedUp, Delivered, Expired;
+    Pending {
+        override fun getBackendValueName(): String {
+            return "pending"
+        }
+    }, Accepted {
+        override fun getBackendValueName(): String {
+            return "accepted"
+        }
+    }, PickedUp {
+        override fun getBackendValueName(): String {
+            return "pickedUp"
+        }
+    }, Delivered {
+        override fun getBackendValueName(): String {
+            return "delivered"
+        }
+    }, Expired {
+        override fun getBackendValueName(): String {
+            TODO("Ez nincs benne az API leírásban:)")
+        }
+    };
+
+
 
     companion object{
         fun getActiveStatuses(): List<JobStatus>{
@@ -12,4 +34,6 @@ enum class JobStatus {
             }
         }
     }
+
+    abstract fun getBackendValueName(): String
 }

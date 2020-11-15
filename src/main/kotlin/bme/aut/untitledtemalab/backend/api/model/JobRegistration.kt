@@ -19,39 +19,51 @@ class JobRegistration {
 
     fun updateDbJob(job: Jobs): Boolean {
         if (job.status == Status.expired || job.status == Status.pending) {
-            var changed: Int = 0
+            var changed = 0
             var value: Any? = changeIfNotEquals(job.size, PackageSize.fromValue(size.toString()))
 
-            if (value != null) {
-                job.size = value as PackageSize
-                changed++
+            if (size != null) {
+                if (value != null) {
+                    job.size = value as PackageSize
+                    changed++
+                }
             }
-            value = changeIfNotEquals(job.payment, payment)
-            if (value != null) {
-                job.payment = value as Int
-                changed++
+            if (payment != null) {
+                value = changeIfNotEquals(job.payment, payment)
+                if (value != null) {
+                    job.payment = value as Int
+                    changed++
+                }
             }
-            value = changeIfNotEquals(job.jobIssuedDate, jobIssuedDate)
-            if (value != null) {
-                job.jobIssuedDate = value as String
-                changed++
+            if (jobIssuedDate != null) {
+                value = changeIfNotEquals(job.jobIssuedDate, jobIssuedDate.toString())
+                if (value != null) {
+                    job.jobIssuedDate = value.toString()
+                    changed++
+                }
             }
-            value = changeIfNotEquals(job.jobIssuedDate, jobIssuedDate)
-            if (value != null) {
-                job.deadline = value as String
-                changed++
+            if (deadline != null) {
+                value = changeIfNotEquals(job.deadline, deadline.toString())
+                if (value != null) {
+                    job.deadline = value.toString()
+                    changed++
+                }
             }
-            value = changeIfNotEquals(job.deliveryRoute.startLocation, startLocation)
-            if (value != null) {
-                job.deliveryRoute.startLocation = value as String
-                changed++
+            if (startLocation != null) {
+                value = changeIfNotEquals(job.deliveryRoute.startLocation, startLocation)
+                if (value != null) {
+                    job.deliveryRoute.startLocation = value as String
+                    changed++
+                }
             }
-            value = changeIfNotEquals(job.deliveryRoute.destination, deadline)
-            if (value != null) {
-                job.deliveryRoute.destination = value as String
-                changed++
+            if (destination != null) {
+                value = changeIfNotEquals(job.deliveryRoute.destination, destination)
+                if (value != null) {
+                    job.deliveryRoute.destination = value as String
+                    changed++
+                }
             }
-            return 0 < changed
+            return 1 <= changed
         }
         return false
     }

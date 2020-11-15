@@ -38,7 +38,7 @@ class CurrentJobsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO this is not clean, it will be refactored
+        //TODO this is not clean, it should be refactored
         requireArguments().getInt(USER_ID_KEY).let { userId ->
             viewModel = ViewModelProvider(
                 this, CurrentJobsViewModelFactory(
@@ -80,8 +80,8 @@ class CurrentJobsFragment : Fragment() {
         }
 
         //TODO parameter of this action may change in the future
-        fab.setOnClickListener{
-            CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob().let{ action ->
+        fab.setOnClickListener {
+            CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob().let { action ->
                 findNavController().navigate(action)
             }
         }
@@ -112,12 +112,7 @@ class CurrentJobsFragment : Fragment() {
         @JvmStatic
         fun newInstance(jobType: RepresentedJobType, userId: Int) = CurrentJobsFragment().apply {
             arguments = Bundle().apply {
-                putString(
-                    JOB_TYPE_KEY, when (jobType) {
-                        RepresentedJobType.AcceptedJob -> RepresentedJobType.AcceptedJob.name
-                        RepresentedJobType.AnnouncedJob -> RepresentedJobType.AnnouncedJob.name
-                    }
-                )
+                putString(JOB_TYPE_KEY, jobType.name)
                 putInt(USER_ID_KEY, userId)
             }
         }

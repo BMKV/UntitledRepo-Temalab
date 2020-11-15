@@ -112,13 +112,7 @@ class HistoryFragment : Fragment() {
         fun newInstance(historyType: HistoryType, userId: Int) =
             HistoryFragment().apply {
                 arguments = Bundle().apply {
-                    putString(
-                        HISTORY_TYPE_KEY,
-                        when (historyType) {
-                            HistoryType.SentHistory -> HistoryType.SentHistory.name
-                            HistoryType.TransportedHistory -> HistoryType.TransportedHistory.name
-                        }
-                    )
+                    putString(HISTORY_TYPE_KEY, historyType.name)
                     putInt(USER_ID_KEY, userId)
                 }
             }

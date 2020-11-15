@@ -27,16 +27,26 @@ class JobBoardFragment : Fragment() {
     }
 
     companion object {
+
+        private const val USER_ID_KEY = "USER_ID_KEY"
+
+        private const val JOB_TYPE_KEY = "JOB_TYPE_KEY"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          * @return A new instance of fragment JobBoardFragment.
          */
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(jobType: RepresentedJobType, userId: Int) =
             JobBoardFragment().apply {
                 arguments = Bundle().apply {
+                    putString(JOB_TYPE_KEY, jobType.name)
                 }
             }
+    }
+
+    enum class RepresentedJobType{
+        SmallSize, MediumSize, LargeSize
     }
 }

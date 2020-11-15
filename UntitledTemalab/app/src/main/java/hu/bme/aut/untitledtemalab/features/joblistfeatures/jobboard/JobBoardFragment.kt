@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataAdapter
-import kotlinx.android.synthetic.main.fragment_current_jobs.*
+import kotlinx.android.synthetic.main.fragment_job_board.*
 import java.lang.Exception
 
 /**
@@ -63,9 +63,9 @@ class JobBoardFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
-        
-        rvCurrentJobs.adapter = jobsAdapter
-        rvCurrentJobs.layoutManager = LinearLayoutManager(requireContext())
+
+        rvAvailableJobs.adapter = jobsAdapter
+        rvAvailableJobs.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.availableJobs.observe(viewLifecycleOwner) { jobDataResponse ->
             when {

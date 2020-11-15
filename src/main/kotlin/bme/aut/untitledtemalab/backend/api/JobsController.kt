@@ -1,5 +1,6 @@
 package bme.aut.untitledtemalab.backend.api
 
+import bme.aut.untitledtemalab.backend.geoapi.GeoApi
 import bme.aut.untitledtemalab.backend.api.model.Job
 import bme.aut.untitledtemalab.backend.api.model.JobRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
@@ -45,7 +46,10 @@ class JobsController {
 
         val newJobId = UIDGenerator.generateUID()
 
-        val route = Routes(id = UIDGenerator.generateUID(), startLocation = jobRegistration.startLocation!!, destination = jobRegistration.destination!!)
+        val route = Routes(id = UIDGenerator.generateUID(),
+                startLocation = jobRegistration.startLocation!!,
+                destination = jobRegistration.destination!!,
+                optimalTime = GeoApi.getOptimalRouteTime(jobRegistration.startLocation!!,jobRegistration.destination!!))
 
         val job = Jobs(id = newJobId,
                 payment = jobRegistration.payment!!,

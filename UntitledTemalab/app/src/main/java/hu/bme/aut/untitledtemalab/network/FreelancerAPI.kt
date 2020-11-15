@@ -35,4 +35,9 @@ interface FreelancerAPI {
     fun getUserProfileById(
         @Query("user-id") userId: Int
     ): Call<UserData>
+
+    @GET("/jobs")
+    fun getAvailableJobsBySize(
+        @Query("size") backendSizeType: String
+    ): Call<List<JobData>>
 }

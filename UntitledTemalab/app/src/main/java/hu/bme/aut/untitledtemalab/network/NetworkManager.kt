@@ -1,6 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.PackageSize
 import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Retrofit
 import retrofit2.await
@@ -39,5 +40,9 @@ object NetworkManager {
 
     suspend fun getUserProfileById(userId: Int): UserData {
         return freelancerApi.getUserProfileById(userId).await()
+    }
+
+    suspend fun getAvailableJobsBySize(size: PackageSize): List<JobData>{
+        return freelancerApi.getAvailableJobsBySize(size.getBackendValueName()).await()
     }
 }

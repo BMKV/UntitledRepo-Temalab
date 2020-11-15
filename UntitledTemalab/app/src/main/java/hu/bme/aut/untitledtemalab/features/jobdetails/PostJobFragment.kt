@@ -54,10 +54,10 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             val atmStartPoint = edtPickUpPoint.text.toString()
             val atmDestination =  edtDestination.text.toString()
             val atmSize = when (theSpinner.selectedItem.toString()) {
-                "small" -> PackageSize.small
-                "medium" -> PackageSize.medium
-                "large" -> PackageSize.large
-                else -> PackageSize.large
+                "small" -> PackageSize.Small
+                "medium" -> PackageSize.Medium
+                "large" -> PackageSize.Large
+                else -> PackageSize.Large
             }
             val atmPayment = edtPayment.text.toString().toInt()
             val atmIssueDate = "2020.12.12"

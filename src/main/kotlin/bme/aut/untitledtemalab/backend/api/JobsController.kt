@@ -113,7 +113,7 @@ class JobsController {
             throw ModifyJobUnauthorisedUserException()
         if (dbJob.get().status != Status.pending)
             throw JobNotPendingException()
-        if (dbUser.get().cargoFreeSize - PackageSize.toInt(dbJob.get().size) < 0)
+        if ((dbUser.get().cargoFreeSize - PackageSize.toInt(dbJob.get().size)) < 0)
             throw NotEnoughSpaceInCargoException()
         // logic
         dbUser.get().packageDelivered.add(dbJob.get())
@@ -141,11 +141,11 @@ class JobsController {
     }
 
     private fun isUserSender(dbJob: Jobs, dbUser: Users): Boolean {
-        return dbJob.sender == dbUser
+        return dbJob.sender.id == dbUser.id
     }
 
     private fun isUserDeliverer(dbJob: Jobs, dbUser: Users): Boolean {
-        return dbJob.deliverer == dbUser
+        return dbJob.deliverer!!.id == dbUser.id
     }
 
     private fun validateJobAndUser(dbJob: Optional<Jobs>, dbUser: Optional<Users>) {

@@ -113,8 +113,11 @@ class JobsController {
             throw ModifyJobUnauthorisedUserException()
         if (dbJob.get().status != Status.pending)
             throw JobNotPendingException()
+        if (dbUser.get().cargoFreeSize - PackageSize.toInt(dbJob.get().size) < 0)
+            throw NotEnoughSpaceInCargoException()
         // logic
         dbUser.get().packageDelivered.add(dbJob.get())
+        dbUser.get().cargoFreeSize -= PackageSize.toInt(dbJob.get().size)
         dbJob.get().status = Status.accepted
 
         jobRepository.save(dbJob.get())

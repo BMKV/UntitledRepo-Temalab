@@ -18,5 +18,13 @@ enum class PackageSize(private val value: String) {
             }
             return null
         }
+
+        fun toInt(size: PackageSize): Int {
+            return when (size) {
+                small -> 1
+                medium -> 2
+                large -> 3
+            }
+        }
     }
 }

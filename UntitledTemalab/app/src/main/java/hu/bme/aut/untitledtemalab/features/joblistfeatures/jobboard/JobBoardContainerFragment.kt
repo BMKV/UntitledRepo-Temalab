@@ -86,9 +86,13 @@ class JobBoardContainerFragment : Fragment() {
         try {
             val cargoCapacityMaximum = cargoData.maxSize
             val freeCargoSpace = cargoData.freeSize
+            Log.i("Freelancer", cargoCapacityMaximum.toString())
+            Log.i("Freelancer", freeCargoSpace.toString())
             check(cargoCapacityMaximum >= freeCargoSpace) { "Invalid answer from the server! - Maximum capacity is lower than occupied!" }
             pbCargoOccupancy.max = cargoCapacityMaximum
             pbCargoOccupancy.progress = cargoCapacityMaximum - freeCargoSpace
+            tvOccupancyPercentage.text = getString(R.string.cargo_occupancy, cargoCapacityMaximum - freeCargoSpace, cargoCapacityMaximum)
+
         } catch (exception: Exception) {
             handleError(exception)
         }

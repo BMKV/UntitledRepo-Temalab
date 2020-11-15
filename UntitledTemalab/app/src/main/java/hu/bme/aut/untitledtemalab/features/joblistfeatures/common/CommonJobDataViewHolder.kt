@@ -10,5 +10,5 @@ import kotlinx.android.synthetic.main.element_job_detail.view.*
 class CommonJobDataViewHolder(jobDataView: View) : RecyclerView.ViewHolder(jobDataView) {
     val cardView: CardView = jobDataView.cardView
     val ivSize: ImageView = jobDataView.ivSize
-    val tvHistoryDetail: TextView = jobDataView.tvHistoryDetail
+    val tvHistoryDetail: TextView = jobDataView.cardView.tvHistoryDetail
 }

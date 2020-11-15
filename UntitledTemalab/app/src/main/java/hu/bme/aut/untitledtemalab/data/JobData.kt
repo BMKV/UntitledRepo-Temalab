@@ -1,7 +1,9 @@
 package hu.bme.aut.untitledtemalab.data
 
+import com.google.gson.annotations.SerializedName
+
 //Mark as "data class"?
-class JobData (val jobId: Long,
+class JobData (@SerializedName("job-id") val jobId: Long,
                val jobName: String,
                val packageSize: PackageSize,
                val payment: Int,

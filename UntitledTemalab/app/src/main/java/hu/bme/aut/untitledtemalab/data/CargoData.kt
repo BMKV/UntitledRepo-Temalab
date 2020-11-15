@@ -1,3 +1,8 @@
 package hu.bme.aut.untitledtemalab.data
 
-class CargoData(val freeSize: Int, val maxSize: Int)
+import com.google.gson.annotations.SerializedName
+
+class CargoData(
+    @SerializedName("cargoFreeSize") val freeSize: Int,
+    @SerializedName("cargoMaxSize") val maxSize: Int
+)

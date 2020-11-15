@@ -31,4 +31,11 @@
         android:layout_height="wrap_content"
         style="@android:style/Widget.ProgressBar.Horizontal"/>
 
+    <TextView
+        android:id="@+id/tvOccupancyPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        tools:text="25/100"/>
+
 </LinearLayout>

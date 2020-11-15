@@ -23,7 +23,7 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
         val jobData = jobDataList[position]
 
         holder.ivSize.setImageResource(R.mipmap.ic_launcher)
-        holder.tvHistoryDetail.text = jobData.jobName
+        holder.tvHistoryDetail.text = jobData.jobId.toString()
         holder.cardView.setOnClickListener {
             onItemClick(jobDataList[position].jobId)
         }

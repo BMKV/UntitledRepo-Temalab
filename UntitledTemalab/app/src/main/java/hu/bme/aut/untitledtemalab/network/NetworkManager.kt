@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkManager {
 
-    private const val SERVICE_URL = "https://untitled-repo-backend.herokuapp.com/api/v1/"
+    private const val SERVICE_URL = "https://untitled-repo-backend.herokuapp.com"
 
     private val freelancerApi : FreelancerAPI
 

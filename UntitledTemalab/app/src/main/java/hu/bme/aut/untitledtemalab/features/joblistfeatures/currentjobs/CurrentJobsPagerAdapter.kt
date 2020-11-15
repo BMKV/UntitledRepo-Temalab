@@ -12,7 +12,7 @@ class CurrentJobsPagerAdapter(
     val userId: Int
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
-    companion object{
+    companion object {
         /**
          * This variable contains how many tabs are contained by the ViewPager2 instance.
          */
@@ -25,7 +25,7 @@ class CurrentJobsPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return CurrentJobsFragment.newInstance(
-            when(position){
+            when (position) {
                 0 -> CurrentJobsFragment.RepresentedJobType.AnnouncedJob
                 1 -> CurrentJobsFragment.RepresentedJobType.AcceptedJob
                 else -> throw IllegalStateException("Such position doesn't exist: $position")

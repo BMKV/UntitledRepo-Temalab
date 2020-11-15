@@ -64,12 +64,16 @@
     </fragment>
     <fragment
         android:id="@+id/jobBoardFragment"
-        android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard.JobBoardFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard.JobBoardContainerFragment"
         android:label="fragment_job_board"
-        tools:layout="@layout/fragment_job_board" >
+        tools:layout="@layout/fragment_job_board_container" >
         <action
             android:id="@+id/action_jobBoard_ShowJobDetails"
             app:destination="@id/jobDetailsFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/postJobFragment"

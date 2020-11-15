@@ -36,4 +36,6 @@
     <string name="job_expired_info">This Job Listing expired!</string>
     <string name="job_completed_info">This Job was completed!</string>
     <string name="job_is_yours_info">You posted this job!</string>
+    <string name="cargo_space_occupancy">Cargo space occupancy</string>
+    <string name="jobboard_title">Available jobs</string>
 </resources>

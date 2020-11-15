@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
+package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,14 +12,14 @@ import kotlinx.android.synthetic.main.merge_viewpager2_with_tablayout.*
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
-class CurrentJobsContainerFragment : Fragment() {
+class JobBoardContainerFragment : Fragment() {
 
     private var userId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val navArgs: CurrentJobsContainerFragmentArgs by navArgs()
+        val navArgs: JobBoardContainerFragmentArgs by navArgs()
         userId = navArgs.userId
     }
 
@@ -27,18 +27,18 @@ class CurrentJobsContainerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current_jobs_container, container, false)
+        return inflater.inflate(R.layout.fragment_job_board_container, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vp2ViewPager.adapter = CurrentJobsPagerAdapter(childFragmentManager, lifecycle, userId)
+        vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Announced packages"
-                1 -> "Accepted deliveries"
+                0 -> "Small"
+                1 -> "Medium"
+                2 -> "Large"
                 else -> throw IllegalStateException("Such position doesn't exist: $position")
             }
         }.attach()

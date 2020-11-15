@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.joblistfeatures.jobboard.JobBoardContainerFragment"
+    android:orientation="vertical">
+
+    <!--TODO probably this won't work like this :) -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/jobboard_title"
+        android:textAlignment="center"
+        android:textSize="25sp"/>
+
+    <include
+        android:id="@+id/mergeVp2WithTabLayout"
+        layout="@layout/merge_viewpager2_with_tablayout"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cargo_space_occupancy"
+        android:textSize="15sp"/>
+    
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+</LinearLayout>

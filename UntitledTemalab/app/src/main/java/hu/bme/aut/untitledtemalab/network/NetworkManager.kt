@@ -1,5 +1,6 @@
 package hu.bme.aut.untitledtemalab.network
 
+import android.util.Log
 import hu.bme.aut.untitledtemalab.data.CargoData
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.PackageSize
@@ -48,6 +49,7 @@ object NetworkManager {
     }
 
     suspend fun getUsersCargoInformation(userId: Long): CargoData{
+        Log.i("Freelancer", userId.toString())
         return freelancerApi.getUsersCargoInformation(userId).await()
     }
 }

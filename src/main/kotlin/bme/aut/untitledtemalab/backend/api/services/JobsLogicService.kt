@@ -1,22 +1,20 @@
-package bme.aut.untitledtemalab.backend.api
+package bme.aut.untitledtemalab.backend.api.services
 
-import bme.aut.untitledtemalab.backend.geoapi.GeoApi
 import bme.aut.untitledtemalab.backend.api.model.Job
 import bme.aut.untitledtemalab.backend.api.model.JobRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
-import bme.aut.untitledtemalab.backend.database.*
+import bme.aut.untitledtemalab.backend.database.JobRepository
+import bme.aut.untitledtemalab.backend.database.RouteRepository
+import bme.aut.untitledtemalab.backend.database.UIDGenerator
+import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.*
+import bme.aut.untitledtemalab.backend.geoapi.GeoApi
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import java.net.URI
+import org.springframework.stereotype.Service
 import java.util.*
 
-@RestController
-@RequestMapping("jobs")
-class JobsController {
-
+@Service
+class JobsLogicService {
     @Autowired
     private lateinit var jobRepository: JobRepository
 
@@ -26,30 +24,24 @@ class JobsController {
     @Autowired
     private lateinit var routeRepository: RouteRepository
 
-    @GetMapping
-    fun getAllAvailableJobs(@RequestParam size: Optional<Job.SizeEnum>): List<Job> {
+    fun getAllAvailableJobs(size: Optional<Job.SizeEnum>): List<Job> {
         return if (size.isPresent) {
             val packageSize = PackageSize.fromValue(size.get().toString())
             if (packageSize != null)
                 Job.convertDbJobListToApiJobList(jobRepository.findAllByStatusAndSize(Status.pending, packageSize))
-            else throw InvalidInputException("package size is not correct")
+            else throw InvalidInputModelError()
         } else Job.convertDbJobListToApiJobList(jobRepository.findAllByStatus(Status.pending))
     }
 
-    @PostMapping
-    fun postJob(@RequestParam(name = "user-id") userId: Long, @RequestBody jobRegistration: JobRegistration): ResponseEntity<String> {
-        if (!jobRegistration.isValid())
-            throw InvalidInputException()
+    fun addNewJob(userId: Long, jobRegistration: JobRegistration): Long {
         val dbUser = userRepository.findById(userId)
-        if (dbUser.isEmpty)
-            throw UserNotFoundException()
 
         val newJobId = UIDGenerator.generateUID()
 
         val route = Routes(id = UIDGenerator.generateUID(),
                 startLocation = jobRegistration.startLocation!!,
                 destination = jobRegistration.destination!!,
-                optimalTime = GeoApi.getOptimalRouteTime(jobRegistration.startLocation!!,jobRegistration.destination!!))
+                optimalTime = GeoApi.getOptimalRouteTime(jobRegistration.startLocation!!, jobRegistration.destination!!))
 
         val job = Jobs(id = newJobId,
                 payment = jobRegistration.payment!!,
@@ -63,59 +55,45 @@ class JobsController {
         routeRepository.save(route)
         jobRepository.save(job)
 
-        val responseHeaders = HttpHeaders()
-        responseHeaders.set("Location", newJobId.toString())
-        return ResponseEntity.created(URI("jobs/post/$newJobId"))
-                .headers(responseHeaders)
-                .body("{job-id: $newJobId}")
+        return newJobId
     }
 
-    @GetMapping("post/{job-id}")
-    fun getJobById(@PathVariable("job-id") jobId: Long): Job {
-        val dbJob = jobRepository.findById(jobId)
-        if (dbJob.isEmpty)
-            throw JobNotFoundException()
-        return Job(dbJob.get())
+    fun getJob(jobId: Long): Job {
+        return Job(jobRepository.findById(jobId).get())
     }
 
-    @PutMapping("post/{job-id}")
-    fun updateJob(@PathVariable("job-id") jobId: Long,@RequestParam(name = "user-id") userId: Long, @RequestBody jobRegistration: JobRegistration) {
-        //validate
+    fun changeJob(jobId: Long, userId: Long, jobRegistration: JobRegistration) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
-        validateJobAndUser(dbJob, dbUser)
+
         if (!isUserSender(dbJob.get(), dbUser.get()))
-            throw ModifyJobUnauthorisedUserException()
-        //logic
+            throw ModifyJobUnauthorisedUserModelError()
+
         if (jobRegistration.updateDbJob(dbJob.get()))
             jobRepository.save(dbJob.get())
     }
 
-    @DeleteMapping("post/{job-id}")
-    fun deleteJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
-        //validate
+    fun deleteJob(jobId: Long, userId: Long) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
-        validateJobAndUser(dbJob, dbUser)
+
         if (!isUserSender(dbJob.get(), dbUser.get()))
-            throw ModifyJobUnauthorisedUserException()
-        // logic
+            throw ModifyJobUnauthorisedUserModelError()
+
         jobRepository.delete(dbJob.get())
     }
 
-    @PostMapping("accept/{job-id}")
-    fun acceptJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
+    fun acceptJob(jobId: Long, userId: Long) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
-        // validate
-        validateJobAndUser(dbJob, dbUser)
+
         if (isUserSender(dbJob.get(), dbUser.get()))
-            throw ModifyJobUnauthorisedUserException()
+            throw CantAcceptJobModelError()
         if (dbJob.get().status != Status.pending)
-            throw JobNotPendingException()
+            throw JobNotPendingModelError()
         if ((dbUser.get().cargoFreeSize - PackageSize.toInt(dbJob.get().size)) < 0)
-            throw NotEnoughSpaceInCargoException()
-        // logic
+            throw NotEnoughSpaceInCargoModelError()
+
         dbUser.get().packageDelivered.add(dbJob.get())
         dbUser.get().cargoFreeSize -= PackageSize.toInt(dbJob.get().size)
         dbJob.get().status = Status.accepted
@@ -124,17 +102,15 @@ class JobsController {
         userRepository.save(dbUser.get())
     }
 
-    @DeleteMapping("accept/{job-id}")
-    fun abandonJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long) {
+    fun abandonJob(jobId: Long, userId: Long) {
         val dbJob = jobRepository.findById(jobId)
         val dbUser = userRepository.findById(userId)
-        // validate
-        validateJobAndUser(dbJob, dbUser)
+
         if (dbJob.get().status != Status.accepted)
-            throw JobNotAcceptedException()
+            throw JobNotAcceptedModelError()
         if (!isUserDeliverer(dbJob.get(), dbUser.get()))
-            throw ModifyJobUnauthorisedUserException()
-        // logic
+            throw ModifyJobUnauthorisedUserModelError()
+
         dbUser.get().packageDelivered.remove(dbJob.get())
         dbJob.get().status = Status.pending
 
@@ -142,18 +118,12 @@ class JobsController {
         userRepository.save(dbUser.get())
     }
 
+    private fun isUserDeliverer(dbJob: Jobs, dbUser: Users): Boolean {
+        return dbJob.deliverer!!.id == dbUser.id
+    }
+
     private fun isUserSender(dbJob: Jobs, dbUser: Users): Boolean {
         return dbJob.sender.id == dbUser.id
     }
 
-    private fun isUserDeliverer(dbJob: Jobs, dbUser: Users): Boolean {
-        return dbJob.deliverer!!.id  == dbUser.id
-    }
-
-    private fun validateJobAndUser(dbJob: Optional<Jobs>, dbUser: Optional<Users>) {
-        if (dbJob.isEmpty)
-            throw JobNotFoundException()
-        if (dbUser.isEmpty)
-            throw UserNotFoundException()
-    }
 }

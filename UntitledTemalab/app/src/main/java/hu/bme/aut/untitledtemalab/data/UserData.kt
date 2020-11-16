@@ -7,6 +7,7 @@ class UserData(val userId: Long,
                var rating: Double) {
     //Tagváltozók
     var canDeliver = false
+    var isAdmin = false
     var cargoFreeSize: Int? = null
     var cargoCapacity: Int? = null
 

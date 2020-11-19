@@ -46,4 +46,10 @@ interface FreelancerAPI {
     fun getUsersCargoInformation(
         @Path("user-id") userId: Long,
     ): Call<CargoData>
+
+    //TODO ez valahol nem stimmel
+    @GET("/api/v1/jobs/post/{job-id}")
+    fun getJobById(
+        @Query("job-id") jobId: Long
+    ): Call<List<JobData>>
 }

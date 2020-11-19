@@ -44,6 +44,11 @@ object NetworkManager {
         return freelancerApi.getUserProfileById(userId).await()
     }
 
+    //TODO ez valahol nem stimmel
+    suspend fun getJobById(jobId: Long): List<JobData> {
+        return freelancerApi.getJobById(jobId).await()
+    }
+
     suspend fun getAvailableJobsBySize(size: PackageSize): List<JobData>{
         return freelancerApi.getAvailableJobsBySize(size.getBackendValueName()).await()
     }

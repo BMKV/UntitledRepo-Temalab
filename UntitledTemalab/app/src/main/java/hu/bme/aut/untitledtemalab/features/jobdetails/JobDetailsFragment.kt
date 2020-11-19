@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,7 +18,14 @@ import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.UserData
 import hu.bme.aut.untitledtemalab.demostuff.DemoData
+import hu.bme.aut.untitledtemalab.network.NetworkManager
+import hu.bme.aut.untitledtemalab.network.response.CargoDataResponse
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import kotlinx.android.synthetic.main.fragment_job_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 
 class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -25,6 +33,9 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     lateinit var shownUser: UserData
     lateinit var shownJob: JobData
     lateinit var loggedInUser: UserData
+
+    val args: JobDetailsFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,29 +54,12 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
         //TODO: Itt majd valahonnan get-elni a kapott id alapján a cuccot
         //De most: DemoData listájából
-        shownJob = DemoData.demoJobList.last()
-        shownUser = DemoData.demoUserList.last()
-        loggedInUser = DemoData.loggedInUser
+        var jobId = args.jobId
+        var userId = args.userId
 
-        //Setting contents
-        setContent(shownJob, shownUser)
+        GlobalScope.launch { downloadData(jobId) }
 
-        //Set Button Fragment
-        if (shownJob.ownerID == loggedInUser.userId) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        }
-        else if (shownJob.status == JobStatus.Pending) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
-        }
-        else if (shownJob.status == JobStatus.Delivered) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        }
-        else if (shownJob.status == JobStatus.Expired) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        }
-        else {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
-        }
+
     }
 
     fun setContent(receivedJobData: JobData, receivedUserData: UserData) {
@@ -137,5 +131,32 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         val hungary = LatLng(47.0, 19.0)
         theMap.addMarker(MarkerOptions().position(hungary).title("Marker in Hungary"))
         theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hungary, 6f))
+    }
+
+    suspend fun downloadData(jobId: Long) {
+        //TODO ezt kitakarítani
+        shownJob = NetworkManager.getJobById(jobId).last()
+        shownUser = DemoData.demoUserList.last()
+        loggedInUser = DemoData.loggedInUser
+
+        //Setting contents
+        setContent(shownJob, shownUser)
+
+        //Set Button Fragment
+        if (shownJob.ownerID == loggedInUser.userId) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
+        else if (shownJob.status == JobStatus.Pending) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
+        }
+        else if (shownJob.status == JobStatus.Delivered) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
+        else if (shownJob.status == JobStatus.Expired) {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+        }
+        else {
+            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+        }
     }
 }

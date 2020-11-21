@@ -50,6 +50,6 @@ interface FreelancerAPI {
     //TODO ez valahol nem stimmel
     @GET("/api/v1/jobs/post/{job-id}")
     fun getJobById(
-        @Query("job-id") jobId: Long
+        @Path("job-id") jobId: Long
     ): Call<JobData>
 }

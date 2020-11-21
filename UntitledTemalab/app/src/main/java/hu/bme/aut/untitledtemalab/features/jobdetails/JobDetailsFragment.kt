@@ -2,6 +2,8 @@ package hu.bme.aut.untitledtemalab.features.jobdetails
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +31,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     lateinit var shownUser: UserData
     lateinit var shownJob: JobData
     lateinit var loggedInUser: UserData
-
+    val uiUpdateHandler = Handler(Looper.getMainLooper())
     val args: JobDetailsFragmentArgs by navArgs()
 
 
@@ -48,8 +50,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapViewOnDetails) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        //TODO: Itt majd valahonnan get-elni a kapott id alapján a cuccot
-        //De most: DemoData listájából
         var jobId = args.jobId
         var userId = args.userId
 
@@ -65,15 +65,19 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         tvUserRatingTextOnJob.text = receivedUserData.rating.toString()
 
         //set Job Data cuccok
+        //TODO: enumokat helyrepofozni
         tvJobTitle.text = receivedJobData.jobName
         tvDestinationText.text = receivedJobData.deliveryRoute?.destination
         tvPickUpPointText.text = receivedJobData.deliveryRoute?.startLocation
-        tvPackageSizeText.text = receivedJobData.packageSize.name
+        //tvPackageSizeText.text = receivedJobData.size.name
         tvPaymentText.text = receivedJobData.payment.toString()
         tvDeadlineText.text = receivedJobData.deadline
-        tvIsItAcceptedStatusText.text = receivedJobData.status.name
+        //tvIsItAcceptedStatusText.text = receivedJobData.status.name
         tvExpirationDateText.text = receivedJobData.listingExpirationDate ?: ""
-        tvIsItAcceptedStatusText.text = receivedJobData.status.name
+        //tvIsItAcceptedStatusText.text = receivedJobData.status.name
+
+        //Set the buttons
+        setButtonFragment()
     }
 
     fun acceptJob() {
@@ -130,15 +134,14 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     suspend fun downloadData(jobId: Long, userId: Long) {
-        //TODO ezt kitakarítani
-        shownJob = NetworkManager.getJobById(8091435996)
+        //TODO: logged in user
+        shownJob = NetworkManager.getJobById(jobId)             //(8091435996)
         shownUser = NetworkManager.getUserProfileById(userId)
         loggedInUser = DemoData.loggedInUser
+        uiUpdateHandler.post(Runnable { setContent(shownJob, shownUser) })
+    }
 
-        //Setting contents
-        setContent(shownJob, shownUser)
-
-        //Set Button Fragment
+    private fun setButtonFragment() {
         if (shownJob.ownerID == loggedInUser.userId) {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
         }
@@ -155,4 +158,5 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
             childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
         }
     }
+
 }

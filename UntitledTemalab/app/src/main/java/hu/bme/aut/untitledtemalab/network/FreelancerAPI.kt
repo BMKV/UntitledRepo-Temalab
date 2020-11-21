@@ -51,5 +51,5 @@ interface FreelancerAPI {
     @GET("/api/v1/jobs/post/{job-id}")
     fun getJobById(
         @Query("job-id") jobId: Long
-    ): Call<List<JobData>>
+    ): Call<JobData>
 }

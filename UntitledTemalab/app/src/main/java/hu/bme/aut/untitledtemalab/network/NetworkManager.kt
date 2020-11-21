@@ -45,7 +45,7 @@ object NetworkManager {
     }
 
     //TODO ez valahol nem stimmel
-    suspend fun getJobById(jobId: Long): List<JobData> {
+    suspend fun getJobById(jobId: Long): JobData {
         return freelancerApi.getJobById(jobId).await()
     }
 

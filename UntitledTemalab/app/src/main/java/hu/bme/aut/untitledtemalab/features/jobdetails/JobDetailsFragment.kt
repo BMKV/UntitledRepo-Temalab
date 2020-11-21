@@ -19,13 +19,9 @@ import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.UserData
 import hu.bme.aut.untitledtemalab.demostuff.DemoData
 import hu.bme.aut.untitledtemalab.network.NetworkManager
-import hu.bme.aut.untitledtemalab.network.response.CargoDataResponse
-import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.lang.Exception
 
 class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -57,7 +53,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         var jobId = args.jobId
         var userId = args.userId
 
-        GlobalScope.launch { downloadData(jobId) }
+        GlobalScope.launch { downloadData(jobId, userId) }
 
 
     }
@@ -133,10 +129,10 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hungary, 6f))
     }
 
-    suspend fun downloadData(jobId: Long) {
+    suspend fun downloadData(jobId: Long, userId: Long) {
         //TODO ezt kitakarítani
-        shownJob = NetworkManager.getJobById(jobId).last()
-        shownUser = DemoData.demoUserList.last()
+        shownJob = NetworkManager.getJobById(8091435996)
+        shownUser = NetworkManager.getUserProfileById(userId)
         loggedInUser = DemoData.loggedInUser
 
         //Setting contents

@@ -19,7 +19,6 @@ import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.UserData
-import hu.bme.aut.untitledtemalab.demostuff.DemoData
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.coroutines.GlobalScope
@@ -53,8 +52,18 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         var jobId = args.jobId
         var userId = args.userId
 
-        GlobalScope.launch { downloadData(jobId, userId) }
+        btnExpandMapOnDetails.setOnClickListener {
+            if (btnExpandMapOnDetails.text.toString() == getString(R.string.expand_map)) {
+                btnExpandMapOnDetails.text = getString(R.string.collapse_map)
+                mlOnDetails.transitionToEnd()
+            }
+            else if (btnExpandMapOnDetails.text.toString() == getString(R.string.collapse_map)) {
+                btnExpandMapOnDetails.text = getString(R.string.expand_map)
+                mlOnDetails.transitionToStart()
+            }
+        }
 
+        GlobalScope.launch { downloadData(jobId, userId) }
 
     }
 
@@ -116,8 +125,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
     fun syncData() {
         //TODO: Actual network-re bekötni
-        DemoData.demoJobList[DemoData.demoJobList.size-1] = shownJob
-        DemoData.demoUserList[DemoData.demoUserList.size-1] = shownUser
+        //TODO: update jobdata on backend
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -133,10 +141,10 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     suspend fun downloadData(jobId: Long, userId: Long) {
-        //TODO: logged in user
+        //TODO: logged in user, mert most statikusan kérünk le teszt usert
         shownJob = NetworkManager.getJobById(jobId)
         shownUser = NetworkManager.getUserProfileById(userId)
-        loggedInUser = DemoData.loggedInUser
+        loggedInUser = NetworkManager.getUserProfileById(3547612601)
         uiUpdateHandler.post(Runnable { setContent(shownJob, shownUser) })
     }
 

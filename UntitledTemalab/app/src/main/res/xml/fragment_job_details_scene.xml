@@ -8,13 +8,12 @@
             android:id="@+id/mapViewOnDetails"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText"
+            app:layout_constraintTop_toBottomOf="@+id/btnExpandMapOnDetails"
             android:layout_marginStart="8dp"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -23,11 +22,10 @@
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText"
+            app:layout_constraintTop_toBottomOf="@+id/btnExpandMapOnDetails"
             android:layout_marginStart="8dp"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
             android:id="@+id/mapViewOnDetails" />
     </ConstraintSet>
 
@@ -35,6 +33,5 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:motionInterpolator="easeInOut" >
-        <OnClick motion:touchAnchorId="@id/mapViewOnDetails"  />
     </Transition>
 </MotionScene>

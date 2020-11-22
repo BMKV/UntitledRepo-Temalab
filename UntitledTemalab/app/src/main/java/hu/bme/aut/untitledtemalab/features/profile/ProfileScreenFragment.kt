@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.UserData
-import hu.bme.aut.untitledtemalab.demostuff.DemoData
-import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.android.synthetic.main.fragment_profile_screen.*
 
 /**
@@ -28,7 +26,7 @@ class ProfileScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setContent(DemoData.loggedInUser)
+        //TODO: setContent(loggedInUser)
     }
 
     fun setContent(receivedUserData: UserData) {

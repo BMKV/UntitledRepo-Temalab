@@ -19,7 +19,7 @@ import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.PackageSize
 import hu.bme.aut.untitledtemalab.data.RouteData
 import hu.bme.aut.untitledtemalab.data.UserData
-import hu.bme.aut.untitledtemalab.demostuff.DemoData
+import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.android.synthetic.main.fragment_post_job.*
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
@@ -46,7 +46,18 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         theSpinner = spinnerPostPacakgeSize
 
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
-        loggedInUser = DemoData.loggedInUser
+        //TODO: loggedInUser = loggedInUser
+
+        btnExpandMapOnPost.setOnClickListener {
+            if (btnExpandMapOnPost.text.toString() == getString(R.string.expand_map)) {
+                btnExpandMapOnPost.text = getString(R.string.collapse_map)
+                mlOnPost.transitionToEnd()
+            }
+            else if (btnExpandMapOnPost.text.toString() == getString(R.string.collapse_map)) {
+                btnExpandMapOnPost.text = getString(R.string.expand_map)
+                mlOnPost.transitionToStart()
+            }
+        }
 
         btnPostJob.setOnClickListener {
             val atmId = 1000001
@@ -78,8 +89,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun uploadJobListing(job: JobData, user: UserData) {
-        DemoData.demoJobList.add(job)
-        DemoData.demoUserList.add(user)
+        //TODO: Netwörkre bekötni és megcsinálni
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

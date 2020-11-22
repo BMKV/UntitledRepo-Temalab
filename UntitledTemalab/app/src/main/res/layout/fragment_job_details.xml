@@ -44,6 +44,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/mlOnDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutDescription="@xml/fragment_job_details_scene">
@@ -166,17 +167,16 @@
                 app:layout_constraintTop_toTopOf="@+id/tvPaymentTitle" />
 
             <fragment
-                class="com.google.android.gms.maps.SupportMapFragment"
                 android:id="@+id/mapViewOnDetails"
+                class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText" />
+                app:layout_constraintTop_toBottomOf="@+id/btnExpandMapOnDetails" />
 
             <TextView
                 android:id="@+id/tvIsItAcceptedStatusText"
@@ -273,6 +273,18 @@
                 android:text="ExpirationDateHere"
                 app:layout_constraintStart_toEndOf="@+id/tvOfferExpiresTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvOfferExpiresTitle" />
+
+            <Button
+                android:id="@+id/btnExpandMapOnDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/expand_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvIsItAcceptedStatusText" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerOnDetails"

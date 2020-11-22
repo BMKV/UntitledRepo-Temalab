@@ -1,11 +1,13 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
 
+import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,17 +17,38 @@ import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.features.joblistfeatures.common.CommonJobDataAdapter
 import kotlinx.android.synthetic.main.fragment_current_jobs.*
 
+
 /**
  * A simple [Fragment] subclass.
  * Use the [CurrentJobsFragment.newInstance] factory method to
  * create an instance of this fragment.
- * TODO this will be rewritten
  */
 class CurrentJobsFragment : Fragment() {
 
     private lateinit var viewModel: CurrentJobsViewModel
 
     private lateinit var adapter: CommonJobDataAdapter
+
+    companion object {
+        private const val ERROR_EMPTY_MESSAGE = "Both received data and error is null!"
+        private const val ERROR_INVALID_JOB_TYPE =
+            "Invalid use-type argument was given to CurrentJobsFragment instance!"
+        private const val JOB_TYPE_KEY = "JOB_TYPE_KEY"
+        private const val USER_ID_KEY = "USER_ID_KEY"
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         * @return A new instance of fragment CurrentJobsFragment.
+         */
+        @JvmStatic
+        fun newInstance(jobType: RepresentedJobType, userId: Long) = CurrentJobsFragment().apply {
+            arguments = Bundle().apply {
+                putString(JOB_TYPE_KEY, jobType.name)
+                putLong(USER_ID_KEY, userId)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +61,11 @@ class CurrentJobsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireArguments().getLong(USER_ID_KEY).let { userId ->
-            initializeViewModel(userId)
+            try {
+                initializeViewModel(userId)
+            } catch (exception: Exception) {
+                handleError(exception)
+            }
             initializeRecyclerViewAdapter(userId)
         }
         observeViewModelData()
@@ -71,10 +98,8 @@ class CurrentJobsFragment : Fragment() {
                     RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
                     RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
                     else -> {
-                        val errorMsg =
-                            "Invalid use-type argument was given to CurrentJobsFragment instance!"
-                        Log.e("Freelancer", errorMsg)
-                        throw IllegalArgumentException(errorMsg)
+                        Log.e("Freelancer", ERROR_INVALID_JOB_TYPE)
+                        throw IllegalArgumentException(ERROR_INVALID_JOB_TYPE)
                     }
                 },
             )
@@ -86,7 +111,7 @@ class CurrentJobsFragment : Fragment() {
             when {
                 currentJobsDataResponse.error is Exception -> handleError(currentJobsDataResponse.error)
                 currentJobsDataResponse.jobData !is List<JobData> -> handleError(
-                    IllegalStateException("Both received data and error is null!")
+                    IllegalStateException(ERROR_EMPTY_MESSAGE)
                 )
                 else -> adapter.setJobData(currentJobsDataResponse.jobData)
             }
@@ -102,34 +127,27 @@ class CurrentJobsFragment : Fragment() {
         }
     }
 
-    /**
-     * TODO exception handling will be rewritten
-     */
     private fun handleError(error: Exception) {
-        Log.i("Freelancer", error.localizedMessage ?: "Unexpected error happened!")
-        Snackbar.make(
-            this.requireView(), error.localizedMessage ?: "Unexpected error happened!",
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
-
-    companion object {
-
-        private const val JOB_TYPE_KEY = "JOB_TYPE_KEY"
-
-        private const val USER_ID_KEY = "USER_ID_KEY"
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         * @return A new instance of fragment CurrentJobsFragment.
-         */
-        @JvmStatic
-        fun newInstance(jobType: RepresentedJobType, userId: Long) = CurrentJobsFragment().apply {
-            arguments = Bundle().apply {
-                putString(JOB_TYPE_KEY, jobType.name)
-                putLong(USER_ID_KEY, userId)
-            }
+        Log.i("Freelancer", error.localizedMessage ?: "Error without message happened!")
+        when (error.message) {
+            ERROR_INVALID_JOB_TYPE -> Snackbar.make(
+                requireView(),
+                getString(R.string.application_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            ERROR_EMPTY_MESSAGE -> Snackbar.make(
+                requireView(),
+                getString(R.string.server_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            //Network error happened
+            else -> Snackbar.make(
+                this.requireView(), getString(R.string.network_error),
+                Snackbar.LENGTH_SHORT
+            )
+                .setAction(getString(R.string.open_wifi_settings)) {
+                    startActivity(Intent(WifiManager.ACTION_PICK_WIFI_NETWORK))
+                }.show()
         }
     }
 

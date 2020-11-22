@@ -21,13 +21,13 @@ class CurrentJobsRepository(val userId: Long) {
     }
 
     private suspend fun getActiveJobsWithCategoryRetriever(
-        categoryRetriever: suspend (Long, String) -> List<JobData>
+        dataRetrieverByCategory: suspend (Long, String) -> List<JobData>
     ): JobDataResponse {
         val activeJobList = mutableListOf<JobData>()
         for (activeStatus in JobStatus.getActiveStatuses()) {
             try {
                 activeJobList.addAll(
-                    categoryRetriever(userId, activeStatus.getBackendValueName())
+                    dataRetrieverByCategory(userId, activeStatus.getBackendValueName())
                 )
             } catch (error: Exception) {
                 return JobDataResponse(null, error)

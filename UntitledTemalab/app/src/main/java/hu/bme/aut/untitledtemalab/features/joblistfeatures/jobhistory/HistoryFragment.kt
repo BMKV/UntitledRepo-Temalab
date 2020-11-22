@@ -1,5 +1,7 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 
+import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,6 +38,35 @@ class HistoryFragment : Fragment() {
      * and this property store this adapter instance's reference.
      */
     private lateinit var historyAdapter: CommonJobDataAdapter
+
+    companion object {
+        private const val ERROR_EMPTY_MESSAGE = "Both received data and error is null!"
+        private const val ERROR_INVALID_JOB_TYPE =
+            "Invalid use-type argument was given to CurrentJobsFragment instance!"
+
+        /**
+         * This variable stores the key value to access the fragment's [HistoryType] using option.
+         */
+        private const val HISTORY_TYPE_KEY = "HISTORY_TYPE_KEY"
+
+        private const val USER_ID_KEY = "USER_ID_KEY"
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         * @param historyType with this parameter it can be given, that which type of history
+         * will this fragment represent.
+         * @return A new instance of fragment HistoryFragment.
+         */
+        @JvmStatic
+        fun newInstance(historyType: HistoryType, userId: Long) =
+            HistoryFragment().apply {
+                arguments = Bundle().apply {
+                    putString(HISTORY_TYPE_KEY, historyType.name)
+                    putLong(USER_ID_KEY, userId)
+                }
+            }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +123,7 @@ class HistoryFragment : Fragment() {
             .get(HistoryViewModel::class.java)
     }
 
-    private fun observeViewModelData(){
+    private fun observeViewModelData() {
         historyViewModel.historyDataResponse.observe(viewLifecycleOwner) { historyResponse ->
             when {
                 historyResponse.error is Exception -> handleError(historyResponse.error)
@@ -104,41 +135,28 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    /**
-     * TODO exception handling will be rewritten
-     */
-    private fun handleError(throwable: Throwable) {
-        Log.i("Freelancer", throwable.localizedMessage ?: "Unexpected error happened!")
-        Snackbar.make(
-            this.requireView(), throwable.localizedMessage ?: "Unexpected error happened!",
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
-
-    companion object {
-
-        /**
-         * This variable stores the key value to access the fragment's [HistoryType] using option.
-         */
-        private const val HISTORY_TYPE_KEY = "HISTORY_TYPE_KEY"
-
-        private const val USER_ID_KEY = "USER_ID_KEY"
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         * @param historyType with this parameter it can be given, that which type of history
-         * will this fragment represent.
-         * @return A new instance of fragment HistoryFragment.
-         */
-        @JvmStatic
-        fun newInstance(historyType: HistoryType, userId: Long) =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(HISTORY_TYPE_KEY, historyType.name)
-                    putLong(USER_ID_KEY, userId)
-                }
-            }
+    private fun handleError(error: Exception) {
+        Log.i("Freelancer", error.localizedMessage ?: "Unexpected error happened!")
+        when (error.message) {
+            ERROR_INVALID_JOB_TYPE -> Snackbar.make(
+                requireView(),
+                getString(R.string.application_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            ERROR_EMPTY_MESSAGE -> Snackbar.make(
+                requireView(),
+                getString(R.string.server_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            //Network error happened
+            else -> Snackbar.make(
+                this.requireView(), getString(R.string.network_error),
+                Snackbar.LENGTH_SHORT
+            )
+                .setAction(getString(R.string.open_wifi_settings)) {
+                    startActivity(Intent(WifiManager.ACTION_PICK_WIFI_NETWORK))
+                }.show()
+        }
     }
 
     /**

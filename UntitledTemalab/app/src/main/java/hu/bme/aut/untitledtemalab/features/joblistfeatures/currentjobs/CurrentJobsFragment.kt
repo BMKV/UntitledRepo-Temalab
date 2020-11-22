@@ -60,16 +60,16 @@ class CurrentJobsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireArguments().getLong(USER_ID_KEY).let { userId ->
-            try {
+        try {
+            requireArguments().getLong(USER_ID_KEY).let { userId ->
                 initializeViewModel(userId)
-            } catch (exception: Exception) {
-                handleError(exception)
+                initializeRecyclerViewAdapter(userId)
             }
-            initializeRecyclerViewAdapter(userId)
+            observeViewModelData()
+            setFloatingActionButtonBehaviour()
+        } catch (exception: Exception) {
+            handleError(exception)
         }
-        observeViewModelData()
-        setFloatingActionButtonBehaviour()
     }
 
     override fun onResume() {
@@ -119,10 +119,22 @@ class CurrentJobsFragment : Fragment() {
     }
 
     private fun setFloatingActionButtonBehaviour() {
-        //TODO parameter of this action may change in the future
-        fab.setOnClickListener {
-            CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob().let { action ->
-                findNavController().navigate(action)
+        when (requireArguments().getString(JOB_TYPE_KEY)) {
+            RepresentedJobType.AnnouncedJob.name -> fab.setOnClickListener {
+                CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob()
+                    .let { action ->
+                        findNavController().navigate(action)
+                    }
+            }
+            RepresentedJobType.AcceptedJob.name -> fab.setOnClickListener {
+                CurrentJobsContainerFragmentDirections.actionCurrentJobsFragmentToJobBoardFragment()
+                    .let { action ->
+                        findNavController().navigate(action)
+                    }
+            }
+            else -> {
+                Log.e("Freelancer", ERROR_INVALID_JOB_TYPE)
+                throw IllegalArgumentException(ERROR_INVALID_JOB_TYPE)
             }
         }
     }

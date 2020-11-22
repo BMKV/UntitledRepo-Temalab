@@ -96,5 +96,8 @@
             android:name="userId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_currentJobsFragment_to_jobBoardFragment"
+            app:destination="@id/jobBoardFragment" />
     </fragment>
 </navigation>

@@ -13,8 +13,10 @@ import androidx.lifecycle.ViewModelProvider
  * the user's sent package history or about the user's delivery history.
  *
  */
-class HistoryViewModelFactory(private val application: Application, private val useMode: String,
-                              val userId: Long) :
+class HistoryViewModelFactory(
+    private val application: Application, private val useMode: HistoryViewModel.HistoryType,
+    val userId: Long
+) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

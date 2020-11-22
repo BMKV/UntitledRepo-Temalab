@@ -63,7 +63,16 @@ class HistoryFragment : Fragment() {
 
             historyViewModel = ViewModelProvider(
                 this, HistoryViewModelFactory(
-                    requireActivity().application, requireArguments().getString(HISTORY_TYPE_KEY)!!,
+                    requireActivity().application, when(requireArguments().getString(HISTORY_TYPE_KEY)!!){
+                        HistoryType.SentHistory.name -> HistoryViewModel.HistoryType.Sent
+                        HistoryType.TransportedHistory.name -> HistoryViewModel.HistoryType.Delivered
+                        else -> {
+                            val errorMsg =
+                                "Invalid use-type argument was given to HistoryFragment instance!"
+                            Log.e("Freelancer", errorMsg)
+                            throw IllegalArgumentException(errorMsg)
+                        }
+                    },
                     userId
                 )
             )
@@ -79,6 +88,11 @@ class HistoryFragment : Fragment() {
                 else -> historyAdapter.setJobData(historyResponse.jobData)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        historyViewModel.refreshJobsLiveData()
     }
 
     /**

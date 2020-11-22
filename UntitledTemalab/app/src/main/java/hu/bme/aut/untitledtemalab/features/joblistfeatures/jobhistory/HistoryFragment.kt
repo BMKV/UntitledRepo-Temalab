@@ -47,38 +47,52 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //TODO this is not clean, it will be refactored
         requireArguments().getLong(USER_ID_KEY).let { userId ->
-            historyAdapter = CommonJobDataAdapter { jobId ->
-                HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
-                    jobId = jobId, userId = userId
-                )
-                    .let { action ->
-                        findNavController().navigate(action)
-                    }
-            }
-            rvHistory.adapter = historyAdapter
-            rvHistory.layoutManager = LinearLayoutManager(requireContext())
-
-            historyViewModel = ViewModelProvider(
-                this, HistoryViewModelFactory(
-                    requireActivity().application, when(requireArguments().getString(HISTORY_TYPE_KEY)!!){
-                        HistoryType.SentHistory.name -> HistoryViewModel.HistoryType.Sent
-                        HistoryType.TransportedHistory.name -> HistoryViewModel.HistoryType.Delivered
-                        else -> {
-                            val errorMsg =
-                                "Invalid use-type argument was given to HistoryFragment instance!"
-                            Log.e("Freelancer", errorMsg)
-                            throw IllegalArgumentException(errorMsg)
-                        }
-                    },
-                    userId
-                )
-            )
-                .get(HistoryViewModel::class.java)
+            initializeRecyclerViewAdapter(userId)
+            initializeViewModel(userId)
         }
+        observeVieModelData()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        historyViewModel.refreshJobsLiveData()
+    }
+
+    private fun initializeRecyclerViewAdapter(userId: Long) {
+        historyAdapter = CommonJobDataAdapter { jobId ->
+            HistoryContainerFragmentDirections.actionHistoryContainerShowJobDetails(
+                jobId = jobId, userId = userId
+            )
+                .let { action ->
+                    findNavController().navigate(action)
+                }
+        }
+        rvHistory.adapter = historyAdapter
+        rvHistory.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun initializeViewModel(userId: Long) {
+        historyViewModel = ViewModelProvider(
+            this, HistoryViewModelFactory(
+                requireActivity().application,
+                when (requireArguments().getString(HISTORY_TYPE_KEY)!!) {
+                    HistoryType.SentHistory.name -> HistoryViewModel.HistoryType.Sent
+                    HistoryType.TransportedHistory.name -> HistoryViewModel.HistoryType.Delivered
+                    else -> {
+                        val errorMsg =
+                            "Invalid use-type argument was given to HistoryFragment instance!"
+                        Log.e("Freelancer", errorMsg)
+                        throw IllegalArgumentException(errorMsg)
+                    }
+                },
+                userId
+            )
+        )
+            .get(HistoryViewModel::class.java)
+    }
+
+    private fun observeVieModelData(){
         historyViewModel.historyDataResponse.observe(viewLifecycleOwner) { historyResponse ->
             when {
                 historyResponse.error is Exception -> handleError(historyResponse.error)
@@ -88,11 +102,6 @@ class HistoryFragment : Fragment() {
                 else -> historyAdapter.setJobData(historyResponse.jobData)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        historyViewModel.refreshJobsLiveData()
     }
 
     /**

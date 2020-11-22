@@ -76,6 +76,11 @@ class JobBoardFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshJobsLiveData()
+    }
+
     private fun handleError(error: Exception) {
         Log.i("Freelancer", error.localizedMessage ?: "Unexpected error happened!")
         Snackbar.make(

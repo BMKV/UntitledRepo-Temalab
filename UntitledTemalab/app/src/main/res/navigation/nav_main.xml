@@ -80,6 +80,10 @@
         <action
             android:id="@+id/action_postJob_PostedJob"
             app:destination="@id/currentJobsFragment" />
+        <argument
+            android:name="senderUserId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/currentJobsFragment"

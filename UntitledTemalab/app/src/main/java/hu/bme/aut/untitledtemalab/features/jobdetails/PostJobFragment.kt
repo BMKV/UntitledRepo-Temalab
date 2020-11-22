@@ -15,10 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import hu.bme.aut.untitledtemalab.R
-import hu.bme.aut.untitledtemalab.data.JobData
-import hu.bme.aut.untitledtemalab.data.PackageSize
-import hu.bme.aut.untitledtemalab.data.RouteData
-import hu.bme.aut.untitledtemalab.data.UserData
+import hu.bme.aut.untitledtemalab.data.*
 import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.android.synthetic.main.fragment_post_job.*
 
@@ -74,7 +71,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             val atmIssueDate = "2020.12.12"
             val atmDeadline = edtDeadline.text.toString()
             val atmExpiration = edtExpirationDate.text.toString()
-            val atmJobData = JobData(100001, atmTitle, atmSize, atmPayment, atmIssueDate, atmDeadline, loggedInUser.userId )
+            val atmJobData = JobData(100001, atmTitle, atmSize, atmPayment, atmIssueDate, atmDeadline, loggedInUser.userId, JobStatus.Pending )
             val atmRoute = RouteData(atmStartPoint, atmDestination)
             atmJobData.deliveryRoute = atmRoute
             atmJobData.listingExpirationDate = atmExpiration

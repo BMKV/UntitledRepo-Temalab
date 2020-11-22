@@ -5,7 +5,9 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +17,7 @@
             android:id="@+id/ivSize"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:contentDescription="@string/package_size_description"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -23,23 +25,35 @@
             tools:srcCompat="@tools:sample/backgrounds/scenic"/>
 
         <TextView
-            android:id="@+id/tvHistoryDetail"
-            android:layout_width="175dp"
+            android:id="@+id/tvJobName"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/ivSize"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem" />
+            tools:text="Lorem ipsum dolor sit amet" />
 
         <TextView
             android:id="@+id/tvJobStatus"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             tools:text="Accepted"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/tvHistoryDetail"
+            card_view:layout_constraintStart_toEndOf="@+id/tvJobName"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvJobDeadline"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="2020-11-14T22:15:53.097Z"
+            android:textColor="@color/deadlineRed"
+            android:layout_marginEnd="8dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/tvJobStatus"
             card_view:layout_constraintTop_toTopOf="parent" />
 
 

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.PackageSize
 
 class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
@@ -24,9 +25,22 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
         val jobData = jobDataList[position]
 
         holder.ivSize.setImageResource(setPackagesImage(jobData))
-        holder.tvHistoryDetail.text = jobData.jobId.toString()
+        holder.tvJobName.text = jobData.jobId.toString()
+        holder.tvJobDeadline.text = jobData.deadline.subSequence(0, 10)
+        setShownStatus(holder, jobData)
         holder.cardView.setOnClickListener {
             onItemClick(jobDataList[position].jobId)
+        }
+    }
+
+    private fun setShownStatus(holder: CommonJobDataViewHolder, representedJobData: JobData){
+        holder.tvJobStatus.text = representedJobData.status.name
+        when(representedJobData.status){
+            JobStatus.Expired ->
+                holder.tvJobStatus.setTextColor(holder.tvJobStatus.resources.getColor(R.color.deadlineRed))
+            JobStatus.Delivered ->
+                holder.tvJobStatus.setTextColor(holder.tvJobStatus.resources.getColor(R.color.completedGreen))
+            else -> holder.tvJobStatus.setTextColor(holder.tvJobStatus.resources.getColor(R.color.inProgressYellow))
         }
     }
 

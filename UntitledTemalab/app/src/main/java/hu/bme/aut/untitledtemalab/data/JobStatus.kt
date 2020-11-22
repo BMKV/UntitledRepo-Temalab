@@ -34,8 +34,6 @@ enum class JobStatus {
         }
     };
 
-
-
     companion object{
         fun getActiveStatuses(): List<JobStatus>{
             return mutableListOf<JobStatus>().apply{

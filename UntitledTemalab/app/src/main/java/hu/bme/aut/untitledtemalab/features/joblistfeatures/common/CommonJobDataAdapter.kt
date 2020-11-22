@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.PackageSize
 
 class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
     RecyclerView.Adapter<CommonJobDataViewHolder>() {
@@ -22,10 +23,18 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
     override fun onBindViewHolder(holder: CommonJobDataViewHolder, position: Int) {
         val jobData = jobDataList[position]
 
-        holder.ivSize.setImageResource(R.mipmap.ic_launcher)
+        holder.ivSize.setImageResource(setPackagesImage(jobData))
         holder.tvHistoryDetail.text = jobData.jobId.toString()
         holder.cardView.setOnClickListener {
             onItemClick(jobDataList[position].jobId)
+        }
+    }
+
+    private fun setPackagesImage(jobData: JobData): Int {
+        return when (jobData.size) {
+            PackageSize.Small -> R.drawable.ic_size_s
+            PackageSize.Medium -> R.drawable.ic_size_m
+            PackageSize.Large -> R.drawable.ic_size_l
         }
     }
 
@@ -40,7 +49,7 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
      * @param freshDataList contains JobData instances in a List, and this List will be the new basis
      * of the represented data by the RecyclerView.
      */
-    fun setJobData(freshDataList: List<JobData>){
+    fun setJobData(freshDataList: List<JobData>) {
         jobDataList = freshDataList
         notifyDataSetChanged()
     }

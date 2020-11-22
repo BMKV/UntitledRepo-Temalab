@@ -6,8 +6,6 @@
     tools:context=".features.joblistfeatures.jobboard.JobBoardContainerFragment"
     android:orientation="vertical">
 
-    <!--TODO probably this won't work like this :) -->
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

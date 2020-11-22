@@ -35,10 +35,34 @@ class JobBoardFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_job_board, container, false)
     }
 
-    //TODO it's not clean
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeViewModel()
+        initializeRecyclerViewAdapter()
+        observeViewModelData()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshJobsLiveData()
+    }
+
+    private fun initializeRecyclerViewAdapter() {
+        jobsAdapter = CommonJobDataAdapter { jobId ->
+            JobBoardContainerFragmentDirections.actionJobBoardShowJobDetails(
+                jobId = jobId, userId = requireArguments().getLong(
+                    USER_ID_KEY
+                )
+            ).let { action ->
+                findNavController().navigate(action)
+            }
+        }
+
+        rvAvailableJobs.adapter = jobsAdapter
+        rvAvailableJobs.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun initializeViewModel() {
         viewModel = ViewModelProvider(
             this,
             JobBoardFragmentViewModelFactory(
@@ -53,20 +77,9 @@ class JobBoardFragment : Fragment() {
                 }
             )
         ).get(JobBoardFragmentViewModel::class.java)
+    }
 
-        jobsAdapter = CommonJobDataAdapter { jobId ->
-            JobBoardContainerFragmentDirections.actionJobBoardShowJobDetails(
-                jobId = jobId, userId = requireArguments().getLong(
-                    USER_ID_KEY
-                )
-            ).let { action ->
-                findNavController().navigate(action)
-            }
-        }
-
-        rvAvailableJobs.adapter = jobsAdapter
-        rvAvailableJobs.layoutManager = LinearLayoutManager(requireContext())
-
+    private fun observeViewModelData() {
         viewModel.availableJobs.observe(viewLifecycleOwner) { jobDataResponse ->
             when {
                 jobDataResponse.error is Exception -> handleError(jobDataResponse.error)
@@ -74,11 +87,6 @@ class JobBoardFragment : Fragment() {
                 else -> jobsAdapter.setJobData(jobDataResponse.jobData)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.refreshJobsLiveData()
     }
 
     private fun handleError(error: Exception) {

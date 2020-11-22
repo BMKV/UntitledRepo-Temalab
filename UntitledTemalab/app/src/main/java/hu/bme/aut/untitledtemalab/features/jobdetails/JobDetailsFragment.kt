@@ -65,16 +65,15 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         tvUserRatingTextOnJob.text = receivedUserData.rating.toString()
 
         //set Job Data cuccok
-        //TODO: enumokat helyrepofozni
         tvJobTitle.text = receivedJobData.jobName
         tvDestinationText.text = receivedJobData.deliveryRoute?.destination
         tvPickUpPointText.text = receivedJobData.deliveryRoute?.startLocation
-        //tvPackageSizeText.text = receivedJobData.size.name
+        tvPackageSizeText.text = receivedJobData.size.name
         tvPaymentText.text = receivedJobData.payment.toString()
         tvDeadlineText.text = receivedJobData.deadline
-        //tvIsItAcceptedStatusText.text = receivedJobData.status.name
+        tvIsItAcceptedStatusText.text = receivedJobData.status.name
         tvExpirationDateText.text = receivedJobData.listingExpirationDate ?: ""
-        //tvIsItAcceptedStatusText.text = receivedJobData.status.name
+        tvIsItAcceptedStatusText.text = receivedJobData.status.name
 
         //Set the buttons
         setButtonFragment()
@@ -135,7 +134,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
     suspend fun downloadData(jobId: Long, userId: Long) {
         //TODO: logged in user
-        shownJob = NetworkManager.getJobById(jobId)             //(8091435996)
+        shownJob = NetworkManager.getJobById(jobId)
         shownUser = NetworkManager.getUserProfileById(userId)
         loggedInUser = DemoData.loggedInUser
         uiUpdateHandler.post(Runnable { setContent(shownJob, shownUser) })

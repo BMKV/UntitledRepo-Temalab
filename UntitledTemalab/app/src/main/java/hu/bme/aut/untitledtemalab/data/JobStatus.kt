@@ -1,23 +1,34 @@
 package hu.bme.aut.untitledtemalab.data
 
+import com.google.gson.annotations.SerializedName
+
 enum class JobStatus {
+    @SerializedName("pending")
     Pending {
         override fun getBackendValueName(): String {
             return "pending"
         }
-    }, Accepted {
+    },
+    @SerializedName("accepted")
+    Accepted {
         override fun getBackendValueName(): String {
             return "accepted"
         }
-    }, PickedUp {
+    },
+    @SerializedName("pickedUp")
+    PickedUp {
         override fun getBackendValueName(): String {
             return "pickedUp"
         }
-    }, Delivered {
+    },
+    @SerializedName("delivered")
+    Delivered {
         override fun getBackendValueName(): String {
             return "delivered"
         }
-    }, Expired {
+    },
+    @SerializedName("expired")
+    Expired {
         override fun getBackendValueName(): String {
             TODO("Ez nincs benne az API leírásban:)")
         }

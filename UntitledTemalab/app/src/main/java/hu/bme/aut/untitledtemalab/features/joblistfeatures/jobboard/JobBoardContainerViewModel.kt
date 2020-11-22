@@ -1,6 +1,7 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,10 +14,14 @@ class JobBoardContainerViewModel(application: Application, userId: Long) :
 
     private val jobBoardContainerRepository = JobBoardContainerRepository(userId)
 
-    //TODO this will be hidden behind an interface from view layer (like the other responses)
     val cargoOccupancyResponse = MutableLiveData<CargoDataResponse>()
 
-    init{
+    fun refreshJobsLiveData() {
+        Log.i("Freelancer", "Refresh requested!")
+        loadJobsDataIntoJobsLiveData()
+    }
+
+    private fun loadJobsDataIntoJobsLiveData() {
         viewModelScope.launch(Dispatchers.IO) {
             cargoOccupancyResponse.postValue(
                 jobBoardContainerRepository.getUsersCargoDetails()

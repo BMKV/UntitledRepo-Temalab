@@ -24,6 +24,11 @@ class JobBoardContainerFragment : Fragment() {
 
     private lateinit var viewModel: JobBoardContainerViewModel
 
+    companion object {
+        private const val ERROR_INVALID_CARGO_STATE =
+            "Invalid answer from the server! - Maximum capacity is lower than occupied!"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,9 +45,17 @@ class JobBoardContainerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializePagerAdapter()
+        initializeViewModel()
+        observeViewModelData()
+    }
 
-        //TODO it is not clean, it should be refactored later
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshJobsLiveData()
+    }
 
+    private fun initializePagerAdapter() {
         vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle, userId)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when (position) {
@@ -52,12 +65,16 @@ class JobBoardContainerFragment : Fragment() {
                 else -> throw IllegalStateException("Such position doesn't exist: $position")
             }
         }.attach()
+    }
 
+    private fun initializeViewModel() {
         viewModel = ViewModelProvider(
             this,
             JobBoardContainerViewModelFactory(requireActivity().application, userId)
         ).get(JobBoardContainerViewModel::class.java)
+    }
 
+    private fun observeViewModelData() {
         viewModel.cargoOccupancyResponse.observe(viewLifecycleOwner) { currentCargoDataResponse ->
             when {
                 currentCargoDataResponse.error is Exception -> handleError(currentCargoDataResponse.error)
@@ -71,11 +88,21 @@ class JobBoardContainerFragment : Fragment() {
         }
     }
 
-    /**
-     * TODO exception handling will be rewritten
-     */
     private fun handleError(error: Exception) {
         Log.i("Freelancer", error.localizedMessage ?: "Unexpected error happened!")
+        when (error.message) {
+            ERROR_INVALID_CARGO_STATE -> Snackbar.make(
+                this.requireView(),
+                "Warning: Invalid cargo data",
+                Snackbar.LENGTH_SHORT
+            ).show()
+            //Network error
+            else -> Snackbar.make(
+                this.requireView(),
+                R.string.network_error,
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
         Snackbar.make(
             this.requireView(), error.localizedMessage ?: "Unexpected error happened!",
             Snackbar.LENGTH_SHORT
@@ -88,11 +115,14 @@ class JobBoardContainerFragment : Fragment() {
             val freeCargoSpace = cargoData.freeSize
             Log.i("Freelancer", cargoCapacityMaximum.toString())
             Log.i("Freelancer", freeCargoSpace.toString())
-            check(cargoCapacityMaximum >= freeCargoSpace) { "Invalid answer from the server! - Maximum capacity is lower than occupied!" }
+            check(cargoCapacityMaximum >= freeCargoSpace) { ERROR_INVALID_CARGO_STATE }
             pbCargoOccupancy.max = cargoCapacityMaximum
             pbCargoOccupancy.progress = cargoCapacityMaximum - freeCargoSpace
-            tvOccupancyPercentage.text = getString(R.string.cargo_occupancy, cargoCapacityMaximum - freeCargoSpace, cargoCapacityMaximum)
-
+            tvOccupancyPercentage.text = getString(
+                R.string.cargo_occupancy,
+                cargoCapacityMaximum - freeCargoSpace,
+                cargoCapacityMaximum
+            )
         } catch (exception: Exception) {
             handleError(exception)
         }

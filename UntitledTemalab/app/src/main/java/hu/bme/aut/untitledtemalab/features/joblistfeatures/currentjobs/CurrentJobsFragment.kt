@@ -121,13 +121,13 @@ class CurrentJobsFragment : Fragment() {
     private fun setFloatingActionButtonBehaviour() {
         when (requireArguments().getString(JOB_TYPE_KEY)) {
             RepresentedJobType.AnnouncedJob.name -> fab.setOnClickListener {
-                CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob()
+                CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob(viewModel.userId)
                     .let { action ->
                         findNavController().navigate(action)
                     }
             }
             RepresentedJobType.AcceptedJob.name -> fab.setOnClickListener {
-                CurrentJobsContainerFragmentDirections.actionCurrentJobsFragmentToJobBoardFragment()
+                CurrentJobsContainerFragmentDirections.actionCurrentJobsFragmentToJobBoardFragment(viewModel.userId)
                     .let { action ->
                         findNavController().navigate(action)
                     }

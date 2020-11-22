@@ -37,38 +37,51 @@ class CurrentJobsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //TODO this is not clean, it should be refactored
         requireArguments().getLong(USER_ID_KEY).let { userId ->
-            viewModel = ViewModelProvider(
-                this, CurrentJobsViewModelFactory(
-                    requireActivity().application, userId,
-                    when (requireArguments().getString(JOB_TYPE_KEY)) {
-                        RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
-                        RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
-                        else -> {
-                            val errorMsg =
-                                "Invalid use-type argument was given to CurrentJobsFragment instance!"
-                            Log.e("Freelancer", errorMsg)
-                            throw IllegalArgumentException(errorMsg)
-                        }
-                    },
-                )
-            ).get(CurrentJobsViewModel::class.java)
+            initializeViewModel(userId)
+            initializeRecyclerViewAdapter(userId)
+        }
+        observeViewModelData()
+        setFloatingActionButtonBehaviour()
+    }
 
-            adapter = CommonJobDataAdapter { jobId ->
-                CurrentJobsContainerFragmentDirections.actionCurrentJobsShowJobDetails(
-                    jobId = jobId,
-                    userId = userId
-                ).let { action ->
-                    findNavController().navigate(action)
-                }
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshJobsLiveData()
+    }
+
+    private fun initializeRecyclerViewAdapter(userId: Long) {
+        adapter = CommonJobDataAdapter { jobId ->
+            CurrentJobsContainerFragmentDirections.actionCurrentJobsShowJobDetails(
+                jobId = jobId,
+                userId = userId
+            ).let { action ->
+                findNavController().navigate(action)
             }
         }
-
         rvCurrentJobs.adapter = adapter
         rvCurrentJobs.layoutManager = LinearLayoutManager(requireContext())
+    }
 
+    private fun initializeViewModel(userId: Long) {
+        viewModel = ViewModelProvider(
+            this, CurrentJobsViewModelFactory(
+                requireActivity().application, userId,
+                when (requireArguments().getString(JOB_TYPE_KEY)) {
+                    RepresentedJobType.AnnouncedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Announced
+                    RepresentedJobType.AcceptedJob.name -> CurrentJobsViewModel.CurrentJobsViewModelUseType.Accepted
+                    else -> {
+                        val errorMsg =
+                            "Invalid use-type argument was given to CurrentJobsFragment instance!"
+                        Log.e("Freelancer", errorMsg)
+                        throw IllegalArgumentException(errorMsg)
+                    }
+                },
+            )
+        ).get(CurrentJobsViewModel::class.java)
+    }
+
+    private fun observeViewModelData() {
         viewModel.currentJobsDataResponse.observe(viewLifecycleOwner) { currentJobsDataResponse ->
             when {
                 currentJobsDataResponse.error is Exception -> handleError(currentJobsDataResponse.error)
@@ -78,18 +91,15 @@ class CurrentJobsFragment : Fragment() {
                 else -> adapter.setJobData(currentJobsDataResponse.jobData)
             }
         }
+    }
 
+    private fun setFloatingActionButtonBehaviour() {
         //TODO parameter of this action may change in the future
         fab.setOnClickListener {
             CurrentJobsContainerFragmentDirections.actionCurrentJobsOpenPostJob().let { action ->
                 findNavController().navigate(action)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.refreshJobsLiveData()
     }
 
     /**

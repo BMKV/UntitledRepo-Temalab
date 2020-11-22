@@ -51,7 +51,7 @@ class HistoryFragment : Fragment() {
             initializeRecyclerViewAdapter(userId)
             initializeViewModel(userId)
         }
-        observeVieModelData()
+        observeViewModelData()
     }
 
     override fun onResume() {
@@ -92,7 +92,7 @@ class HistoryFragment : Fragment() {
             .get(HistoryViewModel::class.java)
     }
 
-    private fun observeVieModelData(){
+    private fun observeViewModelData(){
         historyViewModel.historyDataResponse.observe(viewLifecycleOwner) { historyResponse ->
             when {
                 historyResponse.error is Exception -> handleError(historyResponse.error)

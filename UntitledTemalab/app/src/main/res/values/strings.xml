@@ -39,8 +39,13 @@
     <string name="cargo_space_occupancy">Cargo space occupancy</string>
     <string name="jobboard_title">Available jobs</string>
     <string name="cargo_occupancy">%d/%d</string>
+<<<<<<< Updated upstream
     <string name="network_error">Network error!</string>
     <string name="open_wifi_settings">Open wifi settings</string>
     <string name="application_error">Application error!</string>
     <string name="server_error">Server error!</string>
+=======
+    <string name="expand_map">Expand Map</string>
+    <string name="collapse_map">Collapse Map</string>
+>>>>>>> Stashed changes
 </resources>

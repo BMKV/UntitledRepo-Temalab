@@ -1,6 +1,7 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.currentjobs
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,14 +20,23 @@ class CurrentJobsViewModel(
 
     val currentJobsDataResponse = MutableLiveData<JobDataResponse>()
 
-    init {
+    fun refreshJobsLiveData(){
+        Log.i("Freelancer", "Refresh requested!")
+        loadJobsDataIntoJobsLiveData()
+    }
+
+    private fun loadJobsDataIntoJobsLiveData(){
         viewModelScope.launch(Dispatchers.IO) {
             currentJobsDataResponse.postValue(
-                when (useType) {
-                    CurrentJobsViewModelUseType.Accepted -> repository.getAcceptedCurrentJobs()
-                    CurrentJobsViewModelUseType.Announced -> repository.getAnnouncedCurrentJobs()
-                }
+                loadJobsDataByUseType()
             )
+        }
+    }
+
+    private suspend fun loadJobsDataByUseType(): JobDataResponse{
+        return when (useType) {
+            CurrentJobsViewModelUseType.Accepted -> repository.getAcceptedCurrentJobs()
+            CurrentJobsViewModelUseType.Announced -> repository.getAnnouncedCurrentJobs()
         }
     }
 

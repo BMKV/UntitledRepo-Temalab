@@ -87,6 +87,11 @@ class CurrentJobsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshJobsLiveData()
+    }
+
     /**
      * TODO exception handling will be rewritten
      */

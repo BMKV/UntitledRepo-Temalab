@@ -14,10 +14,6 @@
     <string name="pick_up_title">Pick Up</string>
     <string name="complete_title">Complete</string>
     <string name="package_size_description">The package\'s size: %s</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="job_details_title">Job Details</string>
     <string name="destination_title">Destination:</string>
     <string name="pick_up_point_title">Pick Up Point:</string>
@@ -39,13 +35,11 @@
     <string name="cargo_space_occupancy">Cargo space occupancy</string>
     <string name="jobboard_title">Available jobs</string>
     <string name="cargo_occupancy">%d/%d</string>
-<<<<<<< Updated upstream
     <string name="network_error">Network error!</string>
     <string name="open_wifi_settings">Open wifi settings</string>
     <string name="application_error">Application error!</string>
     <string name="server_error">Server error!</string>
-=======
     <string name="expand_map">Expand Map</string>
     <string name="collapse_map">Collapse Map</string>
->>>>>>> Stashed changes
+    <string name="error_invalid_cargo_data_loaded">Invalid cargo data loaded from server!</string>
 </resources>

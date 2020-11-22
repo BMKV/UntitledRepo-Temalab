@@ -76,6 +76,13 @@ class JobBoardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refreshJobsLiveData()
+        signalParentJobBoardRefreshListener()
+    }
+
+    private fun signalParentJobBoardRefreshListener(){
+        val possibleListener = requireParentFragment()
+        if(possibleListener is JobBoardRefreshListener)
+            possibleListener.onJobBoardRefresh()
     }
 
     private fun initializeRecyclerViewAdapter() {
@@ -142,6 +149,10 @@ class JobBoardFragment : Fragment() {
                     startActivity(Intent(WifiManager.ACTION_PICK_WIFI_NETWORK))
                 }.show()
         }
+    }
+
+    interface JobBoardRefreshListener{
+        fun onJobBoardRefresh()
     }
 
     enum class RepresentedJobType {

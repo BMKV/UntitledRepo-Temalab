@@ -1,5 +1,7 @@
 package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobboard
 
+import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,7 +20,7 @@ import java.lang.Exception
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
-class JobBoardContainerFragment : Fragment() {
+class JobBoardContainerFragment : Fragment(), JobBoardFragment.JobBoardRefreshListener {
 
     private var userId by Delegates.notNull<Long>()
 
@@ -93,7 +95,7 @@ class JobBoardContainerFragment : Fragment() {
         when (error.message) {
             ERROR_INVALID_CARGO_STATE -> Snackbar.make(
                 this.requireView(),
-                "Warning: Invalid cargo data",
+                getString(R.string.error_invalid_cargo_data_loaded),
                 Snackbar.LENGTH_SHORT
             ).show()
             //Network error
@@ -101,12 +103,11 @@ class JobBoardContainerFragment : Fragment() {
                 this.requireView(),
                 R.string.network_error,
                 Snackbar.LENGTH_SHORT
-            ).show()
+            )
+                .setAction(getString(R.string.open_wifi_settings)) {
+                    startActivity(Intent(WifiManager.ACTION_PICK_WIFI_NETWORK))
+                }.show()
         }
-        Snackbar.make(
-            this.requireView(), error.localizedMessage ?: "Unexpected error happened!",
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 
     private fun refreshCargoData(cargoData: CargoData) {
@@ -126,5 +127,9 @@ class JobBoardContainerFragment : Fragment() {
         } catch (exception: Exception) {
             handleError(exception)
         }
+    }
+
+    override fun onJobBoardRefresh() {
+        viewModel.refreshJobsLiveData()
     }
 }

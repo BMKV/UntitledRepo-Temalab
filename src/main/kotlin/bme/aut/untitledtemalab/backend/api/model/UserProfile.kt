@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Detailed information on a User
  */
-class UserProfile(id: Long, email: String, rating: Float? = null, canDeliver: Boolean, freeSize: Int? = null, maxSize: Int? = null) {
+class UserProfile(id: Long, email: String, rating: Float? = null, canDeliver: Boolean, isAdmin: Boolean, freeSize: Int? = null, maxSize: Int? = null) {
     /**
      * The ID of the User
      * @return userId
@@ -35,6 +35,9 @@ class UserProfile(id: Long, email: String, rating: Float? = null, canDeliver: Bo
      */
     @JsonProperty("canDeliver")
     var canDeliver: Boolean? = canDeliver
+
+    @JsonProperty("isAdmin")
+    var isAdmin: Boolean? = isAdmin
 
     /**
      * The actual size of the cargo

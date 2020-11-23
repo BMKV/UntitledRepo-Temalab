@@ -31,9 +31,9 @@ class UsersLogicService {
     fun getUserProfile(userId: Long): UserProfile {
         val dbUser = userRepository.findById(userId)
         return if (dbUser.get().canDeliver && dbUser.get().cargoMaxSize != null) {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
+            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver,isAdmin = dbUser.get().isAdmin, freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
         } else {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, 0, 0)
+            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, dbUser.get().isAdmin,0, 0)
         }
     }
 

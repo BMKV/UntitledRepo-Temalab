@@ -1,4 +1,8 @@
 package hu.bme.aut.untitledtemalab.features.profile
 
-class ProfileScreenViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+
+class ProfileScreenViewModel(application: Application, val userId: Long) :
+    AndroidViewModel(application) {
 }

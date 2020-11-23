@@ -19,6 +19,9 @@ class Job(dbJob: Jobs?) {
     @JsonProperty("job-id")
     var jobId: Long? = null
 
+    @JsonProperty("name")
+    var name: String? = null
+
     /**
      * The ID of the sender User
      * @return jobId
@@ -138,6 +141,7 @@ class Job(dbJob: Jobs?) {
     init {
         if (dbJob != null) {
             this.jobId = dbJob.id
+            this.name = dbJob.name
             this.senderId = dbJob.sender.id
             this.status = StatusEnum.fromValue(dbJob.status.toString())
             this.size = SizeEnum.fromValue(dbJob.size.toString())

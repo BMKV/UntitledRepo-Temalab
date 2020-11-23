@@ -50,7 +50,8 @@ class JobsLogicService {
                 sender = dbUser.get(),
                 deliveryRoute = route,
                 size = PackageSize.fromValue(jobRegistration.size!!.toString())!!,
-                status = Status.pending)
+                status = Status.pending,
+                name = jobRegistration.name.toString())
 
         routeRepository.save(route)
         jobRepository.save(job)

@@ -17,6 +17,10 @@ class Jobs(
         @Column(name = "job_id")
         val id: Long,
 
+        @NotNull
+        @Column(name = "name", nullable = false)
+        var name: String,
+
         @Enumerated(EnumType.STRING)
         @NotNull
         @Type(type = "pgsql_enum")

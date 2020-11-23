@@ -14,7 +14,7 @@ import java.time.OffsetDateTime
  */
 class JobRegistration {
     fun isValid(): Boolean {
-        return size != null && payment != null && jobIssuedDate != null && deadline != null && startLocation != null && destination != null
+        return size != null && payment != null && jobIssuedDate != null && deadline != null && startLocation != null && destination != null && name != null
     }
 
     fun updateDbJob(job: Jobs): Boolean {
@@ -25,6 +25,13 @@ class JobRegistration {
             if (size != null) {
                 if (value != null) {
                     job.size = value as PackageSize
+                    changed++
+                }
+            }
+            if (name != null) {
+                value = changeIfNotEquals(job.name, name)
+                if (value != null) {
+                    job.name = value as String
                     changed++
                 }
             }
@@ -104,6 +111,9 @@ class JobRegistration {
 
     @JsonProperty("size")
     var size: SizeEnum? = null
+
+    @JsonProperty("name")
+    var name: String? = null
 
     /**
      * The payment for the delivery

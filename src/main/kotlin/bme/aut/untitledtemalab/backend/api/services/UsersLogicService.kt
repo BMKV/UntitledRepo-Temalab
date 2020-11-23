@@ -127,4 +127,8 @@ class UsersLogicService {
         val dbUser = userRepository.findById(userId)
         return UserCargo(freeSize = dbUser.get().cargoFreeSize!!, maxSize = dbUser.get().cargoMaxSize!!)
     }
+
+    fun getUserFromEmail(email: String): Users {
+        return userRepository.findAllByEmailAddress(email).first()
+    }
 }

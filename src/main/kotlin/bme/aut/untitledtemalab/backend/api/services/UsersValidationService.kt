@@ -28,4 +28,9 @@ class UsersValidationService {
         if (!userRepository.existsById(userId))
             throw UserNotFoundModelError()
     }
+
+    fun validateEmailAndPassword(email: String, password: String) {
+        if (userRepository.findAllByEmailAddress(email).first().password != password)
+            throw InvalidPasswordModelError()
+    }
 }

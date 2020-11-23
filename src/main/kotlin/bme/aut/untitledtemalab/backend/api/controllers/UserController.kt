@@ -33,8 +33,14 @@ class UserController {
     }
 
     @GetMapping("login")
-    fun loginUser() {
-        // TODO give token for user login
+    fun loginUser(@RequestParam(name = "email") email: String, @RequestParam(name = "password") password: String): ResponseEntity<Any> {
+        return try {
+            usersValidationService.validateEmailAndPassword(email,password)
+            val user = usersLogicService.getUserFromEmail(email)
+            ResponseEntity(user.id.toString(), HttpStatus.OK)
+        } catch (e: ApiModelError) {
+            ResponseEntity(e.message, e.getHttpStatusCode())
+        }
     }
 
     @GetMapping("logout")

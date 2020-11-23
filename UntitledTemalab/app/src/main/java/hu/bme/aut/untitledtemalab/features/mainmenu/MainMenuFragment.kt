@@ -30,7 +30,7 @@ class MainMenuFragment : Fragment() {
         //My Profile button
         //TODO userId will be passed in the action
         btnMyProfile.setOnClickListener{ btnMyProfile ->
-            MainMenuFragmentDirections.actionMainMenuOpenProfile().let{
+            MainMenuFragmentDirections.actionMainMenuOpenProfile(3547612601).let{
                     action -> btnMyProfile!!.findNavController().navigate(action)
             }
         }

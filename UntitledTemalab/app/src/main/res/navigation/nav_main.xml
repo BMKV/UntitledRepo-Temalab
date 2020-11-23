@@ -29,7 +29,11 @@
     <fragment
         android:id="@+id/profileScreenFragment"
         android:name="hu.bme.aut.untitledtemalab.features.profile.ProfileScreenFragment"
-        android:label="ProfileScreenFragment" />
+        android:label="ProfileScreenFragment" >
+        <argument
+            android:name="userId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/historyContainerFragment"
         android:name="hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory.HistoryContainerFragment"

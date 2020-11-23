@@ -20,6 +20,10 @@ class Users(
         var password: String,
 
         @NotNull
+        @Column(name = "is_admin", nullable = false)
+        var isAdmin: Boolean = false,
+
+        @NotNull
         @Column(name = "can_deliver", nullable = false)
         var canDeliver: Boolean,
 

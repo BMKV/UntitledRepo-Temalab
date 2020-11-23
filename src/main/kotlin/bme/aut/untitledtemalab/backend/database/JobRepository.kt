@@ -17,4 +17,6 @@ interface JobRepository : CrudRepository<Jobs, Long> {
     fun findAllByStatusAndSender(status: Status, deliverer: Users): List<Jobs>
     fun findAllBySizeAndSender(size: PackageSize, deliverer: Users): List<Jobs>
     fun findAllBySizeAndStatusAndSender(size: PackageSize,status: Status, deliverer: Users): List<Jobs>
+
+    fun countAllByStatus(status: Status): Long
 }

@@ -33,4 +33,9 @@ class UsersValidationService {
         if (userRepository.findAllByEmailAddress(email).first().password != password)
             throw InvalidPasswordModelError()
     }
+
+    fun isUserAdmin(userId: Long) {
+        if (!userRepository.findById(userId).get().isAdmin)
+            throw UserNotAdminModelError()
+    }
 }

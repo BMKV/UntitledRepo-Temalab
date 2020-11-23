@@ -12,7 +12,6 @@ class JobsValidationService {
     @Autowired
     private lateinit var jobRepository: JobRepository
 
-
     fun validateJobRegistration(jobRegistration: JobRegistration) {
         if (!jobRegistration.isValid())
             throw InvalidInputModelError()

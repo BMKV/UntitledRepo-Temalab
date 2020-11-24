@@ -127,4 +127,43 @@ class JobsLogicService {
         return dbJob.sender.id == dbUser.id
     }
 
+    fun rateJob(jobId: Long, userId: Long, rating: Int) {
+        val dbJob = jobRepository.findById(jobId)
+        val dbUser = userRepository.findById(userId)
+
+        if (dbJob.get().status != Status.delivered)
+            throw JobNotDeliveredModelError()
+        if (!isUserSender(dbJob.get(), dbUser.get()))
+            throw ModifyJobUnauthorisedUserModelError()
+
+        dbJob.get().senderRating = rating
+        jobRepository.save(dbJob.get())
+    }
+
+    fun pickUpJob(jobId: Long, userId: Long) {
+        val dbJob = jobRepository.findById(jobId)
+        val dbUser = userRepository.findById(userId)
+
+        if (dbJob.get().status != Status.accepted)
+            throw JobNotAcceptedModelError()
+        if (!isUserDeliverer(dbJob.get(), dbUser.get()))
+            throw ModifyJobUnauthorisedUserModelError()
+
+        dbJob.get().status = Status.pickedUp
+        jobRepository.save(dbJob.get())
+
+    }
+
+    fun deliverJob(jobId: Long, userId: Long) {
+        val dbJob = jobRepository.findById(jobId)
+        val dbUser = userRepository.findById(userId)
+
+        if (dbJob.get().status != Status.pickedUp)
+            throw JobNotPickedUpModelError()
+        if (!isUserDeliverer(dbJob.get(), dbUser.get()))
+            throw ModifyJobUnauthorisedUserModelError()
+
+        dbJob.get().status = Status.delivered
+        jobRepository.save(dbJob.get())
+    }
 }

@@ -110,4 +110,41 @@ class JobsController {
             ResponseEntity(e.message, e.getHttpStatusCode())
         }
     }
+
+    @PutMapping("rate/{job-id}")
+    fun rateJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long, @RequestParam(name = "rating") rating: Int): ResponseEntity<Any> {
+        return try {
+            jobsValidationService.validateRating(rating)
+            jobsValidationService.validateJobId(jobId)
+            usersValidationService.validateUserId(userId)
+            jobsLogicService.rateJob(jobId,userId,rating)
+            return ResponseEntity("Job rated", HttpStatus.OK)
+        } catch (e: ApiModelError) {
+            ResponseEntity(e.message, e.getHttpStatusCode())
+        }
+    }
+
+    @PutMapping("pickup/{job-id}")
+    fun pickUpJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long): ResponseEntity<Any> {
+        return try {
+            jobsValidationService.validateJobId(jobId)
+            usersValidationService.validateUserId(userId)
+            jobsLogicService.pickUpJob(jobId,userId)
+            return ResponseEntity("Job picked up", HttpStatus.OK)
+        } catch (e: ApiModelError) {
+            ResponseEntity(e.message, e.getHttpStatusCode())
+        }
+    }
+
+    @PutMapping("deliver/{job-id}")
+    fun deliverJob(@PathVariable("job-id") jobId: Long, @RequestParam(name = "user-id") userId: Long): ResponseEntity<Any> {
+        return try {
+            jobsValidationService.validateJobId(jobId)
+            usersValidationService.validateUserId(userId)
+            jobsLogicService.deliverJob(jobId,userId)
+            return ResponseEntity("Job delivered", HttpStatus.OK)
+        } catch (e: ApiModelError) {
+            ResponseEntity(e.message, e.getHttpStatusCode())
+        }
+    }
 }

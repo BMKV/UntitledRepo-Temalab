@@ -2,6 +2,7 @@ package bme.aut.untitledtemalab.backend.api.services
 
 import bme.aut.untitledtemalab.backend.api.model.JobRegistration
 import bme.aut.untitledtemalab.backend.api.responses.InvalidInputModelError
+import bme.aut.untitledtemalab.backend.api.responses.InvalidRatingModelError
 import bme.aut.untitledtemalab.backend.api.responses.JobNotFoundModelError
 import bme.aut.untitledtemalab.backend.database.JobRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,5 +21,10 @@ class JobsValidationService {
     fun validateJobId(jobId: Long) {
         if (!jobRepository.existsById(jobId))
             throw JobNotFoundModelError()
+    }
+
+    fun validateRating(rating: Int) {
+        if (rating !in 1..5)
+            throw InvalidRatingModelError()
     }
 }

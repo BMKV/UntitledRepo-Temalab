@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
 @Service
 class JobExpiryChecker {
@@ -17,9 +18,14 @@ class JobExpiryChecker {
     fun updateJobs()    {
         val pendingJobs = jobRepository.findAllByStatus(Status.pending)
         for (j: Jobs in pendingJobs) {
-            if (LocalDate.parse(j.deadline) < LocalDate.now()) {
-                j.status = Status.expired
-                jobRepository.save(j)
+            try {
+                if (LocalDate.parse(j.deadline) < LocalDate.now()) {
+                    j.status = Status.expired
+                    jobRepository.save(j)
+                }
+            }
+            catch (e: DateTimeParseException)   {
+                println("LOG: Jobs: ${j.id} : job.deadline : invalid datetime format.")
             }
         }
     }

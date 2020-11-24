@@ -15,7 +15,38 @@ tags:
     description: "Operations about Users"
   - name: "jobs"
     description: "Operations about Jobs"
+  - name: "admin"
+    description: "Operations administrators do"
 paths:
+  /admin/statistics:
+    get:
+      tags:
+        - "admin"
+      summary: "Get statistics on the jobs and users"
+      description: "Admin user read statistics"
+      operationId: "getStatistics"
+      parameters:
+        - name: "user-id"
+          in: "query"
+          description: "The User's ID"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Statistics"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Statistics"
+        "401":
+          description: "User does not have admin privilege"
   /user/register:
     post:
       tags:
@@ -96,7 +127,7 @@ paths:
       operationId: "logoutUser"
       responses:
         default:
-          description: "successful logout"
+          description: "Successful logout"
       security:
         - bearerAuth: []
   /user/profile:
@@ -117,7 +148,7 @@ paths:
             format: "int64"
       responses:
         "200":
-          description: "The matching user's cargo"
+          description: "The matching User's cargo"
           content:
             application/json:
               schema:
@@ -294,7 +325,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: "#/components/schemas/UserUpdatePassword"
+              $ref: "#/components/schemas/UserUpdatePassword"
             example:
               user-id: 0
               current-password: "VerySafePass1"
@@ -810,6 +841,122 @@ paths:
           description: "Job not found"
       security:
         - bearerAuth: []
+  /jobs/rate/{job-id}:
+    put:
+      tags:
+        - "jobs"
+      summary: "Rate a Job"
+      description: "The User who posted the Job can rate it."
+      operationId: "rateJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job ID to rate"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "The sender User's id"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "rating"
+          in: "query"
+          description: "The new rating of the job"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            maximum: 5
+            minimum: 1
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "Job rated"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
+  /jobs/pickup/{job-id}:
+    put:
+      tags:
+        - "jobs"
+      summary: "Pick up a Job"
+      description: "The User who accepted  the Job can pick it up."
+      operationId: "pickUpJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job's ID to pick up"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "The deliverer User's id"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "Job picked up"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
+  /jobs/deliver/{job-id}:
+    put:
+      tags:
+        - "jobs"
+      summary: "Deliver a Job"
+      description: "The User who accepted and picked up the Job can deliver it."
+      operationId: "deliverJob"
+      parameters:
+        - name: "job-id"
+          in: "path"
+          description: "Job's ID to deliver"
+          required: true
+          style: "simple"
+          explode: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "user-id"
+          in: "query"
+          description: "The deliverer User's id"
+          required: true
+          style: "form"
+          explode: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "Job delivered"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Job not found"
+      security:
+        - bearerAuth: []
 components:
   schemas:
     ApiResponse:
@@ -1040,12 +1187,17 @@ components:
         - "payment"
         - "size"
         - "status"
+        - "name"
       type: "object"
       properties:
         job-id:
           type: "integer"
           description: "The ID of the Job"
           format: "int64"
+          nullable: false
+        name:
+          type: "string"
+          description: "The name of the Job"
           nullable: false
         sender-id:
           type: "integer"
@@ -1108,6 +1260,7 @@ components:
         - "payment"
         - "size"
         - "startLocation"
+        - "name"
       type: "object"
       properties:
         size:
@@ -1118,6 +1271,10 @@ components:
             - "small"
             - "medium"
             - "large"
+        name:
+          type: "string"
+          description: "The name of the Job"
+          nullable: false
         payment:
           type: "integer"
           description: "The payment for the delivery"
@@ -1170,6 +1327,48 @@ components:
       description: "A Route for a specific Job"
       xml:
         name: "Route"
+    Statistics:
+      type: "object"
+      properties:
+        allUsers:
+          type: "integer"
+          description: "The number of all User's"
+          format: "int64"
+        allSenders:
+          type: "integer"
+          description: "The number of all sender User's"
+          format: "int64"
+        allDeliverers:
+          type: "integer"
+          description: "The number of all deliverer User's"
+          format: "int64"
+        allJobs:
+          type: "integer"
+          description: "The number of all Job's"
+          format: "int64"
+        allJobsPending:
+          type: "integer"
+          description: "The number of all pending Job's"
+          format: "int64"
+        allAccepted:
+          type: "integer"
+          description: "The number of all accepted Job's"
+          format: "int64"
+        allJobsPickedUp:
+          type: "integer"
+          description: "The number of all picked up Job's"
+          format: "int64"
+        allJobsDelivered:
+          type: "integer"
+          description: "The number of all delivered Job's"
+          format: "int64"
+        allJobsExpired:
+          type: "integer"
+          description: "The number of all expired Job's"
+          format: "int64"
+      description: "Statistics on User's and Job's"
+      xml:
+        name: "Statistics"
   responses:
     ApiResponse:
       description: "The API message"

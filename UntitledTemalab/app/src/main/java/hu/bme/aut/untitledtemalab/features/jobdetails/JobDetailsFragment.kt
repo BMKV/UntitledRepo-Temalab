@@ -92,27 +92,27 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         shownJob.status = JobStatus.Accepted
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
-        syncData()
+        GlobalScope.launch { NetworkManager.acceptJobById(shownJob.jobId, shownUser.userId) }
     }
 
     fun cancelJob() {
         shownJob.status = JobStatus.Pending
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
-        syncData()
+        GlobalScope.launch { NetworkManager.cancelJobById(shownJob.jobId, shownUser.userId) }
     }
 
     fun pickUpPackage() {
         shownJob.status = JobStatus.PickedUp
         tvIsItAcceptedStatusText.text = shownJob.status.name
-        syncData()
+        GlobalScope.launch { NetworkManager.pickUpJobById(shownJob.jobId, shownUser.userId) }
     }
 
     fun completeJob() {
         shownJob.status = JobStatus.Delivered
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        syncData()
+        GlobalScope.launch { NetworkManager.deliverJobById(shownJob.jobId, shownUser.userId) }
     }
 
     fun getJobShown(): JobData {
@@ -121,11 +121,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
     fun getUserShown() :UserData {
         return shownUser
-    }
-
-    fun syncData() {
-        //TODO: Actual network-re bekötni
-        //TODO: update jobdata on backend
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

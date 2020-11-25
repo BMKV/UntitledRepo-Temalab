@@ -4,23 +4,22 @@ import com.google.gson.annotations.SerializedName
 
 //Mark as "data class"?
 class JobData(
-    @SerializedName("job-id")
-    val jobId: Long,
-    val jobName: String,
-    val size: PackageSize,
-    val payment: Int,
-    val jobIssuedDate: String,
-    val deadline: String,
-    @SerializedName("sender-id")
-    val ownerID: Long,
-    var status: JobStatus
+    @SerializedName("job-id") val jobId: Long,
+    @SerializedName("name") val jobName: String,
+    @SerializedName("size") val size: PackageSize,
+    @SerializedName("payment") val payment: Int,
+    @SerializedName("jobIssuedDate") val jobIssuedDate: String,
+    @SerializedName("deadline") val deadline: String,
+    @SerializedName("sender-id") val ownerID: Long,
+    @SerializedName("status") var status: JobStatus
 ) {
     //Tagváltozók
-    // var status: JobStatus = JobStatus.Pending
-    // TODO: Ezt a senderRating-et miért tettem ide? ez a hozzá tartozó User-ben van
-    // var senderRating: Int? = null
-    var deliveryDate: String? = null
-    var deliveryRoute: RouteData? = null
+    @SerializedName("senderRating") var senderRating: Long? = null
+    @SerializedName("deliveryDate") var deliveryDate: String? = null
+    @SerializedName("deliveryRoute") var deliveryRoute: RouteData? = null
+
+    //TODO: ez nincs fent backenden?
+    //@SerializedName("")
     var listingExpirationDate: String? = null
 
     //Tagfüggvények

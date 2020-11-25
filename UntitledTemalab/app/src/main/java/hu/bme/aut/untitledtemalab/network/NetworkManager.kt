@@ -8,6 +8,8 @@ import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 object NetworkManager {
 
@@ -44,7 +46,6 @@ object NetworkManager {
         return freelancerApi.getUserProfileById(userId).await()
     }
 
-    //TODO ez valahol nem stimmel
     suspend fun getJobById(jobId: Long): JobData {
         return freelancerApi.getJobById(jobId).await()
     }
@@ -56,5 +57,25 @@ object NetworkManager {
     suspend fun getUsersCargoInformation(userId: Long): CargoData{
         Log.i("Freelancer", userId.toString())
         return freelancerApi.getUsersCargoInformation(userId).await()
+    }
+
+    fun acceptJobById(jobId: Long, userId: Long) {
+        freelancerApi.acceptJobById(jobId, userId)
+    }
+
+    fun rateJobById(jobId: Long, userId: Long, rating: Long) {
+        freelancerApi.rateJobById(jobId, userId, rating)
+    }
+
+    fun pickUpJobById(jobId: Long, userId: Long) {
+        freelancerApi.pickUpJobById(jobId, userId)
+    }
+
+    fun deliverJobById(jobId: Long, userId: Long) {
+        freelancerApi.deliverJobById(jobId, userId)
+    }
+
+    fun cancelJobById(jobId: Long, userId: Long) {
+        freelancerApi.cancelJobById(jobId, userId)
     }
 }

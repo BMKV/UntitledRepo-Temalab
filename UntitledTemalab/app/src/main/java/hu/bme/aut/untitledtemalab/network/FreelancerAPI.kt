@@ -4,9 +4,7 @@ import hu.bme.aut.untitledtemalab.data.CargoData
 import hu.bme.aut.untitledtemalab.data.JobData
 import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface FreelancerAPI {
 
@@ -47,9 +45,39 @@ interface FreelancerAPI {
         @Path("user-id") userId: Long,
     ): Call<CargoData>
 
-    //TODO ez valahol nem stimmel
     @GET("/api/v1/jobs/post/{job-id}")
     fun getJobById(
         @Path("job-id") jobId: Long
     ): Call<JobData>
+
+    @POST("/api/v1/jobs/accept/{job-id}")
+    fun acceptJobById(
+        @Path("job-id") jobId: Long,
+        @Query("user-id") userId: Long
+    )
+
+    @PUT("/api/v1/jobs/rate/{job-id}")
+    fun rateJobById(
+        @Path("job-id") jobId: Long,
+        @Query("user-id") userId: Long,
+        @Query("rating") rating: Long
+    )
+
+    @PUT("/api/v1/jobs/pickup/{job-id}")
+    fun pickUpJobById(
+        @Path("job-id") jobId: Long,
+        @Query("user-id") userId: Long
+    )
+
+    @PUT("/api/v1/jobs/deliver/{job-id}")
+    fun deliverJobById(
+        @Path("job-id") jobId: Long,
+        @Query("user-id") userId: Long
+    )
+
+    @DELETE("/api/v1/jobs/accept/{job-id}")
+    fun cancelJobById(
+        @Path("job-id") jobId: Long,
+        @Query("user-id") userId: Long
+    )
 }

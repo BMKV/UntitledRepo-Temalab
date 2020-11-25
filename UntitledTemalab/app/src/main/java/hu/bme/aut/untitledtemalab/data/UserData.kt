@@ -1,10 +1,13 @@
 package hu.bme.aut.untitledtemalab.data
 
+import com.google.gson.annotations.SerializedName
+
 //Mark as "data class"?
-class UserData(val userId: Long,
-               var userName: String,
-               var email: String,
-               var rating: Double) {
+class UserData(
+    @SerializedName("user-id") val userId: Long,
+    var userName: String,
+    var email: String,
+    var rating: Double) {
     //Tagváltozók
     var canDeliver = false
     var isAdmin = false

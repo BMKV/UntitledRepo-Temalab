@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainMenu_OpenCurrentJobs"
             app:destination="@id/currentJobsFragment" />
+        <action
+            android:id="@+id/action_mainMenu_ShowAllLocations"
+            app:destination="@id/allLocationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileScreenFragment"
@@ -108,4 +111,9 @@
             android:id="@+id/action_currentJobsFragment_to_jobBoardFragment"
             app:destination="@id/jobBoardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/allLocationsFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.locationsmap.AllLocationsFragment"
+        android:label="fragment_all_locations"
+        tools:layout="@layout/fragment_all_locations" />
 </navigation>

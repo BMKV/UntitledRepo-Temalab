@@ -52,6 +52,7 @@ class MainMenuFragment : Fragment() {
 
         }
 
+        //Show Job Board Button
         //TODO userId will be passed in the action
         btnJobBoard.setOnClickListener{
             MainMenuFragmentDirections.actionMainMenuOpenJobBoard(3547612601).let{
@@ -63,6 +64,13 @@ class MainMenuFragment : Fragment() {
         btnPostNewJob.setOnClickListener { btnPostNewJob ->
             MainMenuFragmentDirections.actionMainMenuOpenPostJob().let {
                 action -> btnPostNewJob!!.findNavController().navigate(action)
+            }
+        }
+
+        //Show All Locations Button
+        btnBestRoute.setOnClickListener {
+            MainMenuFragmentDirections.actionMainMenuShowAllLocations().let {
+                action -> btnBestRoute!!.findNavController().navigate(action)
             }
         }
     }

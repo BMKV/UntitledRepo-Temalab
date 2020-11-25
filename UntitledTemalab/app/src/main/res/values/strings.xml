@@ -5,7 +5,7 @@
     <string name="my_profile_title">My Profile</string>
     <string name="history_title">History</string>
     <string name="post_new_job_title">Post New Job</string>
-    <string name="show_best_route_title">Show Best Route</string>
+    <string name="show_best_route_title">Show All Locations</string>
     <string name="edit_profile_title">Edit Profile</string>
     <string name="name_title">Name:</string>
     <string name="statistics_title">Statistics</string>
@@ -42,4 +42,6 @@
     <string name="expand_map">Expand Map</string>
     <string name="collapse_map">Collapse Map</string>
     <string name="error_invalid_cargo_data_loaded">Invalid cargo data loaded from server!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

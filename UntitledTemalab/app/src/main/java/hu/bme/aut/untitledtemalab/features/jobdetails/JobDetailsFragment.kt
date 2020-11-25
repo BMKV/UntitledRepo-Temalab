@@ -115,6 +115,11 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         GlobalScope.launch { NetworkManager.deliverJobById(shownJob.jobId, shownUser.userId) }
     }
 
+    fun rateJob(rating: Long) {
+        shownJob.senderRating = rating
+        GlobalScope.launch { NetworkManager.rateJobById(shownJob.jobId, shownUser.userId, rating) }
+    }
+
     fun getJobShown(): JobData {
         return shownJob
     }

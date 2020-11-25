@@ -143,26 +143,35 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     suspend fun downloadData(jobId: Long, userId: Long) {
         //TODO: logged in user, mert most statikusan kérünk le teszt usert
         shownJob = NetworkManager.getJobById(jobId)
-        shownUser = NetworkManager.getUserProfileById(userId)
+        shownUser = NetworkManager.getUserProfileById(shownJob.ownerID)
         loggedInUser = NetworkManager.getUserProfileById(3547612601)
         uiUpdateHandler.post(Runnable { setContent(shownJob, shownUser) })
     }
 
     private fun setButtonFragment() {
         if (shownJob.ownerID == loggedInUser.userId) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+            if (shownJob.status == JobStatus.Delivered)
+            {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, RateDeliveredFragment()).commit()
+            }
+            else {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+            }
         }
-        else if (shownJob.status == JobStatus.Pending) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
-        }
-        else if (shownJob.status == JobStatus.Delivered) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        }
-        else if (shownJob.status == JobStatus.Expired) {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        }
-        else {
-            childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+        else
+        {
+            if (shownJob.status == JobStatus.Pending) {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
+            }
+            else if (shownJob.status == JobStatus.Delivered) {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+            }
+            else if (shownJob.status == JobStatus.Expired) {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
+            }
+            else {
+                childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
+            }
         }
     }
 

@@ -43,10 +43,11 @@
         android:id="@+id/tvNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="@string/name_title"
-        app:layout_constraintStart_toEndOf="@+id/imviewProfilePic"
-        app:layout_constraintTop_toTopOf="@+id/imviewProfilePic" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
 
     <View
         android:id="@+id/divider"
@@ -59,29 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMyProfileTitle" />
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatisticsTitle" />
-
-    <TextView
-        android:id="@+id/tvStatisticsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/statistics_title"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/imviewProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/tvRatingTitle" />
 
     <TextView
         android:id="@+id/tvEmailTitle"

@@ -2,6 +2,7 @@ package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.CargoData
 import hu.bme.aut.untitledtemalab.data.JobData
+import hu.bme.aut.untitledtemalab.data.JobRegistrationData
 import hu.bme.aut.untitledtemalab.data.UserData
 import retrofit2.Call
 import retrofit2.http.*
@@ -84,6 +85,6 @@ interface FreelancerAPI {
     @POST("/api/v1/jobs")
     fun postNewJob(
         @Query("user-id") userId: Long,
-        @Body newJob: JobData
+        @Body newJob: JobRegistrationData
     )
 }

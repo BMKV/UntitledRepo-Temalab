@@ -1,10 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import android.util.Log
-import hu.bme.aut.untitledtemalab.data.CargoData
-import hu.bme.aut.untitledtemalab.data.JobData
-import hu.bme.aut.untitledtemalab.data.PackageSize
-import hu.bme.aut.untitledtemalab.data.UserData
+import hu.bme.aut.untitledtemalab.data.*
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
@@ -79,7 +76,7 @@ object NetworkManager {
         freelancerApi.cancelJobById(jobId, userId)
     }
 
-    fun postNewJob(userId: Long, newJobData: JobData) {
+    fun postNewJob(userId: Long, newJobData: JobRegistrationData) {
         freelancerApi.postNewJob(userId, newJobData)
     }
 }

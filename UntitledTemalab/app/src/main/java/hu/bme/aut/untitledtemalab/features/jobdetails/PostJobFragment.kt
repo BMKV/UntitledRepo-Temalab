@@ -88,22 +88,12 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
                 //TODO: Actual today's date
                 val atmIssueDate = "2020.12.12"
                 val atmDeadline = edtDeadline.text.toString()
+
+                //Todo: Ez nincs a backenden?
                 val atmExpiration = edtExpirationDate.text.toString()
 
 
-                val atmJobData = JobData(
-                    0,
-                    atmTitle,
-                    atmSize,
-                    atmPayment,
-                    atmIssueDate,
-                    atmDeadline,
-                    loggedInUser.userId,
-                    JobStatus.Pending
-                )
-                val atmRoute = RouteData(atmStartPoint, atmDestination)
-                atmJobData.deliveryRoute = atmRoute
-                atmJobData.listingExpirationDate = atmExpiration
+                val atmJobData = JobRegistrationData(atmSize, atmTitle, atmPayment, atmIssueDate, atmDeadline, atmStartPoint, atmDestination)
 
                 NetworkManager.postNewJob(loggedInUser.userId, atmJobData)
 

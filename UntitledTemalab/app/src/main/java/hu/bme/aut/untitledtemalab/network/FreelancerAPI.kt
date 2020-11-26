@@ -80,4 +80,10 @@ interface FreelancerAPI {
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long
     )
+
+    @POST("/api/v1/jobs")
+    fun postNewJob(
+        @Query("user-id") userId: Long,
+        @Body newJob: JobData
+    )
 }

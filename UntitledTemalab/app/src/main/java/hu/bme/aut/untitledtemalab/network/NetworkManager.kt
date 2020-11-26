@@ -78,4 +78,8 @@ object NetworkManager {
     fun cancelJobById(jobId: Long, userId: Long) {
         freelancerApi.cancelJobById(jobId, userId)
     }
+
+    fun postNewJob(userId: Long, newJobData: JobData) {
+        freelancerApi.postNewJob(userId, newJobData)
+    }
 }

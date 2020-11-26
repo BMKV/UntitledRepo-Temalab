@@ -14,10 +14,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.*
+import hu.bme.aut.untitledtemalab.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.android.synthetic.main.fragment_post_job.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
 
@@ -43,7 +47,9 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         theSpinner = spinnerPostPacakgeSize
 
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
-        //TODO: loggedInUser = loggedInUser
+
+        //TODO: loggedInUser = az actually logged in user
+        GlobalScope.launch { loggedInUser = NetworkManager.getUserProfileById(3547612601) }
 
         btnExpandMapOnPost.setOnClickListener {
             if (btnExpandMapOnPost.text.toString() == getString(R.string.expand_map)) {
@@ -57,40 +63,59 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         }
 
         btnPostJob.setOnClickListener {
-            val atmId = 1000001
-            val atmTitle = edtJobTitle.text.toString()
-            val atmStartPoint = edtPickUpPoint.text.toString()
-            val atmDestination =  edtDestination.text.toString()
-            val atmSize = when (theSpinner.selectedItem.toString()) {
-                "small" -> PackageSize.Small
-                "medium" -> PackageSize.Medium
-                "large" -> PackageSize.Large
-                else -> PackageSize.Large
+
+            if (edtJobTitle.text.toString() == "" ||
+                edtPickUpPoint.text.toString() == "" ||
+                edtDestination.text.toString() == "" ||
+                edtPayment.text.toString() == "" ||
+                edtDeadline.text.toString() == "" ||
+                edtExpirationDate.text.toString() == "")
+            {
+                Snackbar.make(this.requireView(), "You have to fill in all details correctly!", Snackbar.LENGTH_SHORT).show()
             }
-            val atmPayment = edtPayment.text.toString().toInt()
-            val atmIssueDate = "2020.12.12"
-            val atmDeadline = edtDeadline.text.toString()
-            val atmExpiration = edtExpirationDate.text.toString()
-            val atmJobData = JobData(100001, atmTitle, atmSize, atmPayment, atmIssueDate, atmDeadline, loggedInUser.userId, JobStatus.Pending )
-            val atmRoute = RouteData(atmStartPoint, atmDestination)
-            atmJobData.deliveryRoute = atmRoute
-            atmJobData.listingExpirationDate = atmExpiration
+            else {
+                //Collecting the átmeneti data
+                val atmTitle = edtJobTitle.text.toString()
+                val atmStartPoint = edtPickUpPoint.text.toString()
+                val atmDestination = edtDestination.text.toString()
+                val atmSize = when (theSpinner.selectedItem.toString()) {
+                    "small" -> PackageSize.Small
+                    "medium" -> PackageSize.Medium
+                    "large" -> PackageSize.Large
+                    else -> PackageSize.Large
+                }
+                val atmPayment = edtPayment.text.toString().toInt()
+                //TODO: Actual today's date
+                val atmIssueDate = "2020.12.12"
+                val atmDeadline = edtDeadline.text.toString()
+                val atmExpiration = edtExpirationDate.text.toString()
 
-            uploadJobListing(atmJobData, loggedInUser)
 
-            PostJobFragmentDirections.actionPostJobPostedJob().let {
-                action -> findNavController().navigate(action)
+                val atmJobData = JobData(
+                    0,
+                    atmTitle,
+                    atmSize,
+                    atmPayment,
+                    atmIssueDate,
+                    atmDeadline,
+                    loggedInUser.userId,
+                    JobStatus.Pending
+                )
+                val atmRoute = RouteData(atmStartPoint, atmDestination)
+                atmJobData.deliveryRoute = atmRoute
+                atmJobData.listingExpirationDate = atmExpiration
+
+                NetworkManager.postNewJob(loggedInUser.userId, atmJobData)
+
+                PostJobFragmentDirections.actionPostJobPostedJob().let { action ->
+                    findNavController().navigate(action)
+                }
             }
 
         }
     }
 
-    fun uploadJobListing(job: JobData, user: UserData) {
-        //TODO: Netwörkre bekötni és megcsinálni
-    }
-
     override fun onMapReady(googleMap: GoogleMap?) {
-        //TODO: ez a !! biztos jó?
         theMap = googleMap!!
 
         theMap.isTrafficEnabled = true

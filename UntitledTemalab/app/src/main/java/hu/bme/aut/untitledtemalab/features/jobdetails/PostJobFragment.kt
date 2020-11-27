@@ -1,5 +1,6 @@
 package hu.bme.aut.untitledtemalab.features.jobdetails
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.*
 import hu.bme.aut.untitledtemalab.network.NetworkManager
-import kotlinx.android.synthetic.main.fragment_job_details.*
 import kotlinx.android.synthetic.main.fragment_post_job.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
 
@@ -108,6 +109,17 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             PostJobFragmentDirections.actionPostJobCancelledJob().let { action ->
                 findNavController().navigate(action)
             }
+        }
+
+        edtDeadline.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val datePickerDialog = DatePickerDialog(this.requireContext())
+            datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
+                //TODO: kiszervezni resourceba
+                val atmString = "$year $month $dayOfMonth"
+                edtDeadline.setText(atmString)
+            }
+            datePickerDialog.show()
         }
     }
 

@@ -129,7 +129,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
-        //TODO: ez a !! biztos jó?
         theMap = googleMap!!
 
         theMap.isTrafficEnabled = true

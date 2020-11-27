@@ -51,6 +51,9 @@ interface FreelancerAPI {
         @Path("job-id") jobId: Long
     ): Call<JobData>
 
+
+    //Note: ezeknek nincs return értéke, de lehet, hogy kellene legyen?
+    //Internet azt mondja, hogy Call<void>?
     @POST("/api/v1/jobs/accept/{job-id}")
     fun acceptJobById(
         @Path("job-id") jobId: Long,

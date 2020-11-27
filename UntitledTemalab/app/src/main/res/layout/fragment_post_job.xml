@@ -184,7 +184,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:ems="10"
-                android:inputType="date"
+                android:inputType="text"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvDeliveryDeadlineTitle"
                 app:layout_constraintTop_toBottomOf="@+id/edtPayment" />
@@ -197,7 +198,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:ems="10"
-                android:inputType="date"
+                android:inputType="text"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvExpiratinDeadlineTitle"
                 app:layout_constraintTop_toBottomOf="@+id/edtDeadline" />

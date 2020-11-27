@@ -105,6 +105,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
         }
 
+        //Ez itt fogalmam sincs miért ad HTTP400-at
         btnCancelNewJob.setOnClickListener {
             PostJobFragmentDirections.actionPostJobCancelledJob(loggedInUser.userId).let { action ->
                 findNavController().navigate(action)
@@ -118,6 +119,17 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
                 //TODO: kiszervezni resourceba
                 val atmString = "$year $month $dayOfMonth"
                 edtDeadline.setText(atmString)
+            }
+            datePickerDialog.show()
+        }
+
+        edtExpirationDate.setOnClickListener {
+            val cal = Calendar.getInstance()
+            val datePickerDialog = DatePickerDialog(this.requireContext())
+            datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
+                //TODO: kiszervezni resourceba
+                val atmString = "$year $month $dayOfMonth"
+                edtExpirationDate.setText(atmString)
             }
             datePickerDialog.show()
         }

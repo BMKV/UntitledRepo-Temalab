@@ -97,4 +97,10 @@ interface FreelancerAPI {
     fun getJobStatusAdminStatistics(
         @Query("user-id") userId: Long
     ): Call<JobStatusStatisticsData>
+
+    @GET("/api/v1/user/login")
+    fun loginUser(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Call<String>
 }

@@ -106,7 +106,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         }
 
         btnCancelNewJob.setOnClickListener {
-            PostJobFragmentDirections.actionPostJobCancelledJob().let { action ->
+            PostJobFragmentDirections.actionPostJobCancelledJob(loggedInUser.userId).let { action ->
                 findNavController().navigate(action)
             }
         }

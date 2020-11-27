@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainMenuFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mainMenuFragment"
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_adminStatisticsContainerFragment"
             app:destination="@id/adminStatisticsContainerFragment" />
+        <argument
+            android:name="userId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/profileScreenFragment"
@@ -130,5 +133,15 @@
         <argument
             android:name="userId"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="hu.bme.aut.untitledtemalab.features.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import hu.bme.aut.untitledtemalab.R
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import kotlin.properties.Delegates
 
 /**
  * A simple [Fragment] subclass.
@@ -19,7 +22,13 @@ class MainMenuFragment : Fragment() {
 
     private lateinit var viewModel: MainMenuViewModel
 
-    private val userId = 3547612601
+    private var userId by Delegates.notNull<Long>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val navArgs: MainMenuFragmentArgs by navArgs()
+        userId = navArgs.userId
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +48,7 @@ class MainMenuFragment : Fragment() {
         //My Profile button
         //TODO userId will be passed in the action
         btnMyProfile.setOnClickListener { btnMyProfile ->
-            MainMenuFragmentDirections.actionMainMenuOpenProfile(3547612601).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenProfile(userId).let { action ->
                 btnMyProfile!!.findNavController().navigate(action)
             }
         }
@@ -47,7 +56,7 @@ class MainMenuFragment : Fragment() {
         //History Button
         //TODO userId will be passed in the action
         btnHistory.setOnClickListener {
-            MainMenuFragmentDirections.actionMainMenuOpenHistory(3547612601).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenHistory(userId).let { action ->
                 findNavController().navigate(action)
             }
         }
@@ -55,7 +64,7 @@ class MainMenuFragment : Fragment() {
         //Accepted Jobs Button
         //TODO userId will be passed in the action
         btnCurrentJobs.setOnClickListener {
-            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(3547612601).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(userId).let { action ->
                 findNavController().navigate(action)
             }
 
@@ -64,7 +73,7 @@ class MainMenuFragment : Fragment() {
         //Show Job Board Button
         //TODO userId will be passed in the action
         btnJobBoard.setOnClickListener {
-            MainMenuFragmentDirections.actionMainMenuOpenJobBoard(3547612601).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenJobBoard(userId).let { action ->
                 findNavController().navigate(action)
             }
         }
@@ -113,4 +122,5 @@ class MainMenuFragment : Fragment() {
         }
         fab.visibility = View.VISIBLE
     }
+
 }

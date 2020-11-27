@@ -1,7 +1,9 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.*
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface FreelancerAPI {
@@ -55,38 +57,38 @@ interface FreelancerAPI {
     fun acceptJobById(
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long
-    )
+    ): Call<String>
 
     @PUT("/api/v1/jobs/rate/{job-id}")
     fun rateJobById(
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long,
         @Query("rating") rating: Long
-    )
+    ): Call<String>
 
     @PUT("/api/v1/jobs/pickup/{job-id}")
     fun pickUpJobById(
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long
-    )
+    ): Call<String>
 
     @PUT("/api/v1/jobs/deliver/{job-id}")
     fun deliverJobById(
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long
-    )
+    ): Call<String>
 
     @DELETE("/api/v1/jobs/accept/{job-id}")
     fun cancelJobById(
         @Path("job-id") jobId: Long,
         @Query("user-id") userId: Long
-    )
+    ): Call<String>
 
     @POST("/api/v1/jobs")
     fun postNewJob(
         @Query("user-id") userId: Long,
         @Body newJob: JobRegistrationData
-    )
+    ): Call<String>
 
     @GET("/api/v1/admin/statistics")
     fun getUserRoleAdminStatistics(

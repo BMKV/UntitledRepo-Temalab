@@ -107,7 +107,7 @@ class MainMenuFragment : Fragment() {
 
     private fun showAdminStatisticsOptionalFAB() {
         fab.setOnClickListener{
-            MainMenuFragmentDirections.actionMainMenuFragmentToAdminStatisticsContainerFragment().let{
+            MainMenuFragmentDirections.actionMainMenuFragmentToAdminStatisticsContainerFragment(userId).let{
                 action -> findNavController().navigate(action)
             }
         }

@@ -91,6 +91,9 @@
             android:name="senderUserId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_postJob_CancelledJob"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/currentJobsFragment"

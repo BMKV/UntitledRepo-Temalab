@@ -103,6 +103,12 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             }
 
         }
+
+        btnCancelNewJob.setOnClickListener {
+            PostJobFragmentDirections.actionPostJobCancelledJob().let { action ->
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

@@ -5,8 +5,6 @@ import hu.bme.aut.untitledtemalab.data.*
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 object NetworkManager {
 
@@ -54,6 +52,14 @@ object NetworkManager {
     suspend fun getUsersCargoInformation(userId: Long): CargoData{
         Log.i("Freelancer", userId.toString())
         return freelancerApi.getUsersCargoInformation(userId).await()
+    }
+
+    suspend fun getUserRoleAdminStatistics(userId: Long): UserRoleStatisticsData{
+        return freelancerApi.getUserRoleAdminStatistics(userId).await()
+    }
+
+    suspend fun getJobStatusAdminStatistics(userId: Long): JobStatusStatisticsData{
+        return freelancerApi.getJobStatusAdminStatistics(userId).await()
     }
 
     fun acceptJobById(jobId: Long, userId: Long) {

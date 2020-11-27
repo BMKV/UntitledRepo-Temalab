@@ -1,9 +1,6 @@
 package hu.bme.aut.untitledtemalab.network
 
-import hu.bme.aut.untitledtemalab.data.CargoData
-import hu.bme.aut.untitledtemalab.data.JobData
-import hu.bme.aut.untitledtemalab.data.JobRegistrationData
-import hu.bme.aut.untitledtemalab.data.UserData
+import hu.bme.aut.untitledtemalab.data.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -90,4 +87,14 @@ interface FreelancerAPI {
         @Query("user-id") userId: Long,
         @Body newJob: JobRegistrationData
     )
+
+    @GET("/api/v1/admin/statistics")
+    fun getUserRoleAdminStatistics(
+        @Query("user-id") userId: Long
+    ): Call<UserRoleStatisticsData>
+
+    @GET("/api/v1/admin/statistics")
+    fun getJobStatusAdminStatistics(
+        @Query("user-id") userId: Long
+    ): Call<JobStatusStatisticsData>
 }

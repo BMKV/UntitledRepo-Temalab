@@ -9,10 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.UserRoleStatisticsData
-import hu.bme.aut.untitledtemalab.features.adminstatistics.jobstatus.AdminsJobStatusStatisticFragment
+import kotlinx.android.synthetic.main.fragment_admins_user_role_statistic.*
 import java.lang.Exception
 
 /**
@@ -40,7 +44,7 @@ class AdminsUserRoleStatisticFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(userId: Long) =
-            AdminsJobStatusStatisticFragment().apply {
+            AdminsUserRoleStatisticFragment().apply {
                 arguments = Bundle().apply {
                     putLong(USER_ID_KEY, userId)
                 }
@@ -91,7 +95,29 @@ class AdminsUserRoleStatisticFragment : Fragment() {
     }
 
     private fun setChart(userRoleStatisticsData: UserRoleStatisticsData) {
-        TODO("Először megírjuk a másik MVVM-ét is :)")
+        mutableListOf<PieEntry>().apply{
+            if(userRoleStatisticsData.delivererCount > 0)
+                add(PieEntry(userRoleStatisticsData.delivererCount.toFloat(), "Transporter users"))
+            if(userRoleStatisticsData.senderCount > 0)
+                add(PieEntry(userRoleStatisticsData.senderCount.toFloat(), "Package sender users"))
+        }.let{ entryList ->
+            PieDataSet(entryList, "").apply{
+                valueTextSize = 15f
+                setColors(*ColorTemplate.COLORFUL_COLORS)
+            }.let{ dataSet ->
+                PieData(dataSet).let{ pieData ->
+                    chartUserRole.apply {
+                        data = pieData
+                        description.apply{
+                            text = "Users distributed by their role"
+                        }
+                        centerText = "User count: ${userRoleStatisticsData.userCount}"
+                    }
+                }
+            }
+        }
+        chartUserRole.notifyDataSetChanged()
+        chartUserRole.invalidate()
     }
 
     private fun handleError(exception: Exception) {

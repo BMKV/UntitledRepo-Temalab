@@ -18,6 +18,7 @@ class AdminUserRoleStatisticViewModel(application: Application, userId: Long) :
 
     fun refreshStatistics() {
         Log.i("Freelancer", "Refresh requested!")
+        updateStatistics()
     }
 
     private fun updateStatistics() {

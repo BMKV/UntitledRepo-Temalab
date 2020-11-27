@@ -9,9 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.aut.untitledtemalab.R
 import hu.bme.aut.untitledtemalab.data.JobStatusStatisticsData
+import kotlinx.android.synthetic.main.fragment_admins_job_status_statistic.*
 import java.lang.Exception
 
 /**
@@ -90,7 +95,35 @@ class AdminsJobStatusStatisticFragment : Fragment() {
     }
 
     private fun setChart(statisticsData: JobStatusStatisticsData) {
-
+        mutableListOf<PieEntry>().apply{
+            if(statisticsData.pendingJobCount > 0)
+                add(PieEntry(statisticsData.pendingJobCount.toFloat(), "Pending"))
+            if(statisticsData.acceptedJobCount > 0)
+                add(PieEntry(statisticsData.acceptedJobCount.toFloat(), "Accepted"))
+            if(statisticsData.pickedUpJobCount > 0)
+                add(PieEntry(statisticsData.pickedUpJobCount.toFloat(), "Picked Up"))
+            if(statisticsData.deliveredJobCount > 0)
+                add(PieEntry(statisticsData.deliveredJobCount.toFloat(), "Delivered"))
+            if(statisticsData.expiredJobCount > 0)
+                add(PieEntry(statisticsData.expiredJobCount.toFloat(), "Expired"))
+        }.let{ entryList ->
+            PieDataSet(entryList, "").apply{
+                valueTextSize = 15f
+                setColors(*ColorTemplate.COLORFUL_COLORS)
+            }.let{ dataSet ->
+                PieData(dataSet).let{ pieData ->
+                    chartJobStatus.apply {
+                        data = pieData
+                        description.apply{
+                            text = "Jobs distributed by status"
+                        }
+                        centerText = "Total job count: ${statisticsData.jobCount}"
+                    }
+                }
+            }
+        }
+        chartJobStatus.notifyDataSetChanged()
+        chartJobStatus.invalidate()
     }
 
     private fun handleError(exception: Exception) {

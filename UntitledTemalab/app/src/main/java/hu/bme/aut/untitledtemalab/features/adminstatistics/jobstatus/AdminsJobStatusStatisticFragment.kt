@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.adminstatistics
+package hu.bme.aut.untitledtemalab.features.adminstatistics.jobstatus
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

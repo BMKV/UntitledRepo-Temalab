@@ -1,4 +1,4 @@
-package hu.bme.aut.untitledtemalab.features.adminstatistics
+package hu.bme.aut.untitledtemalab.features.adminstatistics.userrole
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hu.bme.aut.untitledtemalab.R
+import hu.bme.aut.untitledtemalab.features.adminstatistics.jobstatus.AdminsJobStatusStatisticFragment
 
 /**
  * A simple [Fragment] subclass.

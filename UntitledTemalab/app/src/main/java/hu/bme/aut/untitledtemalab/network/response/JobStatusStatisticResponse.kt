@@ -1,3 +1,5 @@
 package hu.bme.aut.untitledtemalab.network.response
 
-class JobStatusStatisticResponse(val statistic: JobStatusStatisticResponse?, val error: Exception?)
+import hu.bme.aut.untitledtemalab.data.JobStatusStatisticsData
+
+class JobStatusStatisticResponse(val statistic: JobStatusStatisticsData?, val error: Exception?)

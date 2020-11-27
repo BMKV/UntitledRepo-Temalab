@@ -96,7 +96,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
                 val atmJobData = JobRegistrationData(atmSize, atmTitle, atmPayment, atmIssueDate, atmDeadline, atmStartPoint, atmDestination)
 
-                NetworkManager.postNewJob(loggedInUser.userId, atmJobData)
+                GlobalScope.launch { NetworkManager.postNewJob(loggedInUser.userId, atmJobData) }
 
                 PostJobFragmentDirections.actionPostJobPostedJob().let { action ->
                     findNavController().navigate(action)

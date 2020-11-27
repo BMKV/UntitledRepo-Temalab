@@ -27,6 +27,8 @@ class MainMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleAdminStatisticsOptionalFAB()
+
         //My Profile button
         //TODO userId will be passed in the action
         btnMyProfile.setOnClickListener{ btnMyProfile ->
@@ -73,5 +75,9 @@ class MainMenuFragment : Fragment() {
                 action -> btnBestRoute!!.findNavController().navigate(action)
             }
         }
+    }
+
+    private fun handleAdminStatisticsOptionalFAB(){
+
     }
 }

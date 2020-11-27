@@ -107,7 +107,9 @@ class MainMenuFragment : Fragment() {
 
     private fun showAdminStatisticsOptionalFAB() {
         fab.setOnClickListener{
-            //TODO navigating to the admin stats fragment
+            MainMenuFragmentDirections.actionMainMenuFragmentToAdminStatisticsContainerFragment().let{
+                action -> findNavController().navigate(action)
+            }
         }
         fab.visibility = View.VISIBLE
     }

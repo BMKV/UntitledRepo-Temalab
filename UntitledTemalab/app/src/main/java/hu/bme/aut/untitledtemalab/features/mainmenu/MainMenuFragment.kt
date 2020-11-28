@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -26,8 +25,11 @@ class MainMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val navArgs: MainMenuFragmentArgs by navArgs()
         userId = navArgs.userId
+
+        initializeViewModel()
     }
 
     override fun onCreateView(
@@ -41,7 +43,6 @@ class MainMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initializeViewModel()
         observeViewModel()
         viewModel.refreshAdminAbility()
 
@@ -107,7 +108,7 @@ class MainMenuFragment : Fragment() {
             if (response.isAdmin is Boolean)
                 if (response.isAdmin)
                     showAdminStatisticsOptionalFAB()
-                else if (response.error is Exception){
+                else if (response.error is Exception) {
                     Log.i("Freelancer", "Logged in user is not admin, or network error happened!")
                     fab.visibility = View.GONE
                 }
@@ -115,9 +116,11 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun showAdminStatisticsOptionalFAB() {
-        fab.setOnClickListener{
-            MainMenuFragmentDirections.actionMainMenuFragmentToAdminStatisticsContainerFragment(userId).let{
-                action -> findNavController().navigate(action)
+        fab.setOnClickListener {
+            MainMenuFragmentDirections.actionMainMenuFragmentToAdminStatisticsContainerFragment(
+                userId
+            ).let { action ->
+                findNavController().navigate(action)
             }
         }
         fab.visibility = View.VISIBLE

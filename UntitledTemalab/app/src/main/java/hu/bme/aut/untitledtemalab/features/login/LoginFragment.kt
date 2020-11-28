@@ -35,6 +35,7 @@ class LoginFragment : Fragment() {
 
     private fun setLoginBehaviour() {
         btnLogin.setOnClickListener {
+            viewModel.successfulLoginHappened = false
             viewModel.attemptToLoginUser(etEmail.text.toString(), etPassword.text.toString())
         }
     }
@@ -49,13 +50,14 @@ class LoginFragment : Fragment() {
             when {
                 response.error is Exception -> handleError(response.error)
                 response.userId !is Long -> handleError(IllegalStateException(LoginViewModel.ERROR_SERVER))
-                else -> loginUser(response.userId)
+                !viewModel.successfulLoginHappened -> loginUser(response.userId)
             }
         }
     }
 
     private fun loginUser(userId: Long) {
         Log.i("Freelancer", "Successful login! UserId: $userId")
+        viewModel.successfulLoginHappened = true
         LoginFragmentDirections.actionLoginFragmentToMainMenuFragment(userId).let { action ->
             findNavController().navigate(action)
         }

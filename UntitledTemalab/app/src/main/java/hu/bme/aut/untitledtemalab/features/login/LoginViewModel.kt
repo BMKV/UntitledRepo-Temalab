@@ -21,7 +21,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     val loginResponse = MutableLiveData<LoginResponse>()
 
-    fun attemptToLoginUser(email: String, password: String) {
+    var successfulLoginHappened = false
+
+    fun attemptToLoginUser(email: String, password: String){
         viewModelScope.launch(Dispatchers.IO) {
             loginResponse.postValue(
                 repository.attemptToLoginUser(

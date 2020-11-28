@@ -5,8 +5,10 @@ import bme.aut.untitledtemalab.backend.database.model.Status
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+
 
 @Service
 class JobExpiryChecker {
@@ -19,7 +21,7 @@ class JobExpiryChecker {
         val pendingJobs = jobRepository.findAllByStatus(Status.pending)
         for (j: Jobs in pendingJobs) {
             try {
-                if (LocalDate.parse(j.deadline) < LocalDate.now()) {
+                if (LocalDateTime.parse(j.deadline, DateTimeFormatter.ISO_OFFSET_DATE_TIME) < LocalDateTime.now()) {
                     j.status = Status.expired
                     jobRepository.save(j)
                 }

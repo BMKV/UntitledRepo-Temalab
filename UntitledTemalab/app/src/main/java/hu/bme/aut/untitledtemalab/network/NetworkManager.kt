@@ -95,15 +95,40 @@ object NetworkManager {
         serverErrorMessage: String
     ): LoginResponse {
         return try {
-            val response = freelancerApi.loginUser(email, password).execute()
-            when (response.code()) {
-                400 -> LoginResponse(null, IllegalStateException(invalidFormatMessage))
-                409 -> LoginResponse(null, IllegalStateException(invalidDataMessage))
-                200 -> LoginResponse(response.body()!!.toLong(), null)
-                else -> LoginResponse(null, IllegalStateException(serverErrorMessage))
+            freelancerApi.loginUser(email, password).execute().let { response ->
+                when (response.code()) {
+                    400 -> LoginResponse(null, IllegalStateException(invalidFormatMessage))
+                    409 -> LoginResponse(null, IllegalStateException(invalidDataMessage))
+                    200 -> LoginResponse(response.body()!!.toLong(), null)
+                    else -> LoginResponse(null, IllegalStateException(serverErrorMessage))
+                }
             }
         } catch (exception: Exception) {
             LoginResponse(null, IllegalStateException(networkErrorMessage))
+        }
+    }
+
+    fun registerUser(
+        registrationData: UserRegistrationData,
+        invalidInputMessage: String,
+        usedEmailMessage: String,
+        incorrectEmailFormatMessage: String,
+        serverErrorMessage: String,
+        networkErrorMessage: String,
+        successfulRegistrationMessage: String
+    ): String {
+        return try {
+            freelancerApi.registerNewUser(registrationData).execute().let { response ->
+                when (response.code()) {
+                    201 -> successfulRegistrationMessage
+                    405 -> invalidInputMessage
+                    409 -> usedEmailMessage
+                    422 -> incorrectEmailFormatMessage
+                    else -> serverErrorMessage
+                }
+            }
+        } catch (exception: Exception) {
+            return networkErrorMessage
         }
     }
 }

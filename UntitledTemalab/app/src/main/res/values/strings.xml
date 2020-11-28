@@ -23,7 +23,6 @@
     <string name="add_pick_up_point_address_here">Add Pick Up Point address here!</string>
     <string name="add_destination_address_here">Add Destination Address here!</string>
     <string name="specify_payment_here">Specify payment here!</string>
-    <string name="email_title">Email:</string>
     <string name="user_rating_title">User Rating:</string>
     <string name="listing_expires_on">Listing Expires On:</string>
     <string name="delivery_deadline">Delivery Deadline:</string>
@@ -42,10 +41,20 @@
     <string name="expand_map">Expand Map</string>
     <string name="collapse_map">Collapse Map</string>
     <string name="error_invalid_cargo_data_loaded">Invalid cargo data loaded from server!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="admin_statistics_title">Admin statistics</string>
     <string name="login_title">Welcome back!</string>
     <string name="invalid_format_given_error">Invalid format was given!</string>
     <string name="invalid_login_data_error">Check the given email address and password!</string>
+    <string name="email_title">Email:</string>
+    <string name="password_title">Password:</string>
+    <string name="enter_email_hint">Enter your Email address!</string>
+    <string name="enter_password_hint">Enter your password here!</string>
+    <string name="login_button">Login</string>
+    <string name="register_as_sender_info">Register as package sender</string>
+    <string name="register_as_transporter_info">Register as package sender and transporter</string>
+    <string name="user_registration_title">Registration</string>
+    <string name="button_register">Register</string>
+    <string name="login_register_text">No account yet? Create one</string>
+    <string name="registration_error_no_role_selected">Choose your preferred role!</string>
+    <string name="registration_auto_login_fail_message">Registration was successful, but auto-login has failed!</string>
 </resources>

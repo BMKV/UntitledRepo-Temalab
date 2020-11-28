@@ -31,12 +31,21 @@ class LoginFragment : Fragment() {
         initializeViewModel()
         observeResponse()
         setLoginBehaviour()
+        setRegisterTextBehaviour()
     }
 
     private fun setLoginBehaviour() {
         btnLogin.setOnClickListener {
             viewModel.successfulLoginHappened = false
             viewModel.attemptToLoginUser(etEmail.text.toString(), etPassword.text.toString())
+        }
+    }
+
+    private fun setRegisterTextBehaviour(){
+        tvRegister.setOnClickListener{
+            LoginFragmentDirections.actionLoginFragmentToRegisterFragment().let{
+                findNavController().navigate(it)
+            }
         }
     }
 
@@ -90,6 +99,7 @@ class LoginFragment : Fragment() {
 
     private fun invalidFormatWasGiven() {
         etEmail.error = ""
+        etPassword.error = ""
         Snackbar.make(
             requireView(),
             getString(R.string.invalid_format_given_error),

@@ -1,6 +1,5 @@
 package hu.bme.aut.untitledtemalab.data
 
-import androidx.navigation.ActivityNavigator
 import com.google.gson.annotations.SerializedName
 
 class JobRegistrationData (
@@ -11,6 +10,4 @@ class JobRegistrationData (
     @SerializedName("deadline") val deadline: String,
     @SerializedName("startLocation") val startLocation: String,
     @SerializedName("destination") val destination: String
-     ) {
-
-}
+     )

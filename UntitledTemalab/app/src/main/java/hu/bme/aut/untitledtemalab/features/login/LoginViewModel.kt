@@ -25,16 +25,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     fun attemptToLoginUser(email: String, password: String){
         viewModelScope.launch(Dispatchers.IO) {
-            loginResponse.postValue(
-                repository.attemptToLoginUser(
-                    email,
-                    password,
-                    invalidDataErrorMessage = ERROR_INVALID_DATA,
-                    invalidFormatErrorMessage = ERROR_INVALID_FORMAT,
-                    networkErrorMessage = ERROR_NETWORK,
-                    serverErrorMessage = ERROR_SERVER
+            if(!successfulLoginHappened){
+                loginResponse.postValue(
+                    repository.attemptToLoginUser(
+                        email,
+                        password,
+                        invalidDataErrorMessage = ERROR_INVALID_DATA,
+                        invalidFormatErrorMessage = ERROR_INVALID_FORMAT,
+                        networkErrorMessage = ERROR_NETWORK,
+                        serverErrorMessage = ERROR_SERVER
+                    )
                 )
-            )
+            }
         }
     }
 

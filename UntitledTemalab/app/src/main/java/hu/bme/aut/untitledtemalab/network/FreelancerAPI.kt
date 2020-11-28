@@ -1,9 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.*
-import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface FreelancerAPI {
@@ -102,4 +100,9 @@ interface FreelancerAPI {
         @Query("email") email: String,
         @Query("password") password: String
     ): Call<String>
+
+    @POST("/api/v1/user/register")
+    fun registerNewUser(
+        @Body registrationData: UserRegistrationData
+    ): Call<Void>
 }

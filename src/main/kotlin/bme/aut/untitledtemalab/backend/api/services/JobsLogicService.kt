@@ -11,6 +11,7 @@ import bme.aut.untitledtemalab.backend.database.model.*
 import bme.aut.untitledtemalab.backend.geoapi.GeoApi
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -164,6 +165,7 @@ class JobsLogicService {
             throw ModifyJobUnauthorisedUserModelError()
 
         dbJob.get().status = Status.delivered
+        dbJob.get().deliveryDate = LocalDateTime.now().toString()
         jobRepository.save(dbJob.get())
     }
 }

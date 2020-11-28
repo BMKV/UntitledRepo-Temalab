@@ -1,6 +1,11 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.*
+<<<<<<< Updated upstream
+=======
+import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
+import hu.bme.aut.untitledtemalab.network.response.PostJobResponse
+>>>>>>> Stashed changes
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -83,7 +88,7 @@ interface FreelancerAPI {
     fun postNewJob(
         @Query("user-id") userId: Long,
         @Body newJob: JobRegistrationData
-    ): Call<String>
+    ): Call<PostJobResponse>
 
     @GET("/api/v1/admin/statistics")
     fun getUserRoleAdminStatistics(

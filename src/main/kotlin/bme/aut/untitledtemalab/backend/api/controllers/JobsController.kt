@@ -46,7 +46,7 @@ class JobsController {
             responseHeaders.set("Location", newJobId.toString())
             return ResponseEntity.created(URI("jobs/post/$newJobId"))
                     .headers(responseHeaders)
-                    .body("{job-id: $newJobId}")
+                    .body("{\"job-id\": $newJobId}")
 
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())

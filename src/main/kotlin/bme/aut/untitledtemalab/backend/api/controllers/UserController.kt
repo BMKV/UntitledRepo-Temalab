@@ -44,8 +44,8 @@ class UserController {
     }
 
     @GetMapping("logout")
-    fun logoutUser() {
-        // TODO revoke token for user
+    fun logoutUser(): ResponseEntity<Any>{
+        return ResponseEntity("Successful logout!", HttpStatus.OK)
     }
 
     @GetMapping("profile")

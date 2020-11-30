@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -34,6 +35,9 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
     lateinit var theSpinner: Spinner
     lateinit var loggedInUser: UserData
 
+    val args: JobDetailsFragmentArgs by navArgs()
+    var userId = args.userId
+
     var deadlYear: Int = 0
     var deadlMonth: Int = 0
     var deadlDay: Int = 0
@@ -58,7 +62,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
 
         //TODO: loggedInUser = az actually logged in user
-        GlobalScope.launch { loggedInUser = NetworkManager.getUserProfileById(3547612601) }
+        GlobalScope.launch { loggedInUser = NetworkManager.getUserProfileById(userId) }
 
         btnExpandMapOnPost.setOnClickListener {
             if (btnExpandMapOnPost.text.toString() == getString(R.string.expand_map)) {

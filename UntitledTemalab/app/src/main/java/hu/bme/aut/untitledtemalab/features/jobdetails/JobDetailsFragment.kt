@@ -143,7 +143,7 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         //TODO: logged in user, mert most statikusan kérünk le teszt usert
         shownJob = NetworkManager.getJobById(jobId)
         shownUser = NetworkManager.getUserProfileById(shownJob.ownerID)
-        loggedInUser = NetworkManager.getUserProfileById(3547612601)
+        loggedInUser = NetworkManager.getUserProfileById(userId)
         uiUpdateHandler.post(Runnable { setContent(shownJob, shownUser) })
     }
 

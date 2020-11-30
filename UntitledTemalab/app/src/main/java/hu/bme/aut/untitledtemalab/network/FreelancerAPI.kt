@@ -1,11 +1,7 @@
 package hu.bme.aut.untitledtemalab.network
 
 import hu.bme.aut.untitledtemalab.data.*
-<<<<<<< Updated upstream
-=======
-import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import hu.bme.aut.untitledtemalab.network.response.PostJobResponse
->>>>>>> Stashed changes
 import retrofit2.Call
 import retrofit2.http.*
 

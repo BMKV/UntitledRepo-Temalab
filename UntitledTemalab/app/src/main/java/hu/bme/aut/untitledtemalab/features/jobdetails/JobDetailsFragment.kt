@@ -32,8 +32,8 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     lateinit var loggedInUser: UserData
     val uiUpdateHandler = Handler(Looper.getMainLooper())
     val args: JobDetailsFragmentArgs by navArgs()
-    var jobId = args.jobId
-    var userId = args.userId
+    var jobId: Long = 0
+    var userId: Long = 0
 
 
     override fun onCreateView(
@@ -50,6 +50,9 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapViewOnDetails) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        jobId = args.jobId
+        userId = args.userId
 
         btnExpandMapOnDetails.setOnClickListener {
             if (btnExpandMapOnDetails.text.toString() == getString(R.string.expand_map)) {

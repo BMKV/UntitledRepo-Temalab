@@ -32,6 +32,8 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     lateinit var loggedInUser: UserData
     val uiUpdateHandler = Handler(Looper.getMainLooper())
     val args: JobDetailsFragmentArgs by navArgs()
+    var jobId = args.jobId
+    var userId = args.userId
 
 
     override fun onCreateView(
@@ -48,9 +50,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapViewOnDetails) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        var jobId = args.jobId
-        var userId = args.userId
 
         btnExpandMapOnDetails.setOnClickListener {
             if (btnExpandMapOnDetails.text.toString() == getString(R.string.expand_map)) {
@@ -92,32 +91,32 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         shownJob.status = JobStatus.Accepted
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
-        GlobalScope.launch { NetworkManager.acceptJobById(shownJob.jobId, shownUser.userId) }
+        GlobalScope.launch { NetworkManager.acceptJobById(shownJob.jobId, userId) }
     }
 
     fun cancelJob() {
         shownJob.status = JobStatus.Pending
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, AcceptJobFragment()).commit()
-        GlobalScope.launch { NetworkManager.cancelJobById(shownJob.jobId, shownUser.userId) }
+        GlobalScope.launch { NetworkManager.cancelJobById(shownJob.jobId, userId) }
     }
 
     fun pickUpPackage() {
         shownJob.status = JobStatus.PickedUp
         tvIsItAcceptedStatusText.text = shownJob.status.name
-        GlobalScope.launch { NetworkManager.pickUpJobById(shownJob.jobId, shownUser.userId) }
+        GlobalScope.launch { NetworkManager.pickUpJobById(shownJob.jobId, userId) }
     }
 
     fun completeJob() {
         shownJob.status = JobStatus.Delivered
         tvIsItAcceptedStatusText.text = shownJob.status.name
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerOnDetails, JobInformationFragment()).commit()
-        GlobalScope.launch { NetworkManager.deliverJobById(shownJob.jobId, shownUser.userId) }
+        GlobalScope.launch { NetworkManager.deliverJobById(shownJob.jobId, userId) }
     }
 
     fun rateJob(rating: Long) {
         shownJob.senderRating = rating
-        GlobalScope.launch { NetworkManager.rateJobById(shownJob.jobId, shownUser.userId, rating) }
+        GlobalScope.launch { NetworkManager.rateJobById(shownJob.jobId, userId, rating) }
     }
 
     fun getJobShown(): JobData {

@@ -36,7 +36,7 @@ class Users(
         var cargoFreeSize: Int = 0,
 
         @Column(name = "cargo_max_size")
-        var cargoMaxSize: Int? = null,
+        var cargoMaxSize: Int = 0,
 
         @OneToMany
         @JoinTable(

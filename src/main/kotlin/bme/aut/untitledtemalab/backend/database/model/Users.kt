@@ -51,4 +51,18 @@ class Users(
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "user_id")],
                 inverseJoinColumns = [JoinColumn(name = "job_id", referencedColumnName = "job_id")])
         var packageSent: MutableList<Jobs> = mutableListOf()
-)
+) {
+
+    fun updateRating() {
+        var rating = 0.0f
+        var ratingNum = 0
+        for (jobs in packageDelivered){
+                if (jobs.senderRating != null) {
+                        rating += jobs.senderRating!!
+                        ratingNum++
+                }
+        }
+        rating /= ratingNum
+        userRating = rating
+    }
+}

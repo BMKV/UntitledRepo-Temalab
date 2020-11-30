@@ -139,6 +139,8 @@ class JobsLogicService {
 
         dbJob.get().senderRating = rating
         jobRepository.save(dbJob.get())
+
+        dbJob.get().deliverer?.updateRating()
     }
 
     fun pickUpJob(jobId: Long, userId: Long) {

@@ -142,7 +142,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     suspend fun downloadData(jobId: Long, userId: Long) {
-        //TODO: logged in user, mert most statikusan kérünk le teszt usert
         shownJob = NetworkManager.getJobById(jobId)
         shownUser = NetworkManager.getUserProfileById(shownJob.ownerID)
         loggedInUser = NetworkManager.getUserProfileById(userId)

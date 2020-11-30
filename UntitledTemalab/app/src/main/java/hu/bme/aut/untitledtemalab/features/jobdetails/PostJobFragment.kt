@@ -36,7 +36,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
     lateinit var loggedInUser: UserData
 
     val args: JobDetailsFragmentArgs by navArgs()
-    var userId = args.userId
+    var userId: Long = args.userId
 
     var deadlYear: Int = 0
     var deadlMonth: Int = 0
@@ -58,6 +58,8 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         theSpinner = spinnerPostPacakgeSize
+
+        userId = args.userId
 
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
 

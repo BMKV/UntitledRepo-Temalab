@@ -62,24 +62,24 @@ object NetworkManager {
         return freelancerApi.getJobStatusAdminStatistics(userId).await()
     }
 
-    suspend fun acceptJobById(jobId: Long, userId: Long) {
-        freelancerApi.acceptJobById(jobId, userId).await()
+    suspend fun acceptJobById(jobId: Long, userId: Long): String {
+        return freelancerApi.acceptJobById(jobId, userId).await()
     }
 
-    suspend fun rateJobById(jobId: Long, userId: Long, rating: Long) {
-        freelancerApi.rateJobById(jobId, userId, rating).await()
+    suspend fun rateJobById(jobId: Long, userId: Long, rating: Long): String {
+        return freelancerApi.rateJobById(jobId, userId, rating).await()
     }
 
-    suspend fun pickUpJobById(jobId: Long, userId: Long) {
-        freelancerApi.pickUpJobById(jobId, userId).await()
+    suspend fun pickUpJobById(jobId: Long, userId: Long): String {
+        return freelancerApi.pickUpJobById(jobId, userId).await()
     }
 
-    suspend fun deliverJobById(jobId: Long, userId: Long) {
-        freelancerApi.deliverJobById(jobId, userId).await()
+    suspend fun deliverJobById(jobId: Long, userId: Long): String {
+        return freelancerApi.deliverJobById(jobId, userId).await()
     }
 
-    suspend fun cancelJobById(jobId: Long, userId: Long) {
-        freelancerApi.cancelJobById(jobId, userId).await()
+    suspend fun cancelJobById(jobId: Long, userId: Long): String {
+        return  freelancerApi.cancelJobById(jobId, userId).await()
     }
 
     suspend fun postNewJob(userId: Long, newJobData: JobRegistrationData) {

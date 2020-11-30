@@ -30,7 +30,10 @@ class UsersValidationService {
     }
 
     fun validateEmailAndPassword(email: String, password: String) {
-        if (userRepository.findAllByEmailAddress(email).first().password != password)
+        val user = userRepository.findAllByEmailAddress(email)
+        if (user.isEmpty())
+            throw UserNotFoundModelError()
+        if (user.first().password != password)
             throw InvalidPasswordModelError()
     }
 

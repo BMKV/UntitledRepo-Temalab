@@ -34,7 +34,7 @@ class UserUpdateCargoSize : UserUpdate {
 
     override fun updateUser(dbUser: Users): Users {
         if (newCargoMaxSize != null && password == dbUser.password) {
-            dbUser.cargoMaxSize = newCargoMaxSize
+            dbUser.cargoMaxSize = newCargoMaxSize!!
         }
         return dbUser
     }

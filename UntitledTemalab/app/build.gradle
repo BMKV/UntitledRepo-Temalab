@@ -82,4 +82,7 @@ dependencies {
     })
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    def material_version = "1.2.0-alpha06"
+    implementation "com.google.android.material:material:$material_version"
 }

@@ -33,6 +33,7 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
         }
     }
 
+    @Suppress("DEPRECATION")    //Using the simple getColor function should cause no problems
     private fun setShownStatus(holder: CommonJobDataViewHolder, representedJobData: JobData){
         holder.tvJobStatus.text = representedJobData.status.name
         when(representedJobData.status){

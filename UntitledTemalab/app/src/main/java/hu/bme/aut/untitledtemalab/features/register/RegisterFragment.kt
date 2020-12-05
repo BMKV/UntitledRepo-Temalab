@@ -130,14 +130,14 @@ class RegisterFragment : Fragment() {
     }
 
     private fun invalidInputWasGiven() {
-        Snackbar.make(requireView(), "The given data is invalid!", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireView(), getString(R.string.error_reg_given_data_invalid), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun alreadyUsedEmailWasGiven() {
-        etEmail.error = "This email is already being used!"
+        textInputLayout4.error = getString(R.string.error_reg_already_used_email)
     }
 
     private fun incorrectEmailFormatWasGiven() {
-        etEmail.error = "Email format is invalid!"
+        textInputLayout4.error = getString(R.string.error_reg_invaid_email_format)
     }
 }

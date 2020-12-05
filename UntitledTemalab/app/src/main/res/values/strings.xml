@@ -59,4 +59,7 @@
     <string name="registration_auto_login_fail_message">Registration was successful, but auto-login has failed!</string>
     <string name="error_msg_email_invalid">Email address might be invalid!</string>
     <string name="error_msg_password_invalid">Password might be invalid!</string>
+    <string name="error_reg_given_data_invalid">The given data is invalid!</string>
+    <string name="error_reg_already_used_email">This email is already being used!</string>
+    <string name="error_reg_invaid_email_format">Email format is invalid!</string>
 </resources>

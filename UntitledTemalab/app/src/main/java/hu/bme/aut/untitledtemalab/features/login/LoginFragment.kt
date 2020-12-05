@@ -98,8 +98,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun invalidFormatWasGiven() {
-        etEmail.error = ""
-        etPassword.error = ""
         Snackbar.make(
             requireView(),
             getString(R.string.invalid_format_given_error),
@@ -108,8 +106,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun invalidDataWasGiven() {
-        etEmail.error = ""
-        etPassword.error = ""
+        textInputLayout2.error = getString(R.string.error_msg_email_invalid)
+        textInputLayout3.error = getString(R.string.error_msg_password_invalid)
         Snackbar.make(
             requireView(),
             getString(R.string.invalid_login_data_error),

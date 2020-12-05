@@ -98,7 +98,7 @@ object NetworkManager {
             freelancerApi.loginUser(email, password).execute().let { response ->
                 when (response.code()) {
                     400 -> LoginResponse(null, IllegalStateException(invalidFormatMessage))
-                    409 -> LoginResponse(null, IllegalStateException(invalidDataMessage))
+                    404 -> LoginResponse(null, IllegalStateException(invalidDataMessage))
                     200 -> LoginResponse(response.body()!!.toLong(), null)
                     else -> LoginResponse(null, IllegalStateException(serverErrorMessage))
                 }

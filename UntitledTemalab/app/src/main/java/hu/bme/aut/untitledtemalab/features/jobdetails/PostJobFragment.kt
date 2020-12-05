@@ -2,6 +2,7 @@ package hu.bme.aut.untitledtemalab.features.jobdetails
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.properties.Delegates
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
 
@@ -35,8 +37,8 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
     lateinit var theSpinner: Spinner
     lateinit var loggedInUser: UserData
 
-    val args: JobDetailsFragmentArgs by navArgs()
-    var userId: Long = args.userId
+
+    var userId: Long by Delegates.notNull()
 
     var deadlYear: Int = 0
     var deadlMonth: Int = 0
@@ -59,12 +61,13 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
         theSpinner = spinnerPostPacakgeSize
 
-        userId = args.userId
+        val args: PostJobFragmentArgs by navArgs()
+        userId = args.senderUserId
 
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
 
         //TODO: loggedInUser = az actually logged in user
-        GlobalScope.launch { loggedInUser = NetworkManager.getUserProfileById(userId) }
+        GlobalScope.launch { loggedInUser =  NetworkManager.getUserProfileById(userId) }
 
         btnExpandMapOnPost.setOnClickListener {
             if (btnExpandMapOnPost.text.toString() == getString(R.string.expand_map)) {
@@ -112,7 +115,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
                 GlobalScope.launch { NetworkManager.postNewJob(loggedInUser.userId, atmJobData) }
 
-                PostJobFragmentDirections.actionPostJobPostedJob().let { action ->
+                PostJobFragmentDirections.actionPostJobPostedJob(loggedInUser.userId ,loggedInUser.canDeliver).let { action ->
                     findNavController().navigate(action)
                 }
             }

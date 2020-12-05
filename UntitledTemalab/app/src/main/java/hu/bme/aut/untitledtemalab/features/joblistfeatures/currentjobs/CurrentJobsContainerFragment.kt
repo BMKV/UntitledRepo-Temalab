@@ -16,11 +16,14 @@ class CurrentJobsContainerFragment : Fragment() {
 
     private var userId by Delegates.notNull<Long>()
 
+    private var deliverAbility by Delegates.notNull<Boolean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val navArgs: CurrentJobsContainerFragmentArgs by navArgs()
         userId = navArgs.userId
+        deliverAbility = navArgs.canDeliver
     }
 
     override fun onCreateView(
@@ -34,12 +37,19 @@ class CurrentJobsContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vp2ViewPager.adapter = CurrentJobsPagerAdapter(childFragmentManager, lifecycle, userId)
+        vp2ViewPager.adapter = CurrentJobsPagerAdapter(childFragmentManager, lifecycle, userId, deliverAbility)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> "Announced packages"
-                1 -> "Accepted deliveries"
-                else -> throw IllegalStateException("Such position doesn't exist: $position")
+            if(deliverAbility){
+                tab.text = when (position) {
+                    0 -> "Announced packages"
+                    1 -> "Accepted deliveries"
+                    else -> throw IllegalStateException("Such position doesn't exist: $position")
+                }
+            }else{
+                tab.text = when(position) {
+                    0 -> "Announced packages"
+                    else -> throw IllegalStateException("Such position doesn't exist: $position")
+                }
             }
         }.attach()
     }

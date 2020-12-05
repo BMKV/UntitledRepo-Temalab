@@ -55,14 +55,14 @@ class MainMenuFragment : Fragment() {
 
         //History Button
         btnHistory.setOnClickListener {
-            MainMenuFragmentDirections.actionMainMenuOpenHistory(userId).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenHistory(userId, viewModel.userCanDeliver).let { action ->
                 findNavController().navigate(action)
             }
         }
 
         //Accepted Jobs Button
         btnCurrentJobs.setOnClickListener {
-            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(userId).let { action ->
+            MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(userId, viewModel.userCanDeliver).let { action ->
                 findNavController().navigate(action)
             }
 
@@ -76,9 +76,9 @@ class MainMenuFragment : Fragment() {
         }
 
         //Post New Job Button
-        btnPostNewJob.setOnClickListener { btnPostNewJob ->
-            MainMenuFragmentDirections.actionMainMenuOpenPostJob().let { action ->
-                btnPostNewJob!!.findNavController().navigate(action)
+        btnPostNewJob.setOnClickListener {
+            MainMenuFragmentDirections.actionMainMenuOpenPostJob(userId).let { action ->
+                findNavController().navigate(action)
             }
         }
 
@@ -135,10 +135,13 @@ class MainMenuFragment : Fragment() {
     private fun observeTransportingAbilityResponse(){
         viewModel.canTransportResponse.observe(viewLifecycleOwner){ response ->
             if(response.hasAbility is Boolean)
-                if(response.hasAbility)
+                if(response.hasAbility){
                     btnJobBoard.isEnabled = true
+                    viewModel.userCanDeliver = true
+                }
             else if(response.error is Exception){
                     Log.i("Freelancer", "Logged in user is not transporter, or network error happened!")
+                    viewModel.userCanDeliver = false
                 }
         }
     }

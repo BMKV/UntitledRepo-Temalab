@@ -17,19 +17,19 @@ import kotlin.properties.Delegates
  * In the history, the user can check his/her sent packages; and the packages, that were delivered
  * by the user (if the user is able to deliver packages). The fragment contains a ViewPager, which
  * makes convenient to navigate between the two packages histories.
- * // TODO: If the history is viewed by a simple, non-transporter user, the transported tab shouldn't
- *      appear (No tab should appear to be precise). The implementation of this feature could depend on
- *      the backend, so it hasn't been implemented yet.
  */
 class HistoryContainerFragment : Fragment() {
 
     private var userId by Delegates.notNull<Long>()
+
+    private var deliverAbility by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val navArgs: HistoryContainerFragmentArgs by navArgs()
         userId = navArgs.userId
+        deliverAbility = navArgs.canDeliver
     }
 
     override fun onCreateView(
@@ -41,12 +41,19 @@ class HistoryContainerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vp2ViewPager.adapter = HistoryPagerAdapter(childFragmentManager, lifecycle, userId)
+        vp2ViewPager.adapter = HistoryPagerAdapter(childFragmentManager, lifecycle, userId, deliverAbility)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
-            tab.text = when(position) {
-                0 -> "Sent packages"
-                1 -> "Transported packages"
-                else -> throw IllegalStateException("Such position doesn't exist: $position")
+            if (deliverAbility) {
+                tab.text = when (position) {
+                    0 -> "Sent packages"
+                    1 -> "Transported packages"
+                    else -> throw IllegalStateException("Such position doesn't exist: $position")
+                }
+            } else {
+                tab.text = when(position){
+                    0 -> "Sent packages"
+                    else -> throw IllegalStateException("Such position doesn't exist: $position")
+                }
             }
         }.attach()
     }

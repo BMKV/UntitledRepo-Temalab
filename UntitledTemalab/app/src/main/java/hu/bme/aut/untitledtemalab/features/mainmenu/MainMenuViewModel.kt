@@ -16,6 +16,8 @@ class MainMenuViewModel(application: Application, val userId: Long): AndroidView
     val isAdminResponse = MutableLiveData<AbilityQueryResponse>()
 
     val canTransportResponse = MutableLiveData<AbilityQueryResponse>()
+    
+    var userCanDeliver = false
 
     fun refreshAdminAbility(){
         Log.i("Freelancer", "Refresh requested!")

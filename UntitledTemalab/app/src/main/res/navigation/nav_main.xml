@@ -54,6 +54,9 @@
             android:name="userId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <argument
+            android:name="canDeliver"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/jobDetailsFragment"
@@ -119,6 +122,9 @@
         <action
             android:id="@+id/action_currentJobsFragment_to_jobBoardFragment"
             app:destination="@id/jobBoardFragment" />
+        <argument
+            android:name="canDeliver"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/allLocationsFragment"

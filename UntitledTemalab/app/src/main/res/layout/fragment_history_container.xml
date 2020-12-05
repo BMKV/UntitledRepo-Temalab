@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:text="@string/history_title_feature"
         android:textAlignment="center"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        style="@style/DefaultTextViewStyle"/>
 
     <include
         layout="@layout/merge_viewpager2_with_tablayout"

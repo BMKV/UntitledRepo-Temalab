@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:text="@string/current_jobs_title_feature"
         android:textAlignment="center"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        style="@style/DefaultTextViewStyle"/>
 
     <include
         android:id="@+id/mergeVp2WithTabLayout"

@@ -42,7 +42,7 @@
     <string name="collapse_map">Collapse Map</string>
     <string name="error_invalid_cargo_data_loaded">Invalid cargo data loaded from server!</string>
     <string name="admin_statistics_title">Admin statistics</string>
-    <string name="login_title">Welcome back!</string>
+    <string name="login_title">Welcome to Freelancer Transporter!</string>
     <string name="invalid_format_given_error">Invalid format was given!</string>
     <string name="invalid_login_data_error">Check the given email address and password!</string>
     <string name="email_title">Email:</string>

@@ -17,7 +17,6 @@ import kotlin.properties.Delegates
 
 /**
  * A simple [Fragment] subclass.
- * TODO documentation
  */
 class ProfileScreenFragment : Fragment() {
 

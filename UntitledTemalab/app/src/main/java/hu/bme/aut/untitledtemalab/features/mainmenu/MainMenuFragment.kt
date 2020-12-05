@@ -47,7 +47,6 @@ class MainMenuFragment : Fragment() {
         viewModel.refreshAdminAbility()
 
         //My Profile button
-        //TODO userId will be passed in the action
         btnMyProfile.setOnClickListener { btnMyProfile ->
             MainMenuFragmentDirections.actionMainMenuOpenProfile(userId).let { action ->
                 btnMyProfile!!.findNavController().navigate(action)
@@ -55,7 +54,6 @@ class MainMenuFragment : Fragment() {
         }
 
         //History Button
-        //TODO userId will be passed in the action
         btnHistory.setOnClickListener {
             MainMenuFragmentDirections.actionMainMenuOpenHistory(userId).let { action ->
                 findNavController().navigate(action)
@@ -63,7 +61,6 @@ class MainMenuFragment : Fragment() {
         }
 
         //Accepted Jobs Button
-        //TODO userId will be passed in the action
         btnCurrentJobs.setOnClickListener {
             MainMenuFragmentDirections.actionMainMenuOpenCurrentJobs(userId).let { action ->
                 findNavController().navigate(action)
@@ -72,7 +69,6 @@ class MainMenuFragment : Fragment() {
         }
 
         //Show Job Board Button
-        //TODO userId will be passed in the action
         btnJobBoard.setOnClickListener {
             MainMenuFragmentDirections.actionMainMenuOpenJobBoard(userId).let { action ->
                 findNavController().navigate(action)

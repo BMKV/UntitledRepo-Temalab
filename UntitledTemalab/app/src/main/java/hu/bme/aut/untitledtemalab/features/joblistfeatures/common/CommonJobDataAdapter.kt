@@ -58,7 +58,6 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
     }
 
     /**
-     * TODO this comment is from previous concrete implementation, just copied here for reference.
      * This function sets the list of data, which is represented by the adapter instance's
      * RecyclerView.
      * @param freshDataList contains JobData instances in a List, and this List will be the new basis

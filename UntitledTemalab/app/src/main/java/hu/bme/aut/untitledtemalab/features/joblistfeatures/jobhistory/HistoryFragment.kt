@@ -28,8 +28,7 @@ import java.lang.IllegalStateException
 class HistoryFragment : Fragment() {
 
     /**
-     * TODO this comment is not actually right.
-     * The instance's ViewModel, which contains the business logic.
+     * The instance's ViewModel.
      */
     private lateinit var historyViewModel: HistoryViewModel
 

@@ -30,7 +30,7 @@ enum class JobStatus {
     @SerializedName("expired")
     Expired {
         override fun getBackendValueName(): String {
-            TODO("Ez nincs benne az API leírásban:)")
+            return "expired"
         }
     };
 

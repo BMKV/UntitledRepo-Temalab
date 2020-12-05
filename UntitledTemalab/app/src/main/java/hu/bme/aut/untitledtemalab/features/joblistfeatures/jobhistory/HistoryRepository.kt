@@ -3,9 +3,6 @@ package hu.bme.aut.untitledtemalab.features.joblistfeatures.jobhistory
 import hu.bme.aut.untitledtemalab.network.response.JobDataResponse
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 
-/**
- * TODO documentation
- */
 class HistoryRepository(private val userId: Long) {
 
     suspend fun getSentHistory(): JobDataResponse {

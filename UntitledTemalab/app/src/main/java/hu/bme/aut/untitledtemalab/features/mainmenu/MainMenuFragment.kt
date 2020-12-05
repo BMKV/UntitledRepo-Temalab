@@ -44,7 +44,7 @@ class MainMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
-        viewModel.refreshAdminAbility()
+        refreshUserAbilities()
 
         //My Profile button
         btnMyProfile.setOnClickListener { btnMyProfile ->
@@ -90,6 +90,11 @@ class MainMenuFragment : Fragment() {
         }
     }
 
+    private fun refreshUserAbilities(){
+        viewModel.refreshAdminAbility()
+        viewModel.refreshTransportingAbility()
+    }
+
     private fun initializeViewModel() {
         viewModel = ViewModelProvider(
             this, MainMenuViewModelFactory(
@@ -100,9 +105,14 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        observeAdminAbilityResponse()
+        observeTransportingAbilityResponse()
+    }
+
+    private fun observeAdminAbilityResponse(){
         viewModel.isAdminResponse.observe(viewLifecycleOwner) { response ->
-            if (response.isAdmin is Boolean)
-                if (response.isAdmin)
+            if (response.hasAbility is Boolean)
+                if (response.hasAbility)
                     showAdminStatisticsOptionalFAB()
                 else if (response.error is Exception) {
                     Log.i("Freelancer", "Logged in user is not admin, or network error happened!")
@@ -120,6 +130,17 @@ class MainMenuFragment : Fragment() {
             }
         }
         fab.visibility = View.VISIBLE
+    }
+
+    private fun observeTransportingAbilityResponse(){
+        viewModel.canTransportResponse.observe(viewLifecycleOwner){ response ->
+            if(response.hasAbility is Boolean)
+                if(response.hasAbility)
+                    btnJobBoard.isEnabled = true
+            else if(response.error is Exception){
+                    Log.i("Freelancer", "Logged in user is not transporter, or network error happened!")
+                }
+        }
     }
 
 }

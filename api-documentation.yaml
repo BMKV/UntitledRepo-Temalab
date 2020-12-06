@@ -1174,7 +1174,11 @@ components:
           nullable: false
         canDeliver:
           type: "boolean"
-          description: "The value determines if the new User can accept      Jobs"
+          description: "The value determines if the new User can accept Jobs"
+          nullable: false
+        cargoSize:
+          type: "integer"
+          description: "The size of the new User's cargo"
           nullable: true
       description: "Data on the new User"
     Job:

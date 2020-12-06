@@ -25,7 +25,7 @@ class UsersLogicService {
     fun registerNewUser(newUser: UserRegistration) {
         val newUserId = UIDGenerator.generateUID()
 
-        userRepository.save(Users(id = newUserId, password = newUser.password!!, canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!))
+        userRepository.save(Users(id = newUserId, password = newUser.password!!, canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!, cargoMaxSize = newUser.cargoSize, cargoFreeSize = newUser.cargoSize))
     }
 
     fun getUserProfile(userId: Long): UserProfile {

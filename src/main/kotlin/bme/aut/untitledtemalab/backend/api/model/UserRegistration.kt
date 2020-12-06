@@ -28,6 +28,9 @@ class UserRegistration {
     @JsonProperty("canDeliver")
     var canDeliver: Boolean? = null
 
+    @JsonProperty("cargoSize")
+    var cargoSize: Int = 0
+
     fun isValidBody(): Boolean {
         return (email != null && password != null && canDeliver != null)
     }

@@ -25,7 +25,7 @@ class CommonJobDataAdapter(private val onItemClick: (jobId: Long) -> Unit) :
         val jobData = jobDataList[position]
 
         holder.ivSize.setImageResource(setPackagesImage(jobData))
-        holder.tvJobName.text = jobData.jobId.toString()
+        holder.tvJobName.text = jobData.jobName
         holder.tvJobDeadline.text = jobData.deadline.subSequence(0, 10)
         setShownStatus(holder, jobData)
         holder.cardView.setOnClickListener {

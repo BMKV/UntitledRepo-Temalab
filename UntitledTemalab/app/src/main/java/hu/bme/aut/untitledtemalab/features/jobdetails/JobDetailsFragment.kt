@@ -73,7 +73,12 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        GlobalScope.launch { downloadData(jobId, userId) }
+        GlobalScope.launch {
+            downloadData(jobId, userId)
+            uiUpdateHandler.post {
+                setMap()
+            }
+        }
 
 
 
@@ -145,10 +150,6 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
         theMap.isTrafficEnabled = true
         theMap.uiSettings.isZoomControlsEnabled = true
-
-        val hungary = LatLng(47.0, 19.0)
-        theMap.addMarker(MarkerOptions().position(hungary).title("Marker in Hungary"))
-        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hungary, 6f))
     }
 
     suspend fun downloadData(jobId: Long, userId: Long) {
@@ -205,8 +206,8 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun setMap() {
-        startLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
-        endLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
+        startLatLng = getLocationFromSring(shownJob.deliveryRoute!!.startLocation)
+        endLatLng = getLocationFromSring(shownJob.deliveryRoute!!.destination)
 
         if (endLatLng != null) {
             theMap.addMarker(MarkerOptions().position(endLatLng!!).title("Pickup Point"))

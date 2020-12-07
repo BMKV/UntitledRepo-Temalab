@@ -1,6 +1,8 @@
 package hu.bme.aut.untitledtemalab.features.jobdetails
 
 import android.app.DatePickerDialog
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,11 +26,14 @@ import hu.bme.aut.untitledtemalab.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_post_job.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class PostJobFragment : Fragment(), OnMapReadyCallback {
@@ -36,6 +41,8 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
     lateinit var theMap: GoogleMap
     lateinit var theSpinner: Spinner
     lateinit var loggedInUser: UserData
+    var startLatLng: LatLng? = null
+    var endLatLng: LatLng? = null
 
 
     var userId: Long by Delegates.notNull()
@@ -79,6 +86,26 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
+        edtPickUpPoint.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus == false) {
+                startLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
+                if (startLatLng != null) {
+                    theMap.addMarker(MarkerOptions().position(startLatLng!!).title("Pickup Point"))
+                    theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng!!, 6f))
+                }
+            }
+        }
+
+        edtDestination.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus == false) {
+                endLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
+                if (endLatLng != null) {
+                    theMap.addMarker(MarkerOptions().position(endLatLng!!).title("Destination"))
+                    theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(endLatLng!!, 6f))
+                }
+            }
+        }
+
         btnPostJob.setOnClickListener {
 
             if (edtJobTitle.text.toString() == "" ||
@@ -105,7 +132,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
                 val atmIssueDate = OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                 val atmDeadline = OffsetDateTime.of(deadlYear, deadlMonth, deadlDay, 23, 59, 0, 0, ZoneOffset.ofHours(1)).format(
                     DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                
+
                 val atmExpiration = edtExpirationDate.text.toString()
 
 
@@ -155,10 +182,25 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
         theMap.isTrafficEnabled = true
         theMap.uiSettings.isZoomControlsEnabled = true
+    }
 
-        val hungary = LatLng(47.0, 19.0)
-        theMap.addMarker(MarkerOptions().position(hungary).title("Marker in Hungary"))
-        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hungary, 6f))
+    fun getLocationFromSring(address: String): LatLng? {
+        val coder: Geocoder = Geocoder(this.requireContext(), Locale.getDefault())
+        val addressNew = address.replace(",", " ")
+        var result: MutableList<Address> = ArrayList()
+        var coord: LatLng? = null
+
+        try {
+            result = coder.getFromLocationName(addressNew, 1)
+            if (!result.isEmpty()) {
+                val location = result[0]
+                coord = LatLng(location.latitude, location.longitude)
+            }
+        }
+        catch(e: Exception) {
+            e.printStackTrace()
+        }
+        return coord
     }
 
 }

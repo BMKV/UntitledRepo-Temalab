@@ -1,6 +1,8 @@
 package hu.bme.aut.untitledtemalab.features.jobdetails
 
 
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,8 +23,12 @@ import hu.bme.aut.untitledtemalab.data.JobStatus
 import hu.bme.aut.untitledtemalab.data.UserData
 import hu.bme.aut.untitledtemalab.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_job_details.*
+import kotlinx.android.synthetic.main.fragment_post_job.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 class JobDetailsFragment : Fragment(), OnMapReadyCallback {
 
@@ -34,6 +40,8 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
     val args: JobDetailsFragmentArgs by navArgs()
     var jobId: Long = 0
     var userId: Long = 0
+    var startLatLng: LatLng? = null
+    var endLatLng: LatLng? = null
 
 
     override fun onCreateView(
@@ -66,6 +74,8 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
         }
 
         GlobalScope.launch { downloadData(jobId, userId) }
+
+
 
     }
 
@@ -172,6 +182,38 @@ class JobDetailsFragment : Fragment(), OnMapReadyCallback {
             else {
                 childFragmentManager.beginTransaction().add(R.id.fragmentContainerOnDetails, ChangeJobStatusFragment()).commit()
             }
+        }
+    }
+
+    fun getLocationFromSring(address: String): LatLng? {
+        val coder: Geocoder = Geocoder(this.requireContext(), Locale.getDefault())
+        val addressNew = address.replace(",", " ")
+        var result: MutableList<Address> = ArrayList()
+        var coord: LatLng? = null
+
+        try {
+            result = coder.getFromLocationName(addressNew, 1)
+            if (!result.isEmpty()) {
+                val location = result[0]
+                coord = LatLng(location.latitude, location.longitude)
+            }
+        }
+        catch(e: Exception) {
+            e.printStackTrace()
+        }
+        return coord
+    }
+
+    fun setMap() {
+        startLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
+        endLatLng = getLocationFromSring(edtPickUpPoint.text.toString())
+
+        if (endLatLng != null) {
+            theMap.addMarker(MarkerOptions().position(endLatLng!!).title("Pickup Point"))
+        }
+        if (startLatLng != null) {
+            theMap.addMarker(MarkerOptions().position(startLatLng!!).title("Destination"))
+            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng!!, 6f))
         }
     }
 

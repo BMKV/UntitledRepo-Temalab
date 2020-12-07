@@ -39,21 +39,43 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRegisterButtonBehaviour()
+        handleCargoInputEnabledState()
         observeRegistrationResponse()
+    }
+
+    private fun handleCargoInputEnabledState() {
+        rgUserRole.setOnCheckedChangeListener { radioGroup, _ ->
+            if (radioGroup.checkedRadioButtonId == radioSender.id)
+                tilMaxCargoSize.isEnabled = false
+            if (radioGroup.checkedRadioButtonId == radioTransporter.id)
+                tilMaxCargoSize.isEnabled = true
+        }
     }
 
     private fun setRegisterButtonBehaviour() {
         btnRegister.setOnClickListener {
             viewModel.successfulRegisterHappened = false
             if (rgUserRole.checkedRadioButtonId == radioSender.id || rgUserRole.checkedRadioButtonId == radioTransporter.id) {
-                viewModel.attemptToRegisterUser(
-                    etEmail.text.toString(),
-                    etPassword.text.toString(),
-                    when (rgUserRole.checkedRadioButtonId) {
-                        radioTransporter.id -> true
-                        else -> false
-                    }
-                )
+                if (validCargoMaxSizeGiven()) {
+                    viewModel.attemptToRegisterUser(
+                        etEmail.text.toString(),
+                        etPassword.text.toString(),
+                        when (rgUserRole.checkedRadioButtonId) {
+                            radioTransporter.id -> true
+                            else -> false
+                        },
+                        if (tilMaxCargoSize.isEnabled)
+                            etMaximumCargo.text.toString().toInt()
+                        else
+                            0
+                    )
+                } else {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.error_invalid_cargo_size_registration),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             } else
                 Snackbar.make(
                     requireView(),
@@ -61,6 +83,22 @@ class RegisterFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
         }
+    }
+
+    private fun validCargoMaxSizeGiven(): Boolean {
+        try {
+            if (etMaximumCargo.text.toString() != "")
+                etMaximumCargo.text.toString().toInt()
+        } catch (exception: Exception) {
+            Snackbar.make(
+                requireView(),
+                R.string.error_invalid_cargo_size_registration,
+                Snackbar.LENGTH_SHORT
+            ).show()
+            return false
+        }
+        return !tilMaxCargoSize.isEnabled || (etMaximumCargo.text.toString() != "" && etMaximumCargo.text.toString()
+            .toInt() >= 0)
     }
 
     private fun initializeViewModel() {
@@ -89,7 +127,7 @@ class RegisterFragment : Fragment() {
 
     private fun onAutoLoginSuccess(userId: Long) {
         Log.i("Freelancer", "Successful login! UserId: $userId")
-        RegisterFragmentDirections.actionRegisterFragmentToMainMenuFragment(userId).let{
+        RegisterFragmentDirections.actionRegisterFragmentToMainMenuFragment(userId).let {
             findNavController().navigate(it)
         }
     }
@@ -130,7 +168,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun invalidInputWasGiven() {
-        Snackbar.make(requireView(), getString(R.string.error_reg_given_data_invalid), Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            requireView(),
+            getString(R.string.error_reg_given_data_invalid),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun alreadyUsedEmailWasGiven() {

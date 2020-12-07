@@ -10,6 +10,7 @@ class RegisterRepository {
         email: String,
         password: String,
         canTransport: Boolean,
+        cargoSize: Int,
         invalidInputMessage: String,
         usedEmailMessage: String,
         incorrectEmailFormatMessage: String,
@@ -18,7 +19,7 @@ class RegisterRepository {
         successfulRegistrationMessage: String
     ): String {
         return NetworkManager.registerUser(
-            UserRegistrationData(email, password, canTransport),
+            UserRegistrationData(email, password, canTransport, cargoSize),
             invalidInputMessage,
             usedEmailMessage,
             incorrectEmailFormatMessage,

@@ -62,4 +62,6 @@
     <string name="error_reg_given_data_invalid">The given data is invalid!</string>
     <string name="error_reg_already_used_email">This email is already being used!</string>
     <string name="error_reg_invaid_email_format">Email format is invalid!</string>
+    <string name="hint_registration_cargo_max_size">Max cargo space</string>
+    <string name="error_invalid_cargo_size_registration">Check the given cargo size!</string>
 </resources>

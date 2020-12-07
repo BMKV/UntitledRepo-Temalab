@@ -33,7 +33,8 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     fun attemptToRegisterUser(
         email: String,
         password: String,
-        isTransporterAlso: Boolean
+        isTransporterAlso: Boolean,
+        cargoSize: Int
     ) {
         currentlyUsedEmail = email
         currentlyUsedPassword = password
@@ -44,6 +45,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                         email = email,
                         password = password,
                         canTransport = isTransporterAlso,
+                        cargoSize = cargoSize,
                         invalidInputMessage = MESSAGE_INVALID_INPUT,
                         usedEmailMessage = MESSAGE_ALREADY_USED_EMAIL,
                         incorrectEmailFormatMessage = MESSAGE_INCORRECT_EMAIL_FORMAT,

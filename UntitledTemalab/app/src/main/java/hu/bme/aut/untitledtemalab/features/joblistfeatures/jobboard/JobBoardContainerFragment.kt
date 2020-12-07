@@ -61,9 +61,9 @@ class JobBoardContainerFragment : Fragment(), JobBoardFragment.JobBoardRefreshLi
         vp2ViewPager.adapter = JobBoardPagerAdapter(childFragmentManager, lifecycle, userId)
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Small"
-                1 -> "Medium"
-                2 -> "Large"
+                0 -> getString(R.string.tab_title_small)
+                1 -> getString(R.string.tab_title_medium)
+                2 -> getString(R.string.tab_title_large)
                 else -> throw IllegalStateException("Such position doesn't exist: $position")
             }
         }.attach()

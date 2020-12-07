@@ -45,13 +45,13 @@ class HistoryContainerFragment : Fragment() {
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             if (deliverAbility) {
                 tab.text = when (position) {
-                    0 -> "Sent packages"
-                    1 -> "Transported packages"
+                    0 -> getString(R.string.tab_title_history_sent_packages)
+                    1 -> getString(R.string.tab_title_history_transported_packages)
                     else -> throw IllegalStateException("Such position doesn't exist: $position")
                 }
             } else {
                 tab.text = when(position){
-                    0 -> "Sent packages"
+                    0 -> getString(R.string.tab_title_history_sent_packages)
                     else -> throw IllegalStateException("Such position doesn't exist: $position")
                 }
             }

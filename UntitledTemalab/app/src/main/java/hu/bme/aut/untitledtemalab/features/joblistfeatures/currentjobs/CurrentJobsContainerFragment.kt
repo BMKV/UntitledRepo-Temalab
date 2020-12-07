@@ -41,13 +41,13 @@ class CurrentJobsContainerFragment : Fragment() {
         TabLayoutMediator(tlTabs, vp2ViewPager) { tab, position ->
             if(deliverAbility){
                 tab.text = when (position) {
-                    0 -> "Announced packages"
-                    1 -> "Accepted deliveries"
+                    0 -> getString(R.string.tab_title_announced_packages)
+                    1 -> getString(R.string.tab_title_accpted_deliveries)
                     else -> throw IllegalStateException("Such position doesn't exist: $position")
                 }
             }else{
                 tab.text = when(position) {
-                    0 -> "Announced packages"
+                    0 -> getString(R.string.tab_title_announced_packages)
                     else -> throw IllegalStateException("Such position doesn't exist: $position")
                 }
             }

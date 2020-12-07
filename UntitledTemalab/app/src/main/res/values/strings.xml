@@ -64,4 +64,11 @@
     <string name="error_reg_invaid_email_format">Email format is invalid!</string>
     <string name="hint_registration_cargo_max_size">Max cargo space</string>
     <string name="error_invalid_cargo_size_registration">Check the given cargo size!</string>
+    <string name="tab_title_announced_packages">Announced packages</string>
+    <string name="tab_title_accpted_deliveries">Accepted deliveries</string>
+    <string name="tab_title_small">Small</string>
+    <string name="tab_title_medium">Medium</string>
+    <string name="tab_title_large">Large</string>
+    <string name="tab_title_history_sent_packages">Sent packages</string>
+    <string name="tab_title_history_transported_packages">Transported packages</string>
 </resources>

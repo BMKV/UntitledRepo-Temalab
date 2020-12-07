@@ -9,6 +9,6 @@ class RouteData (val startLocation: String,
 
     //Tagfüggvények
     fun calculateCompletionTime(timeOfAccept: String) {
-        //TODO: Fügvény: a "Deliver" gomb megnoymásakor fut, lekéri az aktuális időt, ebből számítja az actualCompletionTime-t
+        //Fügvény: a "Deliver" gomb megnoymásakor fut, lekéri az aktuális időt, ebből számítja az actualCompletionTime-t
     }
 }

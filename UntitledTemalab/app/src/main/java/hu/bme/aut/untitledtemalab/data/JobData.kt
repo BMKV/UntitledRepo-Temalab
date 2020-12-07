@@ -18,7 +18,6 @@ class JobData(
     @SerializedName("deliveryDate") var deliveryDate: String? = null
     @SerializedName("deliveryRoute") var deliveryRoute: RouteData? = null
 
-    //TODO: ez nincs fent backenden?
     //@SerializedName("")
     var listingExpirationDate: String? = null
 

@@ -66,7 +66,6 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
 
         theSpinner.adapter = ArrayAdapter<PackageSize>(this.requireContext(), R.layout.support_simple_spinner_dropdown_item, PackageSize.values())
 
-        //TODO: loggedInUser = az actually logged in user
         GlobalScope.launch { loggedInUser =  NetworkManager.getUserProfileById(userId) }
 
         btnExpandMapOnPost.setOnClickListener {
@@ -106,8 +105,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
                 val atmIssueDate = OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                 val atmDeadline = OffsetDateTime.of(deadlYear, deadlMonth, deadlDay, 23, 59, 0, 0, ZoneOffset.ofHours(1)).format(
                     DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-
-                //Todo: Ez nincs a backenden?
+                
                 val atmExpiration = edtExpirationDate.text.toString()
 
 
@@ -132,7 +130,6 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             val cal = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(this.requireContext())
             datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
-                //TODO: kiszervezni resourceba (vagy nem?)
                 val atmString = "$year ${month+1} $dayOfMonth"
                 deadlYear = year
                 deadlMonth = month + 1
@@ -146,7 +143,6 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
             val cal = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(this.requireContext())
             datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
-                //TODO: kiszervezni resourceba
                 val atmString = "$year $month $dayOfMonth"
                 edtExpirationDate.setText(atmString)
             }

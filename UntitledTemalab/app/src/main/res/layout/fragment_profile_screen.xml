@@ -39,16 +39,6 @@
         app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/tvNameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/name_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
@@ -65,10 +55,11 @@
         android:id="@+id/tvEmailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="@string/email_title"
-        app:layout_constraintStart_toStartOf="@+id/tvNameTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imviewProfilePic" />
 
     <TextView
         android:id="@+id/tvRatingTitle"
@@ -78,15 +69,6 @@
         android:text="@string/user_rating_title"
         app:layout_constraintStart_toStartOf="@+id/tvEmailTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvEmailTitle" />
-
-    <TextView
-        android:id="@+id/tvNameTextOnProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Logged In User Name Here"
-        app:layout_constraintStart_toEndOf="@+id/tvNameTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvNameTitle" />
 
     <TextView
         android:id="@+id/tvEmailTextOnProfile"

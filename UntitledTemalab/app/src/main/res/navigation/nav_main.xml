@@ -95,7 +95,9 @@
         tools:layout="@layout/fragment_post_job" >
         <action
             android:id="@+id/action_postJob_PostedJob"
-            app:destination="@id/currentJobsFragment" />
+            app:destination="@id/currentJobsFragment"
+            app:popUpTo="@id/postJobFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="senderUserId"
             app:argType="long"

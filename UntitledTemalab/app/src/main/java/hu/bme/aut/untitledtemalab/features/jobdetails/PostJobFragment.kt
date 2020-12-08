@@ -148,9 +148,7 @@ class PostJobFragment : Fragment(), OnMapReadyCallback {
         }
 
         btnCancelNewJob.setOnClickListener {
-            PostJobFragmentDirections.actionPostJobCancelledJob(loggedInUser.userId).let { action ->
-                findNavController().navigate(action)
-            }
+            findNavController().popBackStack()
         }
 
         edtDeadline.setOnClickListener {

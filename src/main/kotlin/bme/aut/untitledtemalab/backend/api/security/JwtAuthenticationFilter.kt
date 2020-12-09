@@ -1,6 +1,5 @@
 package bme.aut.untitledtemalab.backend.api.security
 
-
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -12,7 +11,6 @@ import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-
 
 @Component
 class JwtAuthenticationFilter : OncePerRequestFilter() {

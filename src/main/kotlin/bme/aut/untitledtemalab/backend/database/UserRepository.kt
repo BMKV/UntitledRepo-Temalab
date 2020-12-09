@@ -1,6 +1,5 @@
 package bme.aut.untitledtemalab.backend.database
 
-import bme.aut.untitledtemalab.backend.api.model.UserUpdateCanDeliver
 import bme.aut.untitledtemalab.backend.database.model.Users
 import org.springframework.data.repository.CrudRepository
 

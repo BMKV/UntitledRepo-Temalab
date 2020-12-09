@@ -11,7 +11,6 @@ import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
 import bme.aut.untitledtemalab.backend.database.model.Users
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 

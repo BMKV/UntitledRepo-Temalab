@@ -4,9 +4,6 @@ import bme.aut.untitledtemalab.backend.database.model.Users
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.*
-import java.util.stream.Collectors
-
 
 class MyUserDetails(user: Users) : UserDetails {
     var id: Long = user.id

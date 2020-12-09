@@ -1,6 +1,5 @@
 package bme.aut.untitledtemalab.backend.geoapi
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.web.util.UriUtils
 import javax.ws.rs.client.Client

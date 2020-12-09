@@ -12,7 +12,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.*
 
-
 @Service
 class JwtSigner {
     val keyPair: KeyPair = Keys.keyPairFor(SignatureAlgorithm.RS256)

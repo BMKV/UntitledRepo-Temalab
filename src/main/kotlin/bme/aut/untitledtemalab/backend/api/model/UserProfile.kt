@@ -53,4 +53,26 @@ class UserProfile(
          */
         @field:JsonProperty("cargoMaxSize")
         var cargoMaxSize: Int? = null,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        other as UserProfile
+        return other.userId == userId &&
+                other.email == email &&
+                other.rating == rating &&
+                other.canDeliver == canDeliver &&
+                other.isAdmin == isAdmin &&
+                other.cargoFreeSize == cargoFreeSize &&
+                other.cargoMaxSize == cargoMaxSize
+    }
+
+    override fun hashCode(): Int {
+        var result = userId?.hashCode() ?: 0
+        result = 31 * result + (email?.hashCode() ?: 0)
+        result = 31 * result + (rating?.hashCode() ?: 0)
+        result = 31 * result + (canDeliver?.hashCode() ?: 0)
+        result = 31 * result + (isAdmin?.hashCode() ?: 0)
+        result = 31 * result + (cargoFreeSize ?: 0)
+        result = 31 * result + (cargoMaxSize ?: 0)
+        return result
+    }
+}

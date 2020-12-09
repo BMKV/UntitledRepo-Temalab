@@ -4,6 +4,7 @@ import bme.aut.untitledtemalab.backend.database.model.Jobs
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
+import org.springframework.core.convert.converter.Converter
 import java.time.OffsetDateTime
 
 /**
@@ -54,6 +55,12 @@ class Job(dbJob: Jobs?) {
                 return null
             }
         }
+
+        class StringToStatusEnumConverter : Converter<String?, StatusEnum?> {
+            override fun convert(from: String): StatusEnum {
+                return fromValue(from) ?: EXPIRED
+            }
+        }
     }
 
     /**
@@ -94,6 +101,12 @@ class Job(dbJob: Jobs?) {
                     }
                 }
                 return null
+            }
+        }
+
+        class StringToSizeEnumConverter : Converter<String?, SizeEnum?> {
+            override fun convert(from: String): SizeEnum {
+                return fromValue(from) ?: LARGE
             }
         }
     }

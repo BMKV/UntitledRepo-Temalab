@@ -2,9 +2,11 @@ package bme.aut.untitledtemalab.backend.api.controllers
 
 import bme.aut.untitledtemalab.backend.api.model.*
 import bme.aut.untitledtemalab.backend.api.responses.ApiModelError
+import bme.aut.untitledtemalab.backend.api.security.JwtSigner
 import bme.aut.untitledtemalab.backend.api.services.UsersLogicService
 import bme.aut.untitledtemalab.backend.api.services.UsersValidationService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,6 +16,10 @@ import java.util.*
 @RestController
 @RequestMapping("user")
 class UserController {
+
+
+    @Autowired
+    private lateinit var jwtSigner: JwtSigner
 
     @Autowired
     private lateinit var usersValidationService: UsersValidationService
@@ -33,11 +39,21 @@ class UserController {
     }
 
     @GetMapping("login")
-    fun loginUser(@RequestParam(name = "email") email: String, @RequestParam(name = "password") password: String): ResponseEntity<Any> {
+    fun loginUser(@RequestParam(name = "email") email: String, @RequestParam(name = "password") password: String): ResponseEntity<String> {
         return try {
-            usersValidationService.validateEmailAndPassword(email,password)
+            usersValidationService.validateEmailAndPassword(email, password)
             val user = usersLogicService.getUserFromEmail(email)
-            ResponseEntity(user.id.toString(), HttpStatus.OK)
+
+            val jwt = jwtSigner.createJwt(user.emailAddress)
+
+            val responseHeaders = HttpHeaders()
+            responseHeaders.set("X-Expires-After", jwt.date.toString())
+            responseHeaders.set("X-API-Token", jwt.jwt)
+
+            return ResponseEntity.ok()
+                    .headers(responseHeaders)
+                    .body(user.id.toString())
+
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())
         }
@@ -158,7 +174,7 @@ class UserController {
     fun getUserCargo(@PathVariable("user-id") userId: Long): ResponseEntity<Any> {
         return try {
             usersValidationService.validateUserId(userId)
-            return ResponseEntity(usersLogicService.getUserCargo(userId),HttpStatus.OK)
+            return ResponseEntity(usersLogicService.getUserCargo(userId), HttpStatus.OK)
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())
         }

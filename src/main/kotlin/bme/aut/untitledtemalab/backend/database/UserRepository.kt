@@ -7,5 +7,7 @@ import org.springframework.data.repository.CrudRepository
 interface UserRepository : CrudRepository<Users, Long>{
     fun findAllByEmailAddress(emailAddress: String): List<Users>
 
+    fun existsByEmailAddress(emailAddress: String): Boolean
+
     fun countAllByCanDeliver(canDeliver: Boolean): Long
 }

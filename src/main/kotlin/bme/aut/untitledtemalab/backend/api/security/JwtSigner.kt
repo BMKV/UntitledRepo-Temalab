@@ -30,8 +30,6 @@ class JwtSigner {
                 .setIssuedAt(Date.from(Instant.now()))
                 .compact()
 
-        println("\n\nCreating token...\nThe token is:$token\n\n")
-
         return JwtSigned(token, date)
     }
 

@@ -15,12 +15,6 @@ class AdminController {
     private lateinit var usersValidationService: UsersValidationService
 
     @Autowired
-    private lateinit var usersLogicService: UsersLogicService
-
-    @Autowired
-    private lateinit var jobsLogicService: JobsLogicService
-
-    @Autowired
     private lateinit var adminLogicService: AdminLogicService
 
     @GetMapping("statistics")

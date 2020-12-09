@@ -32,9 +32,9 @@ class UsersLogicService {
     fun getUserProfile(userId: Long): UserProfile {
         val dbUser = userRepository.findById(userId)
         return if (dbUser.get().canDeliver) {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, isAdmin = dbUser.get().isAdmin, freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
+            UserProfile(userId = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, isAdmin = dbUser.get().isAdmin, cargoFreeSize = dbUser.get().cargoFreeSize, cargoMaxSize = dbUser.get().cargoMaxSize)
         } else {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, dbUser.get().isAdmin, 0, 0)
+            UserProfile(userId = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, isAdmin =  dbUser.get().isAdmin, cargoFreeSize = 0, cargoMaxSize =0)
         }
     }
 
@@ -55,7 +55,7 @@ class UsersLogicService {
 
     fun getUser(userId: Long): User {
         val dbUser = userRepository.findById(userId)
-        return User(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating)
+        return User(userId = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating)
     }
 
     fun filterUserJobs(userId: Long, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>,
@@ -126,7 +126,7 @@ class UsersLogicService {
 
     fun getUserCargo(userId: Long): UserCargo {
         val dbUser = userRepository.findById(userId)
-        return UserCargo(freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
+        return UserCargo(cargoFreeSize = dbUser.get().cargoFreeSize, cargoMaxSize = dbUser.get().cargoMaxSize)
     }
 
     fun getUserFromEmail(email: String): Users {

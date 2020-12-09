@@ -1,9 +1,5 @@
 package bme.aut.untitledtemalab.backend.database.model
 
-import bme.aut.untitledtemalab.backend.api.model.Job
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
-
 enum class Status(private val value: String)  {
     pending("pending"),
     accepted("accepted"),

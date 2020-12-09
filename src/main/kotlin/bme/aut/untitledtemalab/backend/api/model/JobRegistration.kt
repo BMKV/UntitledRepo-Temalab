@@ -3,7 +3,6 @@ package bme.aut.untitledtemalab.backend.api.model
 import bme.aut.untitledtemalab.backend.database.model.Jobs
 import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import java.time.OffsetDateTime
@@ -87,25 +86,13 @@ class JobRegistration {
      * The size of the package
      */
     enum class SizeEnum(private val value: String) {
-        small("small"),
-        medium("medium"),
-        large("large");
+        SMALL("small"),
+        MEDIUM("medium"),
+        LARGE("large");
 
         @JsonValue
         override fun toString(): String {
             return value
-        }
-
-        companion object {
-            @JsonCreator
-            fun fromValue(text: String): SizeEnum? {
-                for (b in values()) {
-                    if (b.value.toString() == text) {
-                        return b
-                    }
-                }
-                return null
-            }
         }
     }
 

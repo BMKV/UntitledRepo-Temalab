@@ -5,51 +5,52 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Detailed information on a User
  */
-class UserProfile(id: Long, email: String, rating: Float? = null, canDeliver: Boolean, isAdmin: Boolean, freeSize: Int? = null, maxSize: Int? = null) {
-    /**
-     * The ID of the User
-     * @return userId
-     */
-    @JsonProperty("user-id")
-    var userId: Long? = id
+class UserProfile(
 
-    /**
-     * The email address of the User
-     * @return email
-     */
-    @JsonProperty("email")
-    var email: String? = email
+        /**
+         * The ID of the User
+         * @return userId
+         */
+        @field:JsonProperty("user-id")
+        var userId: Long? = null,
 
-    /**
-     * The rating of the User
-     * minimum: 1
-     * maximum: 5
-     * @return rating
-     */
-    @JsonProperty("rating")
-    var rating: Float? = rating
+        /**
+         * The email address of the User
+         * @return email
+         */
+        @field:JsonProperty("email")
+        var email: String? = null,
 
-    /**
-     * The boolean value which says if the User can deliver or not
-     * @return canDeliver
-     */
-    @JsonProperty("canDeliver")
-    var canDeliver: Boolean? = canDeliver
+        /**
+         * The rating of the User
+         * minimum: 1
+         * maximum: 5
+         * @return rating
+         */
+        @field:JsonProperty("rating")
+        var rating: Float? = null,
 
-    @JsonProperty("isAdmin")
-    var isAdmin: Boolean? = isAdmin
+        /**
+         * The boolean value which says if the User can deliver or not
+         * @return canDeliver
+         */
+        @field:JsonProperty("canDeliver")
+        var canDeliver: Boolean? = null,
 
-    /**
-     * The actual size of the cargo
-     * @return cargoFreeSize
-     */
-    @JsonProperty("cargoFreeSize")
-    var cargoFreeSize: Int? = freeSize
+        @field:JsonProperty("isAdmin")
+        var isAdmin: Boolean? = null,
 
-    /**
-     * The maximal size of the cargo
-     * @return cargoMaxSize
-     */
-    @JsonProperty("cargoMaxSize")
-    var cargoMaxSize: Int? = maxSize
-}
+        /**
+         * The actual size of the cargo
+         * @return cargoFreeSize
+         */
+        @field:JsonProperty("cargoFreeSize")
+        var cargoFreeSize: Int? = null,
+
+        /**
+         * The maximal size of the cargo
+         * @return cargoMaxSize
+         */
+        @field:JsonProperty("cargoMaxSize")
+        var cargoMaxSize: Int? = null,
+)

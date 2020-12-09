@@ -20,7 +20,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
                 ?.anyRequest()?.authenticated()
                 ?.and()?.exceptionHandling()
                 ?.and()?.sessionManagement()
-                ?.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                ?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http?.addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
 
     }

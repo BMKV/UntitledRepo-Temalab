@@ -10,8 +10,6 @@ import java.time.OffsetDateTime
  * Detailed information on a Job
  */
 class Job(dbJob: Jobs?) {
-
-
     /**
      * The ID of the Job
      * @return jobId
@@ -34,11 +32,11 @@ class Job(dbJob: Jobs?) {
      * The current status of the Job
      */
     enum class StatusEnum(private val value: String) {
-        pending("pending"),
-        accepted("accepted"),
-        pickedUp("pickedUp"),
-        delivered("delivered"),
-        expired("expired");
+        PENDING("pending"),
+        ACCEPTED("accepted"),
+        PICKED_UP("pickedUp"),
+        DELIVERED("delivered"),
+        EXPIRED("expired");
 
         @JsonValue
         override fun toString(): String {
@@ -78,9 +76,9 @@ class Job(dbJob: Jobs?) {
      * The size of the package
      */
     enum class SizeEnum(private val value: String) {
-        small("small"),
-        medium("medium"),
-        large("large");
+        SMALL("small"),
+        MEDIUM("medium"),
+        LARGE("large");
 
         @JsonValue
         override fun toString(): String {

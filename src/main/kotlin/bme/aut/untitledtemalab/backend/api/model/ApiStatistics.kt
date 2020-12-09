@@ -3,8 +3,6 @@ package bme.aut.untitledtemalab.backend.api.model
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class ApiStatistics {
-
-
     @JsonProperty("allUsers")
     var allUsersNum: Long = 0
 

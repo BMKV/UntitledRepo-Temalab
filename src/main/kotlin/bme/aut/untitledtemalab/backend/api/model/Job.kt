@@ -180,5 +180,33 @@ class Job(dbJob: Jobs?) {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        other as Job
+        return other.jobId == jobId &&
+                other.name == name &&
+                other.senderId == senderId &&
+                other.status == status &&
+                other.size == size &&
+                other.deadline == deadline &&
+                other.jobIssuedDate == jobIssuedDate &&
+                other.payment == payment &&
+                other.deliveryRoute == deliveryRoute &&
+                other.senderRating == senderRating &&
+                other.deliveryDate == deliveryDate
+    }
 
+    override fun hashCode(): Int {
+        var result = jobId?.hashCode() ?: 0
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (senderId?.hashCode() ?: 0)
+        result = 31 * result + (status?.hashCode() ?: 0)
+        result = 31 * result + (senderRating ?: 0)
+        result = 31 * result + (size?.hashCode() ?: 0)
+        result = 31 * result + (payment ?: 0)
+        result = 31 * result + (jobIssuedDate?.hashCode() ?: 0)
+        result = 31 * result + (deadline?.hashCode() ?: 0)
+        result = 31 * result + (deliveryDate?.hashCode() ?: 0)
+        result = 31 * result + (deliveryRoute?.hashCode() ?: 0)
+        return result
+    }
 }

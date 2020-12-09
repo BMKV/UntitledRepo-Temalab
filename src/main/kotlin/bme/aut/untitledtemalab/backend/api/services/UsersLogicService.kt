@@ -84,28 +84,14 @@ class UsersLogicService {
     }
 
     fun getAllSentJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
-        val result = mutableListOf<Jobs>()
-
-        var queryStatus: Status? = null
-        if (status.isPresent)
-            queryStatus = Status.fromValue(status.get().toString())
-
-        var querySize: PackageSize? = null
-        if (size.isPresent)
-            querySize = PackageSize.fromValue(size.get().toString())
-
-        if (queryStatus != null && querySize == null)
-            result.addAll(jobRepository.findAllByStatusAndSender(queryStatus, user))
-        if (queryStatus == null && querySize != null)
-            result.addAll(jobRepository.findAllBySizeAndSender(querySize, user))
-        else if (queryStatus != null && querySize != null)
-            result.addAll(jobRepository.findAllBySizeAndStatusAndSender(querySize, queryStatus, user))
-
-        return result
+        return getFilteredJobs(user,status,size, ::filterJobsSender)
     }
 
     fun getAllDeliveredJobsFiltered(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>): List<Jobs> {
-        val result = mutableListOf<Jobs>()
+        return getFilteredJobs(user,status,size, ::filterJobsDeliverer)
+    }
+
+    fun getFilteredJobs(user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>,  jobsFilterFunction: (user: Users, queryStatus: Status?, querySize: PackageSize?) -> List<Jobs> ): List<Jobs> {
         var queryStatus: Status? = null
         if (status.isPresent)
             queryStatus = Status.fromValue(status.get().toString())
@@ -114,14 +100,29 @@ class UsersLogicService {
         if (size.isPresent)
             querySize = PackageSize.fromValue(size.get().toString())
 
-        if (queryStatus != null && querySize == null)
-            result.addAll(jobRepository.findAllByStatusAndDeliverer(queryStatus, user))
-        if (queryStatus == null && querySize != null)
-            result.addAll(jobRepository.findAllBySizeAndDeliverer(querySize, user))
-        else if (queryStatus != null && querySize != null)
-            result.addAll(jobRepository.findAllBySizeAndStatusAndDeliverer(querySize, queryStatus, user))
+        return  jobsFilterFunction(user, queryStatus, querySize)
+    }
 
-        return result
+    fun filterJobsDeliverer(user: Users, queryStatus: Status? = null, querySize: PackageSize?): List<Jobs>  {
+        return if (queryStatus != null && querySize == null)
+            jobRepository.findAllByStatusAndDeliverer(queryStatus, user)
+        else if (queryStatus == null && querySize != null)
+            jobRepository.findAllBySizeAndDeliverer(querySize, user)
+        else if (queryStatus != null && querySize != null)
+            jobRepository.findAllBySizeAndStatusAndDeliverer(querySize, queryStatus, user)
+        else
+            listOf()
+    }
+
+    fun filterJobsSender(user: Users, queryStatus: Status? = null, querySize: PackageSize?): List<Jobs>  {
+        return if (queryStatus != null && querySize == null)
+            jobRepository.findAllByStatusAndSender(queryStatus, user)
+        else if (queryStatus == null && querySize != null)
+            jobRepository.findAllBySizeAndSender(querySize, user)
+        else if (queryStatus != null && querySize != null)
+            jobRepository.findAllBySizeAndStatusAndSender(querySize, queryStatus, user)
+        else
+            listOf()
     }
 
     fun getUserCargo(userId: Long): UserCargo {

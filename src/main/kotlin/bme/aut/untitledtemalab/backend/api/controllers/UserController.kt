@@ -5,7 +5,6 @@ import bme.aut.untitledtemalab.backend.api.responses.ApiModelError
 import bme.aut.untitledtemalab.backend.api.security.JwtSigner
 import bme.aut.untitledtemalab.backend.api.services.UsersLogicService
 import bme.aut.untitledtemalab.backend.api.services.UsersValidationService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,17 +14,9 @@ import java.util.*
 
 @RestController
 @RequestMapping("user")
-class UserController {
-
-
-    @Autowired
-    private lateinit var jwtSigner: JwtSigner
-
-    @Autowired
-    private lateinit var usersValidationService: UsersValidationService
-
-    @Autowired
-    private lateinit var usersLogicService: UsersLogicService
+class UserController(private val jwtSigner: JwtSigner,
+                     private val usersValidationService: UsersValidationService,
+                     private val usersLogicService: UsersLogicService) {
 
     @PostMapping("register")
     fun createUser(@RequestBody newUser: UserRegistration): ResponseEntity<Any> {
@@ -60,7 +51,7 @@ class UserController {
     }
 
     @GetMapping("logout")
-    fun logoutUser(): ResponseEntity<Any>{
+    fun logoutUser(): ResponseEntity<Any> {
         return ResponseEntity("Successful logout!", HttpStatus.OK)
     }
 

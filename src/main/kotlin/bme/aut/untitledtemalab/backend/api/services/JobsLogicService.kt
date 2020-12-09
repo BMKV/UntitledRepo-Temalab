@@ -9,21 +9,14 @@ import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.*
 import bme.aut.untitledtemalab.backend.geoapi.GeoApi
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class JobsLogicService {
-    @Autowired
-    private lateinit var jobRepository: JobRepository
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
-    private lateinit var routeRepository: RouteRepository
+class JobsLogicService(private val userRepository: UserRepository,
+                       private val jobRepository: JobRepository,
+                       private val routeRepository: RouteRepository) {
 
     fun getAllAvailableJobs(size: Optional<Job.SizeEnum>): List<Job> {
         return if (size.isPresent) {

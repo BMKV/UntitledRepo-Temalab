@@ -5,13 +5,10 @@ import bme.aut.untitledtemalab.backend.api.responses.InvalidInputModelError
 import bme.aut.untitledtemalab.backend.api.responses.InvalidRatingModelError
 import bme.aut.untitledtemalab.backend.api.responses.JobNotFoundModelError
 import bme.aut.untitledtemalab.backend.database.JobRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class JobsValidationService {
-    @Autowired
-    private lateinit var jobRepository: JobRepository
+class JobsValidationService(private var jobRepository: JobRepository) {
 
     fun validateJobRegistration(jobRegistration: JobRegistration) {
         if (!jobRegistration.isValid())

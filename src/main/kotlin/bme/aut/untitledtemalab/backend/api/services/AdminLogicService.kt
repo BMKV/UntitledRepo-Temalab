@@ -4,17 +4,11 @@ import bme.aut.untitledtemalab.backend.api.model.ApiStatistics
 import bme.aut.untitledtemalab.backend.database.JobRepository
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.Status
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class AdminLogicService {
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
-    private lateinit var jobRepository: JobRepository
+class AdminLogicService(private val userRepository: UserRepository,
+                        private val jobRepository: JobRepository) {
 
     fun getStatistics(): ApiStatistics {
         val statistics = ApiStatistics()

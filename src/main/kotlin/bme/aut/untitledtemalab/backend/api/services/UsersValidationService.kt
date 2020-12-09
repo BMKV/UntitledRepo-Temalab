@@ -5,14 +5,10 @@ import bme.aut.untitledtemalab.backend.api.responses.*
 import bme.aut.untitledtemalab.backend.api.security.encoder
 import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class UsersValidationService {
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
+class UsersValidationService(private val userRepository: UserRepository) {
 
     fun validateUserRegistration(newUser: UserRegistration) {
         if (!newUser.isValidBody())

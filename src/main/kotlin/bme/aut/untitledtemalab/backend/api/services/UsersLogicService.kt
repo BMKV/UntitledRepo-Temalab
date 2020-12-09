@@ -10,18 +10,12 @@ import bme.aut.untitledtemalab.backend.database.model.Jobs
 import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
 import bme.aut.untitledtemalab.backend.database.model.Users
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class UsersLogicService {
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
-    private lateinit var jobRepository: JobRepository
+class UsersLogicService(private val userRepository: UserRepository,
+                        private val jobRepository: JobRepository) {
 
     fun registerNewUser(newUser: UserRegistration) {
         val newUserId = UIDGenerator.generateUID()

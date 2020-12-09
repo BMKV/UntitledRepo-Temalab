@@ -6,7 +6,6 @@ import bme.aut.untitledtemalab.backend.api.responses.ApiModelError
 import bme.aut.untitledtemalab.backend.api.services.JobsLogicService
 import bme.aut.untitledtemalab.backend.api.services.JobsValidationService
 import bme.aut.untitledtemalab.backend.api.services.UsersValidationService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,16 +15,9 @@ import java.util.*
 
 @RestController
 @RequestMapping("jobs")
-class JobsController {
-
-    @Autowired
-    private lateinit var usersValidationService: UsersValidationService
-
-    @Autowired
-    private lateinit var jobsValidationService: JobsValidationService
-
-    @Autowired
-    private lateinit var jobsLogicService: JobsLogicService
+class JobsController(private var usersValidationService: UsersValidationService,
+                     private var jobsValidationService: JobsValidationService,
+                     private var jobsLogicService: JobsLogicService) {
 
     @GetMapping
     fun getAllAvailableJobs(@RequestParam size: Optional<Job.SizeEnum>): ResponseEntity<Any> {
@@ -117,7 +109,7 @@ class JobsController {
             jobsValidationService.validateRating(rating)
             jobsValidationService.validateJobId(jobId)
             usersValidationService.validateUserId(userId)
-            jobsLogicService.rateJob(jobId,userId,rating)
+            jobsLogicService.rateJob(jobId, userId, rating)
             return ResponseEntity("Job rated", HttpStatus.OK)
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())
@@ -129,7 +121,7 @@ class JobsController {
         return try {
             jobsValidationService.validateJobId(jobId)
             usersValidationService.validateUserId(userId)
-            jobsLogicService.pickUpJob(jobId,userId)
+            jobsLogicService.pickUpJob(jobId, userId)
             return ResponseEntity("Job picked up", HttpStatus.OK)
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())
@@ -141,7 +133,7 @@ class JobsController {
         return try {
             jobsValidationService.validateJobId(jobId)
             usersValidationService.validateUserId(userId)
-            jobsLogicService.deliverJob(jobId,userId)
+            jobsLogicService.deliverJob(jobId, userId)
             return ResponseEntity("Job delivered", HttpStatus.OK)
         } catch (e: ApiModelError) {
             ResponseEntity(e.message, e.getHttpStatusCode())

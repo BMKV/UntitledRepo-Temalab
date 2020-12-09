@@ -92,13 +92,13 @@ paths:
         "200":
           description: "successful login"
           headers:
-            X-Rate-Limit:
-              description: "Calls per hour allowed by the User"
+            X-API-Token:
+              description: "The User's token for the API"
               style: "simple"
               explode: false
               schema:
-                type: "integer"
-                format: "int32"
+                type: "string"
+                format: "JWT Token"
             X-Expires-After:
               description: "Date in UTC when token expires"
               style: "simple"
@@ -109,12 +109,16 @@ paths:
           content:
             application/json:
               schema:
-                type: "string"
-                description: "The bearer token"
+                type: "integer"
+                format: "int64"
+                description: "The Users's id"
+              example:
+                1245678900
             application/xml:
               schema:
-                type: "string"
-                description: "The bearer token"
+                type: "integer"
+                format: "int64"
+                description: "The User's id"
         "400":
           description: "Invalid format"
         "409":

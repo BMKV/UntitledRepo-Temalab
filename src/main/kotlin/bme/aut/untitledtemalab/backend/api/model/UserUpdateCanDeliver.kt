@@ -1,5 +1,6 @@
 package bme.aut.untitledtemalab.backend.api.model
 
+import bme.aut.untitledtemalab.backend.api.security.encoder
 import bme.aut.untitledtemalab.backend.database.model.Users
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -29,7 +30,7 @@ class UserUpdateCanDeliver : UserUpdate {
     var isCanDeliver: Boolean? = null
 
     override fun validatePassword(password: String): Boolean {
-        return this.password == password
+        return encoder().matches(this.password, password)
     }
 
     override fun updateUser(dbUser: Users): Users {

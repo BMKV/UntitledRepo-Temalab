@@ -5,7 +5,6 @@ import bme.aut.untitledtemalab.backend.api.model.JobRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
 import bme.aut.untitledtemalab.backend.database.JobRepository
 import bme.aut.untitledtemalab.backend.database.RouteRepository
-import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.*
 import bme.aut.untitledtemalab.backend.geoapi.GeoApi
@@ -16,7 +15,8 @@ import java.util.*
 @Service
 class JobsLogicService(private val userRepository: UserRepository,
                        private val jobRepository: JobRepository,
-                       private val routeRepository: RouteRepository) {
+                       private val routeRepository: RouteRepository,
+                       private val idGeneratorService: IdGeneratorService) {
 
     fun getAllAvailableJobs(size: Optional<Job.SizeEnum>): List<Job> {
         return if (size.isPresent) {
@@ -30,9 +30,9 @@ class JobsLogicService(private val userRepository: UserRepository,
     fun addNewJob(userId: Long, jobRegistration: JobRegistration): Long {
         val dbUser = userRepository.findById(userId)
 
-        val newJobId = UIDGenerator.generateUID()
+        val newJobId = idGeneratorService.generateUID()
 
-        val route = Routes(id = UIDGenerator.generateUID(),
+        val route = Routes(id = idGeneratorService.generateUID(),
                 startLocation = jobRegistration.startLocation!!,
                 destination = jobRegistration.destination!!,
                 optimalTime = GeoApi.getOptimalRouteTime(jobRegistration.startLocation!!, jobRegistration.destination!!))

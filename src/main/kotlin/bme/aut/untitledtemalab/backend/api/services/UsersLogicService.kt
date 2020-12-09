@@ -4,7 +4,6 @@ import bme.aut.untitledtemalab.backend.api.model.*
 import bme.aut.untitledtemalab.backend.api.responses.InvalidPasswordModelError
 import bme.aut.untitledtemalab.backend.api.security.encoder
 import bme.aut.untitledtemalab.backend.database.JobRepository
-import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import bme.aut.untitledtemalab.backend.database.model.Jobs
 import bme.aut.untitledtemalab.backend.database.model.PackageSize
@@ -15,10 +14,11 @@ import java.util.*
 
 @Service
 class UsersLogicService(private val userRepository: UserRepository,
-                        private val jobRepository: JobRepository) {
+                        private val jobRepository: JobRepository,
+                        private val idGeneratorService: IdGeneratorService) {
 
     fun registerNewUser(newUser: UserRegistration) {
-        val newUserId = UIDGenerator.generateUID()
+        val newUserId = idGeneratorService.generateUID()
 
         userRepository.save(Users(id = newUserId, password = encoder().encode(newUser.password!!), canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!, cargoMaxSize = newUser.cargoSize, cargoFreeSize = newUser.cargoSize))
     }

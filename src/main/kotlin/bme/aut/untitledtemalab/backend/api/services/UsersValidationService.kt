@@ -3,12 +3,12 @@ package bme.aut.untitledtemalab.backend.api.services
 import bme.aut.untitledtemalab.backend.api.model.UserRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
 import bme.aut.untitledtemalab.backend.api.security.encoder
-import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UsersValidationService(private val userRepository: UserRepository) {
+class UsersValidationService(private val userRepository: UserRepository,
+                             private val idGeneratorService: IdGeneratorService) {
 
     fun validateUserRegistration(newUser: UserRegistration) {
         if (!newUser.isValidBody())
@@ -20,7 +20,7 @@ class UsersValidationService(private val userRepository: UserRepository) {
     }
 
     fun validateUserId(userId: Long) {
-        if (!UIDGenerator.validateUID(userId))
+        if (!idGeneratorService.validateUID(userId))
             throw InvalidUserIdModelError()
         if (!userRepository.existsById(userId))
             throw UserNotFoundModelError()
@@ -30,7 +30,7 @@ class UsersValidationService(private val userRepository: UserRepository) {
         val user = userRepository.findAllByEmailAddress(email)
         if (user.isEmpty())
             throw UserNotFoundModelError()
-        if (!encoder().matches(password,user.first().password))
+        if (!encoder().matches(password, user.first().password))
             throw InvalidPasswordModelError()
     }
 

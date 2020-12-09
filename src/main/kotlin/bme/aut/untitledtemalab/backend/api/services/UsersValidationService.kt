@@ -2,6 +2,7 @@ package bme.aut.untitledtemalab.backend.api.services
 
 import bme.aut.untitledtemalab.backend.api.model.UserRegistration
 import bme.aut.untitledtemalab.backend.api.responses.*
+import bme.aut.untitledtemalab.backend.api.security.encoder
 import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,7 @@ class UsersValidationService {
         val user = userRepository.findAllByEmailAddress(email)
         if (user.isEmpty())
             throw UserNotFoundModelError()
-        if (user.first().password != password)
+        if (!encoder().matches(password,user.first().password))
             throw InvalidPasswordModelError()
     }
 

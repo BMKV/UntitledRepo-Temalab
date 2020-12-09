@@ -10,7 +10,7 @@ CREATE TABLE users
 (
     user_id         bigint PRIMARY KEY,
     email_address   varchar(50) UNIQUE NOT NULL,
-    password        varchar(50)        NOT NULL,
+    password        varchar(60)        NOT NULL,
     can_deliver     boolean            NOT NULL,
     user_rating     real,
     cargo_free_size int,

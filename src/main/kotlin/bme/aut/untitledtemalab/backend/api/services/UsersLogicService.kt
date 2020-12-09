@@ -2,6 +2,7 @@ package bme.aut.untitledtemalab.backend.api.services
 
 import bme.aut.untitledtemalab.backend.api.model.*
 import bme.aut.untitledtemalab.backend.api.responses.InvalidPasswordModelError
+import bme.aut.untitledtemalab.backend.api.security.encoder
 import bme.aut.untitledtemalab.backend.database.JobRepository
 import bme.aut.untitledtemalab.backend.database.UIDGenerator
 import bme.aut.untitledtemalab.backend.database.UserRepository
@@ -10,6 +11,7 @@ import bme.aut.untitledtemalab.backend.database.model.PackageSize
 import bme.aut.untitledtemalab.backend.database.model.Status
 import bme.aut.untitledtemalab.backend.database.model.Users
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -25,15 +27,15 @@ class UsersLogicService {
     fun registerNewUser(newUser: UserRegistration) {
         val newUserId = UIDGenerator.generateUID()
 
-        userRepository.save(Users(id = newUserId, password = newUser.password!!, canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!, cargoMaxSize = newUser.cargoSize, cargoFreeSize = newUser.cargoSize))
+        userRepository.save(Users(id = newUserId, password = encoder().encode(newUser.password!!), canDeliver = newUser.canDeliver!!, emailAddress = newUser.email!!, cargoMaxSize = newUser.cargoSize, cargoFreeSize = newUser.cargoSize))
     }
 
     fun getUserProfile(userId: Long): UserProfile {
         val dbUser = userRepository.findById(userId)
         return if (dbUser.get().canDeliver) {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver,isAdmin = dbUser.get().isAdmin, freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
+            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, isAdmin = dbUser.get().isAdmin, freeSize = dbUser.get().cargoFreeSize, maxSize = dbUser.get().cargoMaxSize)
         } else {
-            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, dbUser.get().isAdmin,0, 0)
+            UserProfile(id = dbUser.get().id, email = dbUser.get().emailAddress, rating = dbUser.get().userRating, canDeliver = dbUser.get().canDeliver, dbUser.get().isAdmin, 0, 0)
         }
     }
 
@@ -58,8 +60,8 @@ class UsersLogicService {
     }
 
     fun filterUserJobs(userId: Long, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>,
-                   jobsFilterFunction: (user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>) -> List<Jobs>,
-                   jobsNoFilterFunction: (user: Users) -> List<Jobs>): List<Job> {
+                       jobsFilterFunction: (user: Users, status: Optional<Job.StatusEnum>, size: Optional<Job.SizeEnum>) -> List<Jobs>,
+                       jobsNoFilterFunction: (user: Users) -> List<Jobs>): List<Job> {
         val dbUser = userRepository.findById(userId)
         return if (status.isEmpty && size.isEmpty) {
             Job.convertDbJobListToApiJobList(jobsNoFilterFunction(dbUser.get()))

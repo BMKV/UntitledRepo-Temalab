@@ -154,6 +154,12 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <version>1.10.3-jdk8</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -220,7 +226,6 @@
                     <appName>untitled-repo-backend</appName>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
